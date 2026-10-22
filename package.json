@@ -1,0 +1,24 @@
+{
+  "name": "sentinelpro-iam-suite",
+  "version": "2.0.0",
+  "description": "SentinelPro IAM — Suite Empresarial de Control de Acceso Granular (RBAC + Permisos Individuales ALLOW/DENY), Reservas, Caja y CRM",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "node scripts/qa-test-suite.js"
+  },
+  "keywords": [
+    "sentinelpro",
+    "iam",
+    "rbac",
+    "control-de-acceso",
+    "permisos-individuales",
+    "reservas",
+    "citas",
+    "agenda",
+    "saas",
+    "crm"
+  ],
+  "author": "SentinelPro Enterprise Software",
+  "license": "PROPRIETARY"
+}

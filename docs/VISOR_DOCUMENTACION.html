@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación e Ingeniería de Software — Sist_Reservas_Citas (ReservaPro)</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --bg-panel: #ffffff;
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --accent: #10b981;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f1f5f9;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: white;
+            padding: 28px 40px;
+            border-bottom: 4px solid var(--primary-light);
+        }
+        header .badge {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid #34d399;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        header h1 { font-size: 1.85rem; margin-bottom: 6px; }
+        header p { color: #cbd5e1; font-size: 0.98rem; max-width: 900px; }
+
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            background: #1e293b;
+            padding: 12px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+        .tab-btn {
+            background: rgba(255,255,255,0.08);
+            color: #e2e8f0;
+            border: 1px solid rgba(255,255,255,0.12);
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .tab-btn:hover { background: rgba(255,255,255,0.18); }
+        .tab-btn.active {
+            background: var(--primary-light);
+            color: white;
+            border-color: var(--primary-light);
+            box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4);
+        }
+
+        main {
+            max-width: 1360px;
+            margin: 28px auto;
+            padding: 0 24px 60px;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+            border: 1px solid var(--border);
+        }
+        .card h2 {
+            font-size: 1.35rem;
+            color: #1e1b4b;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+        .card h3 {
+            font-size: 1.1rem;
+            color: #334155;
+            margin: 18px 0 10px;
+        }
+        .card p { color: var(--text-muted); margin-bottom: 14px; }
+
+        .diagram-box {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            margin-top: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 0.92rem;
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px 14px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #f8fafc;
+            color: #1e293b;
+            font-weight: 700;
+        }
+        tr:nth-child(even) td { background: #fcfcfd; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+        }
+        .pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+        .pill-crit { background: #fee2e2; color: #991b1b; }
+        .pill-high { background: #e0e7ff; color: #3730a3; }
+    </style>
+</head>
+<body>
+
+<header>
+    <span class="badge">FASE 1: INGENIERÍA DE SOFTWARE & DOCUMENTACIÓN COMPLETA</span>
+    <h1>📅 Sist_Reservas_Citas (ReservaPro) — Centro de Documentación y Diagramas UML</h1>
+    <p>Sistema Web Público + Panel Administrativo Multi-Rubro (White-Label) para Reservas Online, Gestión de Agenda, Control de Clientes (CRM), Caja y Cálculo Automático de Comisiones.</p>
+</header>
+
+<nav class="nav-tabs">
+    <button class="tab-btn active" onclick="openTab('tab-casos')">1. Diagramas de Casos de Uso</button>
+    <button class="tab-btn" onclick="openTab('tab-secuencia')">2. Diagramas de Secuencia y Estados</button>
+    <button class="tab-btn" onclick="openTab('tab-arquitectura')">3. Arquitectura y Base de Datos (ERD)</button>
+    <button class="tab-btn" onclick="openTab('tab-algoritmo')">4. Algoritmo de Disponibilidad y Sitemap</button>
+    <button class="tab-btn" onclick="openTab('tab-requisitos')">5. Requisitos (SRS) y Estrategia Comercial</button>
+</nav>
+
+<main>
+    <!-- TAB 1: CASOS DE USO -->
+    <section id="tab-casos" class="tab-content active">
+        <div class="card">
+            <h2>1.1 Diagrama General de Casos de Uso del Sistema</h2>
+            <p>Representa los 4 actores del sistema (<strong>Cliente Web</strong>, <strong>Profesional/Especialista</strong>, <strong>Recepcionista</strong> y <strong>Administrador/Dueño</strong>) y su interacción con los 3 subsistemas.</p>
+            <div class="diagram-box">
+                <pre class="mermaid">
+flowchart LR
+    Cliente(["👤 Cliente / Visitante"])
+    Profesional(["💇‍♂️ Profesional / Especialista"])
+    Recepcion(["🛎️ Recepcionista"])
+    Admin(["👨‍💼 Administrador / Dueño"])
+
+    Admin -.->|"Hereda permisos de"| Recepcion
+
+    subgraph Sistema["📦 Sistema Web + Panel de Reservas y Gestión (ReservaPro)"]
+        direction TB
+        subgraph WebPublica["🌐 Subsistema 1: Portal Web Público"]
+            CU01(["CU-01: Explorar Catálogo de Servicios y Precios"])
+            CU02(["CU-02: Consultar Disponibilidad de Horarios"])
+            CU03(["CU-03: Reservar Cita en Línea"])
+            CU04(["CU-04: Consultar / Cancelar Cita con Código"])
+            CU05(["CU-05: Calificar Servicio Recibido"])
+        end
+
+        subgraph PanelOperativo["📅 Subsistema 2: Gestión Operativa de Agenda y Clientes"]
+            CU06(["CU-06: Iniciar Sesión en el Panel"])
+            CU07(["CU-07: Visualizar Agenda Personal y Comisiones"])
+            CU08(["CU-08: Cambiar Estado de Atención de Cita"])
+            CU09(["CU-09: Agendar Cita Presencial / Telefónica (Walk-in)"])
+            CU10(["CU-10: Gestionar Directorio e Historial CRM de Clientes"])
+            CU11(["CU-11: Registrar Cobro en Caja y Liquidar Turno"])
+        end
+
+        subgraph PanelGerencial["⚙️ Subsistema 3: Administración y Configuración"]
+            CU12(["CU-12: Administrar Catálogo de Servicios y Categorías"])
+            CU13(["CU-13: Administrar Profesionales, Horarios y Comisiones"])
+            CU14(["CU-14: Visualizar Dashboard Financiero y Reportes KPI"])
+            CU15(["CU-15: Configurar Marca y Parámetros del Negocio (White-Label)"])
+        end
+    end
+
+    Cliente --> CU01
+    Cliente --> CU03
+    Cliente --> CU04
+    Cliente --> CU05
+    CU03 -.->|"&lt;&lt;include&gt;&gt;"| CU02
+
+    Profesional --> CU06
+    Profesional --> CU07
+    Profesional --> CU08
+
+    Recepcion --> CU06
+    Recepcion --> CU08
+    Recepcion --> CU09
+    Recepcion --> CU10
+    Recepcion --> CU11
+    CU09 -.->|"&lt;&lt;include&gt;&gt;"| CU02
+
+    Admin --> CU12
+    Admin --> CU13
+    Admin --> CU14
+    Admin --> CU15
+                </pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>1.2 Diagrama de Casos de Uso — Portal Web Público (Cliente)</h2>
+            <p>Desglose de relaciones <code>&lt;&lt;include&gt;&gt;</code> y <code>&lt;&lt;extend&gt;&gt;</code> en el proceso de reserva online y autogestión por código único.</p>
+            <div class="diagram-box">
+                <pre class="mermaid">
+flowchart LR
+    Cliente(["👤 Cliente"])
+
+    subgraph PortalWeb["🌐 Portal Web Público"]
+        UC_VerLanding(["Visualizar Información del Negocio y Promociones"])
+        UC_FiltrarCat(["Filtrar Servicios por Categoría"])
+        UC_ElegirProf(["Seleccionar Profesional o Cualquiera Disponible"])
+        UC_CalcSlots(["Validar Horarios Libres en Fecha Seleccionada"])
+        UC_CrearReserva(["Confirmar Reserva Online"])
+        UC_VincularCRM(["Vincular o Crear Ficha de Cliente por Teléfono"])
+        UC_GenerarCodigo(["Generar Código Único de Seguimiento y Ticket"])
+        UC_NotificarWA(["Enviar Resumen Rápido por WhatsApp"])
+
+        UC_BuscarCodigo(["Consultar Estado de Cita por Código/Teléfono"])
+        UC_CancelarCita(["Cancelar Cita Dentro del Plazo Permitido"])
+        UC_DejarResena(["Enviar Calificación y Reseña del Servicio"])
+    end
+
+    Cliente --> UC_VerLanding
+    Cliente --> UC_FiltrarCat
+    Cliente --> UC_CrearReserva
+    Cliente --> UC_BuscarCodigo
+
+    UC_CrearReserva -.->|"&lt;&lt;include&gt;&gt;"| UC_ElegirProf
+    UC_CrearReserva -.->|"&lt;&lt;include&gt;&gt;"| UC_CalcSlots
+    UC_CrearReserva -.->|"&lt;&lt;include&gt;&gt;"| UC_VincularCRM
+    UC_CrearReserva -.->|"&lt;&lt;include&gt;&gt;"| UC_GenerarCodigo
+
+    UC_NotificarWA -.->|"&lt;&lt;extend&gt;&gt;"| UC_GenerarCodigo
+    UC_CancelarCita -.->|"&lt;&lt;extend&gt;&gt; (Si Pendiente/Confirmada)"| UC_BuscarCodigo
+    UC_DejarResena -.->|"&lt;&lt;extend&gt;&gt; (Si Completada)"| UC_BuscarCodigo
+                </pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>1.3 Diagrama de Casos de Uso — Panel Administrativo (Roles Internos)</h2>
+            <div class="diagram-box">
+                <pre class="mermaid">
+flowchart LR
+    Prof(["💇‍♂️ Profesional"])
+    Recep(["🛎️ Recepcionista"])
+    Admin(["👨‍💼 Administrador"])
+
+    subgraph PanelAdmin["🔐 Panel de Administración (Dashboard)"]
+        direction TB
+        subgraph ModAgenda["Módulo de Agenda y Atención"]
+            A_VerAgenda(["Ver Calendario Diario/Semanal"])
+            A_CheckIn(["Confirmar Llegada (Check-in)"])
+            A_IniciarAtencion(["Marcar Cita En Atención"])
+            A_FinalizarAtencion(["Marcar Cita Completada"])
+            A_NoShow(["Marcar No Asistió (No-Show)"])
+            A_CitaManual(["Registrar Cita Manual / Walk-In"])
+            A_BloquearHoras(["Registrar Bloqueo de Horario / Descanso"])
+        end
+
+        subgraph ModCajaCRM["Módulo de Caja y CRM"]
+            C_RegistrarPago(["Registrar Pago (Efectivo/Tarjeta/Transferencia)"])
+            C_CalcularComision(["Calcular Comisión Automática del Profesional"])
+            C_FichaCliente(["Ver Historial de Visitas y Notas de Cliente"])
+        end
+
+        subgraph ModConfig["Módulo Gerencial y Configuración"]
+            G_CRUDServicios(["Gestionar Servicios, Duración y Precios"])
+            G_CRUDPersonal(["Gestionar Profesionales y % de Comisión"])
+            G_VerReportes(["Consultar Ingresos, KPIs y Liquidaciones"])
+            G_PersonalizarMarca(["Personalizar Nombre, Colores y Políticas"])
+        end
+    end
+
+    Prof --> A_VerAgenda
+    Prof --> A_IniciarAtencion
+    Prof --> A_FinalizarAtencion
+    Prof --> C_FichaCliente
+
+    Recep --> A_VerAgenda
+    Recep --> A_CheckIn
+    Recep --> A_CitaManual
+    Recep --> A_NoShow
+    Recep --> C_RegistrarPago
+    Recep --> C_FichaCliente
+
+    C_RegistrarPago -.->|"&lt;&lt;include&gt;&gt;"| C_CalcularComision
+    C_RegistrarPago -.->|"&lt;&lt;include&gt;&gt;"| A_FinalizarAtencion
+
+    Admin --> A_BloquearHoras
+    Admin --> G_CRUDServicios
+    Admin --> G_CRUDPersonal
+    Admin --> G_VerReportes
+    Admin --> G_PersonalizarMarca
+    Admin --> C_RegistrarPago
+    Admin --> A_CitaManual
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB 2: SECUENCIA Y ESTADOS -->
+    <section id="tab-secuencia" class="tab-content">
+        <div class="card">
+            <h2>2.1 Diagrama de Secuencia: Reserva Online y Validación de Disponibilidad</h2>
+            <div class="diagram-box">
+                <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Cliente as 👤 Cliente (Web)
+    participant UI as 🌐 Frontend Portal Web
+    participant SlotEngine as ⏱️ Motor de Disponibilidad
+    participant BookingAPI as 📅 Controlador de Reservas
+    participant DB as 🗄️ Base de Datos
+
+    Cliente->>UI: Selecciona Servicio (45 min) y Profesional
+    Cliente->>UI: Elige Fecha en el Calendario
+    UI->>SlotEngine: Solicita Horarios Disponibles (Servicio, Prof, Fecha)
+    SlotEngine->>DB: Consulta jornada, descansos, bloqueos y citas activas
+    DB-->>SlotEngine: Retorna jornada y citas ocupadas
+    SlotEngine->>SlotEngine: Filtra bloques libres sin solapamiento
+    SlotEngine-->>UI: Retorna Slots Libres ["09:00", "09:45", "11:30", "15:00"]
+    UI-->>Cliente: Muestra botones de horarios disponibles
+
+    Cliente->>UI: Elige "11:30", completa Nombre/Teléfono y confirma
+    UI->>BookingAPI: Envía solicitud de creación de reserva
+    BookingAPI->>DB: Verifica disponibilidad atómica del bloque 11:30-12:15
+    BookingAPI->>DB: Busca/Actualiza ficha del Cliente por Teléfono (CRM)
+    BookingAPI->>DB: Inserta Cita con código único "RES-7391"
+    DB-->>BookingAPI: Confirmación exitosa
+    BookingAPI-->>UI: Retorna Ticket Digital + Código "RES-7391"
+    UI-->>Cliente: Muestra comprobante y botón de confirmación WhatsApp
+                </pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>2.2 Diagrama de Secuencia: Cobro en Caja y Cálculo de Comisión (Panel Admin)</h2>
+            <div class="diagram-box">
+                <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Admin as 👨‍💼 Admin / Recepción
+    participant Dashboard as 📊 Panel Administrativo
+    participant FinanceSvc as 💰 Servicio de Caja y Comisiones
+    participant DB as 🗄️ Base de Datos
+
+    Admin->>Dashboard: Selecciona cita "RES-7391" en la Agenda del Día
+    Admin->>Dashboard: Marca estado "EN_ATENCION" al ingresar el cliente
+    Dashboard->>DB: UPDATE CITAS SET estado = 'EN_ATENCION'
+    Admin->>Dashboard: Pulsa "Finalizar y Cobrar Turno"
+    Dashboard-->>Admin: Abre Modal de Caja con Subtotal precargado
+    Admin->>Dashboard: Elige método de pago y confirma cobro
+    Dashboard->>FinanceSvc: Procesar cobro de cita
+    FinanceSvc->>DB: Consulta % de comisión del Profesional
+    FinanceSvc->>FinanceSvc: Calcula Comisión del Profesional y Ganancia Neta del Local
+    FinanceSvc->>DB: 1. Registra Pago 2. Cita -> COMPLETADA 3. Suma LTV al Cliente
+    DB-->>FinanceSvc: OK
+    FinanceSvc-->>Dashboard: Actualiza KPIs e Ingresos del Día en vivo
+                </pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>2.3 Diagrama de Máquina de Estados: Ciclo de Vida de una Cita</h2>
+            <div class="diagram-box">
+                <pre class="mermaid">
+stateDiagram-v2
+    [*] --> PENDIENTE : Reserva Web (Con aprobación manual)
+    [*] --> CONFIRMADA : Reserva Web (Auto-confirmada) o Walk-In
+
+    PENDIENTE --> CONFIRMADA : Recepción aprueba turno
+    PENDIENTE --> CANCELADA : Cliente o Admin cancela
+
+    CONFIRMADA --> EN_ATENCION : Check-in en el local
+    CONFIRMADA --> CANCELADA : Cancelada con código antes del límite
+    CONFIRMADA --> NO_ASISTIO : Cliente no se presenta al turno
+
+    EN_ATENCION --> COMPLETADA : Servicio terminado + Cobro en Caja
+
+    COMPLETADA --> [*] : Calcula Comisión + Habilita Reseña
+    CANCELADA --> [*] : Libera el horario inmediatamente
+    NO_ASISTIO --> [*] : Incrementa alerta en CRM del cliente
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB 3: ARQUITECTURA Y ERD -->
+    <section id="tab-arquitectura" class="tab-content">
+        <div class="card">
+            <h2>3.1 Arquitectura en Capas del Sistema</h2>
+            <div class="diagram-box">
+                <pre class="mermaid">
+flowchart TB
+    subgraph CapaPresentacion["🖥️ Capa de Presentación (Frontend Responsivo)"]
+        direction LR
+        WebPublica["🌐 Portal Web Público<br/>• Landing Comercial White-Label<br/>• Catálogo Filtrable<br/>• Wizard de Reserva en 4 Pasos<br/>• Buscador de Cita por Código"]
+        PanelAdmin["📊 Panel de Administración (Dashboard)<br/>• KPIs e Ingresos en Vivo<br/>• Calendario Interactivo y Walk-ins<br/>• Caja, Cobros y Liquidación de Comisiones<br/>• CRM de Clientes y Configuración"]
+    end
+
+    subgraph CapaNegocio["⚙️ Capa de Lógica de Negocio y Servicios"]
+        direction LR
+        AuthSvc["🔐 Autenticación y Roles<br/>(Admin / Recepción / Profesional)"]
+        SlotEngine["⏱️ Motor de Disponibilidad<br/>(Cálculo de Slots y Bloqueos)"]
+        BookingSvc["📅 Gestor de Reservas y Códigos<br/>(Anti-Solapamiento + CRM)"]
+        FinanceSvc["💰 Motor de Caja y Comisiones<br/>(Arqueo Diario + % Profesional)"]
+    end
+
+    subgraph CapaDatos["🗄️ Capa de Persistencia (Base de Datos)"]
+        DB[("Base de Datos Principal<br/>• Configuración White-Label<br/>• Usuarios y Profesionales<br/>• Servicios y Categorías<br/>• Clientes (CRM) y Citas<br/>• Transacciones y Reseñas")]
+    end
+
+    WebPublica --> SlotEngine
+    WebPublica --> BookingSvc
+    PanelAdmin --> AuthSvc
+    PanelAdmin --> BookingSvc
+    PanelAdmin --> FinanceSvc
+    PanelAdmin --> SlotEngine
+
+    AuthSvc --> DB
+    SlotEngine --> DB
+    BookingSvc --> DB
+    FinanceSvc --> DB
+                </pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>3.2 Diagrama Entidad-Relación (ERD — Modelo de Base de Datos)</h2>
+            <div class="diagram-box">
+                <pre class="mermaid">
+erDiagram
+    CONFIGURACION_NEGOCIO {
+        int id PK
+        string nombre_negocio
+        string rubro_tipo
+        string telefono_whatsapp
+        string moneda_simbolo
+        string color_primario
+        int horas_min_cancelacion
+    }
+
+    USUARIOS {
+        int id PK
+        string nombre_completo
+        string email UK
+        string rol
+        boolean activo
+    }
+
+    PROFESIONALES {
+        int id PK
+        int usuario_id FK
+        string nombre_mostrar
+        string especialidad_cargo
+        decimal porcentaje_comision
+        boolean activo
+    }
+
+    HORARIOS_PROFESIONAL {
+        int id PK
+        int profesional_id FK
+        int dia_semana
+        boolean es_laborable
+        string hora_inicio
+        string hora_fin
+        string descanso_inicio
+        string descanso_fin
+    }
+
+    CATEGORIAS_SERVICIO {
+        int id PK
+        string nombre
+        string icono
+    }
+
+    SERVICIOS {
+        int id PK
+        int categoria_id FK
+        string nombre
+        int duracion_minutos
+        decimal precio
+        boolean activo
+    }
+
+    PROFESIONAL_SERVICIOS {
+        int profesional_id PK, FK
+        int servicio_id PK, FK
+    }
+
+    CLIENTES {
+        int id PK
+        string nombre_completo
+        string telefono UK
+        string notas_preferencias
+        int total_visitas
+        decimal total_gastado
+    }
+
+    CITAS {
+        int id PK
+        string codigo_reserva UK
+        int cliente_id FK
+        int profesional_id FK
+        int servicio_id FK
+        date fecha_cita
+        string hora_inicio
+        string hora_fin
+        decimal precio_pactado
+        string origen
+        string estado
+    }
+
+    PAGOS_TRANSACCIONES {
+        int id PK
+        int cita_id FK
+        decimal monto_total
+        string metodo_pago
+        decimal monto_comision_profesional
+        decimal monto_neto_negocio
+        datetime fecha_pago
+    }
+
+    RESENAS {
+        int id PK
+        int cita_id FK
+        int cliente_id FK
+        int calificacion
+        string comentario
+    }
+
+    USUARIOS ||--o| PROFESIONALES : "asociado_a"
+    PROFESIONALES ||--o{ HORARIOS_PROFESIONAL : "tiene_jornada"
+    CATEGORIAS_SERVICIO ||--o{ SERVICIOS : "agrupa"
+    PROFESIONALES ||--o{ PROFESIONAL_SERVICIOS : "habilitado_en"
+    SERVICIOS ||--o{ PROFESIONAL_SERVICIOS : "realizado_por"
+    CLIENTES ||--o{ CITAS : "agenda"
+    PROFESIONALES ||--o{ CITAS : "atiende"
+    SERVICIOS ||--o{ CITAS : "incluye"
+    CITAS ||--o| PAGOS_TRANSACCIONES : "genera_cobro"
+    CITAS ||--o| RESENAS : "evaluada_en"
+    CLIENTES ||--o{ RESENAS : "escribe"
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB 4: ALGORITMO Y SITEMAP -->
+    <section id="tab-algoritmo" class="tab-content">
+        <div class="card">
+            <h2>4.1 Flujo Algorítmico del Motor de Disponibilidad (Anti-Solapamiento)</h2>
+            <div class="diagram-box">
+                <pre class="mermaid">
+flowchart TD
+    Start(["🚀 Inicio: Solicitud de Horarios Libres"]) --> GetServ["Obtener duracion_minutos del Servicio"]
+    GetServ --> GetSchedule["Consultar HORARIOS_PROFESIONAL del día seleccionado"]
+    GetSchedule --> IsWorkDay{"¿El profesional trabaja ese día?"}
+    IsWorkDay -- "No" --> ReturnEmpty["Retornar Lista Vacía []"]
+    IsWorkDay -- "Sí" --> LoadBusy["Cargar rangos ocupados:<br/>1. Hora de almuerzo<br/>2. Bloqueos especiales<br/>3. Citas activas del día"]
+    LoadBusy --> InitPointer["Puntero T_actual = hora_inicio_jornada"]
+    InitPointer --> LoopCond{"¿T_actual + duracion <= hora_fin_jornada?"}
+    LoopCond -- "No" --> ReturnSlots(["✅ Retornar Lista de Horarios Disponibles"])
+    LoopCond -- "Sí" --> CheckOverlap{"¿El bloque [T_actual, T_actual + duracion]<br/>se cruza con algún rango ocupado?"}
+    CheckOverlap -- "Sí (Ocupado)" --> StepNext["Avanzar T_actual + 30 min"]
+    CheckOverlap -- "No (Libre)" --> AddSlot["Agregar T_actual a Disponibles"]
+    AddSlot --> StepNext
+    StepNext --> LoopCond
+                </pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>4.2 Mapa de Navegación (Sitemap Web Pública + Panel Admin)</h2>
+            <div class="diagram-box">
+                <pre class="mermaid">
+flowchart TD
+    Root(("🌐 Sistema ReservaPro"))
+
+    subgraph FrontOffice["📱 1. Portal Web Público (Cliente)"]
+        W_Home["🏠 Inicio / Hero Comercial"]
+        W_Cat["💈 Catálogo de Servicios"]
+        W_Wizard["📅 Asistente de Reserva (4 Pasos)"]
+        W_Ticket["🎟️ Comprobante Digital + Código"]
+        W_Track["🔍 Consultar / Cancelar Cita"]
+    end
+
+    subgraph BackOffice["🔐 2. Panel de Administración (Dashboard)"]
+        A_Login["🔑 Login por Rol"]
+        A_Dash["📊 Dashboard Ejecutivo KPIs"]
+        A_Agenda["🗓️ Agenda & Calendario"]
+        A_Caja["💵 Caja & Comisiones"]
+        A_CRM["📇 Clientes (CRM)"]
+        A_Cat["🏷️ Gestión de Servicios"]
+        A_Staff["💇‍♂️ Gestión de Profesionales"]
+        A_Config["⚙️ Configuración White-Label"]
+    end
+
+    Root --> FrontOffice
+    Root --> BackOffice
+    W_Home --> W_Cat --> W_Wizard --> W_Ticket
+    W_Home --> W_Track
+    A_Login --> A_Dash
+    A_Dash --> A_Agenda
+    A_Dash --> A_Caja
+    A_Dash --> A_CRM
+    A_Dash --> A_Cat
+    A_Dash --> A_Staff
+    A_Dash --> A_Config
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- TAB 5: REQUISITOS Y ESTRATEGIA COMERCIAL -->
+    <section id="tab-requisitos" class="tab-content">
+        <div class="card">
+            <h2>5.1 Resumen de Requisitos Funcionales Clave</h2>
+            <div class="grid-2">
+                <div>
+                    <h3>🌐 Portal Web Público</h3>
+                    <table>
+                        <thead><tr><th>ID</th><th>Requisito</th><th>Prioridad</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>RF-01</strong></td><td>Landing Page comercial personalizable por rubro</td><td><span class="pill pill-high">Alta</span></td></tr>
+                            <tr><td><strong>RF-02</strong></td><td>Catálogo de servicios filtrable con precios y duración</td><td><span class="pill pill-high">Alta</span></td></tr>
+                            <tr><td><strong>RF-04</strong></td><td>Motor de disponibilidad de horarios en tiempo real</td><td><span class="pill pill-crit">Crítica</span></td></tr>
+                            <tr><td><strong>RF-05</strong></td><td>Asistente de reserva paso a paso (Wizard en 4 pasos)</td><td><span class="pill pill-crit">Crítica</span></td></tr>
+                            <tr><td><strong>RF-06</strong></td><td>Ticket comprobante con Código Único (<code>RES-XXXX</code>) y WhatsApp</td><td><span class="pill pill-high">Alta</span></td></tr>
+                            <tr><td><strong>RF-07</strong></td><td>Portal de consulta y cancelación de cita por código</td><td><span class="pill pill-high">Alta</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h3>🔐 Panel de Administración (Dashboard)</h3>
+                    <table>
+                        <thead><tr><th>ID</th><th>Requisito</th><th>Prioridad</th></tr></thead>
+                        <tbody>
+                            <tr><td><strong>RF-10</strong></td><td>Dashboard de KPIs financieros, citas del día y gráficos</td><td><span class="pill pill-high">Alta</span></td></tr>
+                            <tr><td><strong>RF-11</strong></td><td>Agenda interactiva diaria/semanal y citas Walk-in</td><td><span class="pill pill-crit">Crítica</span></td></tr>
+                            <tr><td><strong>RF-14</strong></td><td>CRUD completo de Categorías, Servicios y Precios</td><td><span class="pill pill-high">Alta</span></td></tr>
+                            <tr><td><strong>RF-15</strong></td><td>Gestión de Profesionales, Horarios y % de Comisión</td><td><span class="pill pill-high">Alta</span></td></tr>
+                            <tr><td><strong>RF-17</strong></td><td>CRM automático de clientes con historial y notas</td><td><span class="pill pill-high">Alta</span></td></tr>
+                            <tr><td><strong>RF-18</strong></td><td>Módulo de Caja, cobros y liquidación de comisiones</td><td><span class="pill pill-crit">Crítica</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>5.2 Potencial Comercial: ¿A quiénes puedes vender este sistema?</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nicho de Mercado</th>
+                        <th>Configuración White-Label Incluida</th>
+                        <th>Beneficio Principal para el Comprador</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>💈 Barberías, Peluquerías y Spas</strong></td>
+                        <td>Cortes, barba, colorimetría, comisiones por barbero/estilista (40%-50%).</td>
+                        <td>Automatiza la toma de turnos por WhatsApp y liquida sin errores las comisiones de cada empleado.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🦷 Consultorios Odontológicos y Clínicas</strong></td>
+                        <td>Consultas, limpiezas, especialistas por área, notas clínicas en CRM.</td>
+                        <td>Agenda ordenada por doctor, reducción de inasistencias y control de ingresos de consultorio.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🐾 Veterinarias y Peluquerías Caninas</strong></td>
+                        <td>Baños medicados, corte canino, vacunación, ficha de mascota/dueño.</td>
+                        <td>Evita saturación de turnos y permite al dueño consultar con su código si su mascota ya está lista.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🔧 Talleres y Centros de Detailing Automotriz</strong></td>
+                        <td>Mantenimiento preventivo, lavado detailing, bahías/técnicos asignados.</td>
+                        <td>Recepción programada de vehículos y seguimiento en vivo del estado del servicio.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+
+    function openTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+</script>
+</body>
+</html>

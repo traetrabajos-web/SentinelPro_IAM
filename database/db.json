@@ -1,0 +1,985 @@
+{
+  "preset_activo": "industrial",
+  "permisos_catalogo": [
+    {
+      "codigo": "dashboard:ver",
+      "modulo": "Dashboard & Aforo",
+      "nombre": "Ver Dashboard y Aforo en Planta",
+      "descripcion": "Permite visualizar KPIs en vivo, personal actualmente dentro de la empresa, entradas/salidas del día y alertas."
+    },
+    {
+      "codigo": "porteria:ver",
+      "modulo": "Consola de Portería",
+      "nombre": "Abrir Consola de Portería y Garita",
+      "descripcion": "Permite visualizar el monitor de acceso peatonal/vehicular y el personal actualmente en planta."
+    },
+    {
+      "codigo": "porteria:registrar",
+      "modulo": "Consola de Portería",
+      "nombre": "Registrar Entrada y Salida de Trabajadores",
+      "descripcion": "Permite al Vigilante u operador fichar el ingreso (Check-In) y salida (Check-Out) de trabajadores por DNI/Credencial."
+    },
+    {
+      "codigo": "asistencia:ver",
+      "modulo": "Historial Asistencia",
+      "nombre": "Consultar Historial de Entradas y Salidas",
+      "descripcion": "Permite consultar registros históricos de asistencia, puntualidad, tardanzas y horas trabajadas."
+    },
+    {
+      "codigo": "asistencia:exportar",
+      "modulo": "Historial Asistencia",
+      "nombre": "Exportar Reportes de Asistencia (CSV)",
+      "descripcion": "Permite descargar reportes consolidados de marcaciones, horas laboradas y tardanzas para nómina."
+    },
+    {
+      "codigo": "trabajadores:ver",
+      "modulo": "Trabajadores (RR.HH.)",
+      "nombre": "Consultar Directorio de Trabajadores",
+      "descripcion": "Permite ver la ficha de los trabajadores, su documento, cargo, departamento, turno y estado de autorización."
+    },
+    {
+      "codigo": "trabajadores:crear",
+      "modulo": "Trabajadores (RR.HH.)",
+      "nombre": "Registrar Nuevos Trabajadores",
+      "descripcion": "Permite dar de alta nuevos trabajadores en el padrón y emitir su código de credencial (EMP-XXX)."
+    },
+    {
+      "codigo": "trabajadores:editar",
+      "modulo": "Trabajadores (RR.HH.)",
+      "nombre": "Editar Trabajadores, Turnos y Zonas",
+      "descripcion": "Permite modificar el turno asignado, zonas autorizadas o suspender/activar el acceso de un trabajador."
+    },
+    {
+      "codigo": "visitantes:ver",
+      "modulo": "Control Visitantes",
+      "nombre": "Consultar Visitantes y Contratistas",
+      "descripcion": "Permite visualizar los visitantes externos activos en la empresa y el historial de visitas."
+    },
+    {
+      "codigo": "visitantes:registrar",
+      "modulo": "Control Visitantes",
+      "nombre": "Registrar Entrada/Salida de Visitantes",
+      "descripcion": "Permite registrar el ingreso de un visitante en garita, asignarle gafete temporal y marcar su salida."
+    },
+    {
+      "codigo": "zonas:ver",
+      "modulo": "Zonas y Turnos",
+      "nombre": "Ver Puertas de Acceso y Turnos",
+      "descripcion": "Permite consultar los puntos de control (puertas/torniquetes), niveles de seguridad y horarios de turnos."
+    },
+    {
+      "codigo": "zonas:editar",
+      "modulo": "Zonas y Turnos",
+      "nombre": "Administrar Puertas y Turnos Laborales",
+      "descripcion": "Permite crear o modificar puntos de acceso físico, niveles de restricción y horarios de turnos."
+    },
+    {
+      "codigo": "incidencias:ver",
+      "modulo": "Alertas de Acceso",
+      "nombre": "Ver Alertas de Accesos Denegados",
+      "descripcion": "Permite consultar intentos de ingreso rechazados (trabajador suspendido, zona no autorizada, doble entrada)."
+    },
+    {
+      "codigo": "incidencias:resolver",
+      "modulo": "Alertas de Acceso",
+      "nombre": "Justificar o Resolver Incidencias",
+      "descripcion": "Permite autorizar excepciones o registrar observaciones sobre incidentes de acceso en planta."
+    },
+    {
+      "codigo": "seguridad:ver",
+      "modulo": "Seguridad IAM",
+      "nombre": "Ver Usuarios, Sesiones y Bitácora IAM",
+      "descripcion": "Permite auditar usuarios del sistema, matriz de permisos efectivos, sesiones activas y logs de seguridad."
+    },
+    {
+      "codigo": "seguridad:administrar",
+      "modulo": "Seguridad IAM",
+      "nombre": "Administrar Usuarios y Permisos Individuales",
+      "descripcion": "Permite crear usuarios, asignar roles, conceder/revocar permisos individuales (ALLOW/DENY) y cerrar sesiones."
+    },
+    {
+      "codigo": "configuracion:ver",
+      "modulo": "Configuración Empresa",
+      "nombre": "Ver Configuración de la Empresa",
+      "descripcion": "Permite consultar los datos institucionales, políticas de tolerancia y reglas de control de acceso."
+    },
+    {
+      "codigo": "configuracion:editar",
+      "modulo": "Configuración Empresa",
+      "nombre": "Modificar Configuración Corporativa",
+      "descripcion": "Permite actualizar los parámetros generales de la empresa, sedes y reglas operativas."
+    }
+  ],
+  "roles_sistema": [
+    {
+      "codigo": "SUPER_ADMIN",
+      "nombre": "Super Administrador General",
+      "descripcion": "Control absoluto de la plataforma: Planta, Portería, RR.HH., Zonas, Configuración y Administración de Seguridad IAM.",
+      "color_badge": "#4f46e5",
+      "permisos_base": [
+        "dashboard:ver",
+        "porteria:ver",
+        "porteria:registrar",
+        "asistencia:ver",
+        "asistencia:exportar",
+        "trabajadores:ver",
+        "trabajadores:crear",
+        "trabajadores:editar",
+        "visitantes:ver",
+        "visitantes:registrar",
+        "zonas:ver",
+        "zonas:editar",
+        "incidencias:ver",
+        "incidencias:resolver",
+        "seguridad:ver",
+        "seguridad:administrar",
+        "configuracion:ver",
+        "configuracion:editar"
+      ]
+    },
+    {
+      "codigo": "VIGILANTE_PORTERIA",
+      "nombre": "Vigilante / Oficial de Portería",
+      "descripcion": "Encargado de garita y puntos de acceso: registra entradas y salidas de trabajadores, controla visitantes y verifica credenciales.",
+      "color_badge": "#0284c7",
+      "permisos_base": [
+        "porteria:ver",
+        "porteria:registrar",
+        "visitantes:ver",
+        "visitantes:registrar",
+        "trabajadores:ver",
+        "zonas:ver",
+        "incidencias:ver"
+      ]
+    },
+    {
+      "codigo": "SUPERVISOR_RRHH",
+      "nombre": "Supervisor de RR.HH. y Asistencia",
+      "descripcion": "Gestiona el padrón de trabajadores, asignación de turnos, zonas autorizadas, justificación de tardanzas y reportes de asistencia.",
+      "color_badge": "#059669",
+      "permisos_base": [
+        "dashboard:ver",
+        "porteria:ver",
+        "asistencia:ver",
+        "asistencia:exportar",
+        "trabajadores:ver",
+        "trabajadores:crear",
+        "trabajadores:editar",
+        "visitantes:ver",
+        "zonas:ver",
+        "zonas:editar",
+        "incidencias:ver",
+        "incidencias:resolver",
+        "configuracion:ver"
+      ]
+    },
+    {
+      "codigo": "AUDITOR_SEGURIDAD",
+      "nombre": "Auditor de Seguridad e Inspector",
+      "descripcion": "Acceso de supervisión e inspección en modo solo lectura sobre planta, historial de accesos, incidencias y bitácora IAM.",
+      "color_badge": "#d97706",
+      "permisos_base": [
+        "dashboard:ver",
+        "porteria:ver",
+        "asistencia:ver",
+        "asistencia:exportar",
+        "trabajadores:ver",
+        "visitantes:ver",
+        "zonas:ver",
+        "incidencias:ver",
+        "seguridad:ver",
+        "configuracion:ver"
+      ]
+    }
+  ],
+  "usuarios": [
+    {
+      "id": 1,
+      "nombre_completo": "Ing. Carlos Mendoza (Director de Seguridad y TI)",
+      "email": "admin@sentinelpro.com",
+      "password_hash": "scrypt$2ec3ebee0827d1c574fc4f8d4d17ec30$62c06431745c449a8ec999d7ac3565d989ee32899ef75dbf3fe8e29937373e142db3efbf92a76cd19470e767853f6fedd57daf4c7f684af9c72c55b3ce3d4d9b",
+      "rol": "SUPER_ADMIN",
+      "cargo": "Director General de Seguridad e IAM",
+      "max_sesiones_simultaneas": 2,
+      "politica_concurrencia": "RECHAZAR_NUEVA",
+      "activo": true,
+      "permisos_individuales": {},
+      "creado_en": "2026-10-22T20:32:18.782Z"
+    },
+    {
+      "id": 2,
+      "nombre_completo": "Sgto. Roberto Vargas (Vigilante Portería Principal)",
+      "email": "vigilante@sentinelpro.com",
+      "password_hash": "scrypt$9ff586f30da294cbf6f7b490f388b84e$804f1c30896d47142cf72d8d0b42459e1c0ba9916f2466bfe0bcc4d2a31e870d541d59ac86af3b655155f796d2cbd5d3055ba3497e9f1f7f309009973a8221a7",
+      "rol": "VIGILANTE_PORTERIA",
+      "cargo": "Oficial de Seguridad y Control de Garita",
+      "max_sesiones_simultaneas": 1,
+      "politica_concurrencia": "RECHAZAR_NUEVA",
+      "activo": true,
+      "permisos_individuales": {
+        "asistencia:ver": "ALLOW",
+        "asistencia:exportar": "ALLOW"
+      },
+      "creado_en": "2026-10-22T20:32:18.782Z"
+    },
+    {
+      "id": 3,
+      "nombre_completo": "Lic. Laura Gómez (Jefa de RR.HH. y Control de Personal)",
+      "email": "rrhh@sentinelpro.com",
+      "password_hash": "scrypt$d2d57e3db4866027dff047b9871dc3a4$e7fc3d487f372c77378cd3002c9f047238f672198d27cb596ae1cb9cb41bf4de5a80eea97216b3fc0186430658a9352d0ef17c24fa31f5f8af0ffc66367f2e1d",
+      "rol": "SUPERVISOR_RRHH",
+      "cargo": "Supervisora de Recursos Humanos y Turnos",
+      "max_sesiones_simultaneas": 1,
+      "politica_concurrencia": "RECHAZAR_NUEVA",
+      "activo": true,
+      "permisos_individuales": {},
+      "creado_en": "2026-10-22T20:32:18.782Z"
+    },
+    {
+      "id": 4,
+      "nombre_completo": "Ing. Sofía Herrera (Auditora Interna de Seguridad)",
+      "email": "auditor@sentinelpro.com",
+      "password_hash": "scrypt$f1e0fc9ee264e81e831d8b0da1d27521$5148fd47d3ec7300328c3934335e776b099a1448565344798aba692557de531170f2e8464bf565c2dd10cddc97a6a5339133a43e18a8b7e19a5bda10f7e48b55",
+      "rol": "AUDITOR_SEGURIDAD",
+      "cargo": "Inspectora de Cumplimiento y Auditoría IAM",
+      "max_sesiones_simultaneas": 1,
+      "politica_concurrencia": "RECHAZAR_NUEVA",
+      "activo": true,
+      "permisos_individuales": {},
+      "creado_en": "2026-10-22T20:32:18.782Z"
+    }
+  ],
+  "sesiones_activas": [
+    {
+      "session_id": "b72e1d19-0be4-400e-91d5-292a9ea92d84",
+      "usuario_id": 2,
+      "usuario_nombre": "Sgto. Roberto Vargas (Vigilante Portería Principal)",
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "ip": "::1",
+      "dispositivo": "Navegador Web",
+      "creada_en": "2026-10-22T20:36:53.908Z",
+      "ultima_actividad": "2026-10-22T20:36:53.908Z",
+      "expira_en": 1792730213908,
+      "activa": true
+    },
+    {
+      "session_id": "31f48201-1812-469c-a72d-3f7cdc15fdc1",
+      "usuario_id": 1,
+      "usuario_nombre": "Ing. Carlos Mendoza (Director de Seguridad y TI)",
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "ip": "::1",
+      "dispositivo": "Navegador Web",
+      "creada_en": "2026-10-22T20:36:53.738Z",
+      "ultima_actividad": "2026-10-22T20:36:53.755Z",
+      "expira_en": 1792730213738,
+      "activa": true
+    },
+    {
+      "session_id": "f3fbd273-0888-4a5e-a5fb-961a751aafa6",
+      "usuario_id": 2,
+      "usuario_nombre": "Sgto. Roberto Vargas (Vigilante Portería Principal)",
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "ip": "::1",
+      "dispositivo": "Navegador Web",
+      "creada_en": "2026-10-22T20:36:53.655Z",
+      "ultima_actividad": "2026-10-22T20:36:53.674Z",
+      "expira_en": 1792730213652,
+      "activa": false
+    }
+  ],
+  "audit_logs": [
+    {
+      "id": 16,
+      "fecha_hora": "2026-10-22T20:36:53.913Z",
+      "usuario_id": null,
+      "usuario_email": "anónimo",
+      "rol": "SIN_SESION",
+      "evento": "ACCESO_NO_AUTENTICADO_401",
+      "modulo": "dashboard",
+      "permiso_evaluado": "dashboard:ver",
+      "resultado": "DENEGADO",
+      "ip": "::1",
+      "detalle": "GET /api/admin/dashboard -> La sesión fue cerrada o reemplazada por otra conexión."
+    },
+    {
+      "id": 15,
+      "fecha_hora": "2026-10-22T20:36:53.908Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "LOGIN_EXITOSO",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Inicio de sesión exitoso (9/18 permisos activos)."
+    },
+    {
+      "id": 14,
+      "fecha_hora": "2026-10-22T20:36:53.908Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "SESION_PREVIA_REEMPLAZADA",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Se cerraron 1 sesión(es) previa(s) por política de concurrencia."
+    },
+    {
+      "id": 13,
+      "fecha_hora": "2026-10-22T20:36:53.855Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "SESION_SIMULTANEA_BLOQUEADA",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "DENEGADO",
+      "ip": "::1",
+      "detalle": "Límite de sesiones simultáneas alcanzado (1/1)."
+    },
+    {
+      "id": 12,
+      "fecha_hora": "2026-10-22T20:36:53.756Z",
+      "usuario_id": 1,
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "evento": "CAMBIO_PERMISOS_USUARIO",
+      "modulo": "seguridad",
+      "permiso_evaluado": "seguridad:administrar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Permiso individual [asistencia:exportar] configurado en [ALLOW] para vigilante@sentinelpro.com."
+    },
+    {
+      "id": 11,
+      "fecha_hora": "2026-10-22T20:36:53.738Z",
+      "usuario_id": 1,
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "evento": "LOGIN_EXITOSO",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Inicio de sesión exitoso (18/18 permisos activos)."
+    },
+    {
+      "id": 10,
+      "fecha_hora": "2026-10-22T20:36:53.674Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "ACCESO_DENEGADO_403",
+      "modulo": "seguridad",
+      "permiso_evaluado": "seguridad:administrar",
+      "resultado": "DENEGADO",
+      "ip": "::1",
+      "detalle": "Operación bloqueada en Backend (POST /api/admin/seguridad/usuarios). El usuario carece del permiso [seguridad:administrar]."
+    },
+    {
+      "id": 9,
+      "fecha_hora": "2026-10-22T20:36:53.668Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "SALIDA_VISITANTE",
+      "modulo": "visitantes",
+      "permiso_evaluado": "visitantes:registrar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Salida de visitante Ing. Fernando Lozano (Gafete VIS-01 liberado a las 15:36)."
+    },
+    {
+      "id": 8,
+      "fecha_hora": "2026-10-22T20:36:53.662Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "INGRESO_VISITANTE",
+      "modulo": "visitantes",
+      "permiso_evaluado": "visitantes:registrar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Ingreso de visitante Carlos Eduardo Restrepo (Auditoría Externa KPMG) con gafete VIS-09."
+    },
+    {
+      "id": 7,
+      "fecha_hora": "2026-10-22T20:36:53.655Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "LOGIN_EXITOSO",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Inicio de sesión exitoso (8/18 permisos activos)."
+    },
+    {
+      "id": 6,
+      "fecha_hora": "2026-10-22T20:36:53.551Z",
+      "usuario_id": null,
+      "usuario_email": "kiosco@sentinelpro.com",
+      "rol": "SIN_SESION",
+      "evento": "ACCESO_FISICO_ZONA_NO_AUTORIZADA",
+      "modulo": "porteria",
+      "permiso_evaluado": null,
+      "resultado": "DENEGADO",
+      "ip": "::1",
+      "detalle": "Camila Torres Villalba intentó acceder a zona restringida [Bóveda de Servidores y DataCenter TI] sin autorización."
+    },
+    {
+      "id": 5,
+      "fecha_hora": "2026-10-22T20:36:53.546Z",
+      "usuario_id": null,
+      "usuario_email": "kiosco@sentinelpro.com",
+      "rol": "SIN_SESION",
+      "evento": "ACCESO_FISICO_DENEGADO_ESTADO",
+      "modulo": "porteria",
+      "permiso_evaluado": null,
+      "resultado": "DENEGADO",
+      "ip": "::1",
+      "detalle": "Bloqueado ingreso de Esteban Salazar (Credencial Suspendida) (EMP-008) en Portería Principal Peatonal (Torniquete Norte): estado SUSPENDIDO."
+    },
+    {
+      "id": 4,
+      "fecha_hora": "2026-10-22T20:36:53.540Z",
+      "usuario_id": null,
+      "usuario_email": "kiosco@sentinelpro.com",
+      "rol": "SIN_SESION",
+      "evento": "SALIDA_TRABAJADOR_REGISTRADA",
+      "modulo": "porteria",
+      "permiso_evaluado": "porteria:registrar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "SALIDA de Camila Torres Villalba (EMP-004) a las 15:36 por Portería Principal Peatonal (Torniquete Norte). Tiempo laborado: 0h 01m."
+    },
+    {
+      "id": 3,
+      "fecha_hora": "2026-10-22T20:36:53.533Z",
+      "usuario_id": null,
+      "usuario_email": "kiosco@sentinelpro.com",
+      "rol": "SIN_SESION",
+      "evento": "ENTRADA_TRABAJADOR_REGISTRADA",
+      "modulo": "porteria",
+      "permiso_evaluado": "porteria:registrar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "ENTRADA de Camila Torres Villalba (EMP-004) a las 15:36 por Portería Principal Peatonal (Torniquete Norte) [TARDANZA]."
+    },
+    {
+      "id": 1,
+      "fecha_hora": "2026-10-22T20:32:18.782Z",
+      "usuario_id": 1,
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "evento": "INICIALIZACION_SISTEMA_IAM",
+      "modulo": "seguridad",
+      "permiso_evaluado": "seguridad:administrar",
+      "resultado": "EXITO",
+      "ip": "127.0.0.1",
+      "detalle": "Motor SentinelPro IAM iniciado con 4 roles (incluyendo VIGILANTE_PORTERIA), 18 permisos granulares y control de entrada/salida de trabajadores."
+    },
+    {
+      "id": 2,
+      "fecha_hora": "2026-10-22T20:32:18.782Z",
+      "usuario_id": 1,
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "evento": "CAMBIO_PERMISOS_USUARIO",
+      "modulo": "seguridad",
+      "permiso_evaluado": "seguridad:administrar",
+      "resultado": "EXITO",
+      "ip": "127.0.0.1",
+      "detalle": "Se otorgó permiso individual ALLOW [asistencia:ver] a vigilante@sentinelpro.com (Sgto. Roberto Vargas)."
+    }
+  ],
+  "configuracion_empresa": {
+    "id": 1,
+    "nombre_empresa": "Grupo Industrial & Logístico Titan S.A.",
+    "nit_ruc": "901.452.889-1",
+    "rubro_empresa": "Planta Industrial, Almacén y Oficinas Corporativas",
+    "slogan_corporativo": "Control de Acceso Físico en Portería, Asistencia de Trabajadores en Tiempo Real y Seguridad IAM por Roles",
+    "direccion": "Parque Industrial Norte Km 14 — Complejo Empresarial B-12",
+    "telefono_central": "+57 300 912 4500",
+    "email_seguridad": "seguridad@grupotitan.com",
+    "color_primario": "#1e40af",
+    "color_secundario": "#0f172a",
+    "tolerancia_tardanza_min": 10,
+    "aforo_maximo_planta": 150
+  },
+  "turnos_laborales": [
+    {
+      "id": 1,
+      "codigo": "TURNO-MANANA",
+      "nombre": "Turno Mañana (Planta y Oficinas)",
+      "hora_entrada": "08:00",
+      "hora_salida": "17:00",
+      "tolerancia_minutos": 10,
+      "activo": true
+    },
+    {
+      "id": 2,
+      "codigo": "TURNO-TARDE",
+      "nombre": "Turno Tarde (Operaciones y Logística)",
+      "hora_entrada": "14:00",
+      "hora_salida": "22:00",
+      "tolerancia_minutos": 10,
+      "activo": true
+    },
+    {
+      "id": 3,
+      "codigo": "TURNO-NOCHE",
+      "nombre": "Turno Nocturno (Seguridad y Mantenimiento)",
+      "hora_entrada": "22:00",
+      "hora_salida": "06:00",
+      "tolerancia_minutos": 15,
+      "activo": true
+    }
+  ],
+  "zonas_acceso": [
+    {
+      "id": 1,
+      "codigo": "PUERTA-01",
+      "nombre": "Portería Principal Peatonal (Torniquete Norte)",
+      "tipo": "PEATONAL",
+      "nivel_seguridad": "NIVEL 1 — GENERAL",
+      "ubicacion": "Entrada Principal Calle 100",
+      "estado": "OPERATIVA",
+      "requiere_autorizacion_especial": false
+    },
+    {
+      "id": 2,
+      "codigo": "PUERTA-02",
+      "nombre": "Garita de Acceso Vehicular y Muelle de Carga",
+      "tipo": "VEHICULAR",
+      "nivel_seguridad": "NIVEL 2 — OPERATIVO",
+      "ubicacion": "Acceso Sur — Patio de Maniobras",
+      "estado": "OPERATIVA",
+      "requiere_autorizacion_especial": false
+    },
+    {
+      "id": 3,
+      "codigo": "PUERTA-03",
+      "nombre": "Planta de Producción y Almacén de Materiales",
+      "tipo": "PLANTA_INDUSTRIAL",
+      "nivel_seguridad": "NIVEL 3 — RESTRINGIDO",
+      "ubicacion": "Nave Central — Sector B",
+      "estado": "OPERATIVA",
+      "requiere_autorizacion_especial": true
+    },
+    {
+      "id": 4,
+      "codigo": "PUERTA-04",
+      "nombre": "Bóveda de Servidores y DataCenter TI",
+      "tipo": "ALTA_SEGURIDAD",
+      "nivel_seguridad": "NIVEL 4 — CRÍTICO BIOMÉTRICO",
+      "ubicacion": "Piso 3 — Núcleo Blindado TI",
+      "estado": "OPERATIVA",
+      "requiere_autorizacion_especial": true
+    }
+  ],
+  "trabajadores": [
+    {
+      "id": 1,
+      "codigo_credencial": "EMP-001",
+      "documento": "72849102",
+      "nombre_completo": "Javier Morales Castro",
+      "cargo": "Jefe de Planta y Mantenimiento",
+      "departamento": "Operaciones y Planta",
+      "telefono": "3004128890",
+      "email": "jmorales@empresa.com",
+      "turno_id": 1,
+      "zonas_autorizadas": [
+        1,
+        2,
+        3
+      ],
+      "placa_vehiculo": "KLM-482",
+      "estado": "ACTIVO",
+      "ubicacion_actual": "DENTRO_PLANTA",
+      "ultima_puerta_id": 1,
+      "ultima_entrada": "2026-10-22 07:52"
+    },
+    {
+      "id": 2,
+      "codigo_credencial": "EMP-002",
+      "documento": "45918273",
+      "nombre_completo": "Daniela Ríos Salgado",
+      "cargo": "Ingeniera de Infraestructura y Redes",
+      "departamento": "Tecnología (TI)",
+      "telefono": "3115902341",
+      "email": "drios@empresa.com",
+      "turno_id": 1,
+      "zonas_autorizadas": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "placa_vehiculo": "BGT-901",
+      "estado": "ACTIVO",
+      "ubicacion_actual": "DENTRO_PLANTA",
+      "ultima_puerta_id": 4,
+      "ultima_entrada": "2026-10-22 07:58"
+    },
+    {
+      "id": 3,
+      "codigo_credencial": "EMP-003",
+      "documento": "80192834",
+      "nombre_completo": "Andrés Felipe Pineda",
+      "cargo": "Operador de Montacargas y Despacho",
+      "departamento": "Logística y Almacén",
+      "telefono": "3158891203",
+      "email": "apineda@empresa.com",
+      "turno_id": 1,
+      "zonas_autorizadas": [
+        1,
+        2,
+        3
+      ],
+      "placa_vehiculo": "MTR-119",
+      "estado": "ACTIVO",
+      "ubicacion_actual": "DENTRO_PLANTA",
+      "ultima_puerta_id": 2,
+      "ultima_entrada": "2026-10-22 08:19"
+    },
+    {
+      "id": 4,
+      "codigo_credencial": "EMP-004",
+      "documento": "52839104",
+      "nombre_completo": "Camila Torres Villalba",
+      "cargo": "Analista Contable y Tesorería",
+      "departamento": "Administración y Finanzas",
+      "telefono": "3017745612",
+      "email": "ctorres@empresa.com",
+      "turno_id": 1,
+      "zonas_autorizadas": [
+        1
+      ],
+      "placa_vehiculo": "",
+      "estado": "ACTIVO",
+      "ubicacion_actual": "FUERA_PLANTA",
+      "ultima_puerta_id": 1,
+      "ultima_entrada": "2026-10-22 15:36"
+    },
+    {
+      "id": 5,
+      "codigo_credencial": "EMP-005",
+      "documento": "10928374",
+      "nombre_completo": "Héctor Julio Ramírez",
+      "cargo": "Técnico Electromecánico Senior",
+      "departamento": "Operaciones y Planta",
+      "telefono": "3209918273",
+      "email": "hramirez@empresa.com",
+      "turno_id": 1,
+      "zonas_autorizadas": [
+        1,
+        2,
+        3
+      ],
+      "placa_vehiculo": "ZXC-330",
+      "estado": "ACTIVO",
+      "ubicacion_actual": "FUERA_PLANTA",
+      "ultima_puerta_id": 1,
+      "ultima_entrada": "2026-10-21 07:56"
+    },
+    {
+      "id": 6,
+      "codigo_credencial": "EMP-006",
+      "documento": "39182736",
+      "nombre_completo": "Paola Andrea Vega",
+      "cargo": "Coordinadora de Calidad e ISO",
+      "departamento": "Calidad y Seguridad Industrial",
+      "telefono": "3146629182",
+      "email": "pvega@empresa.com",
+      "turno_id": 1,
+      "zonas_autorizadas": [
+        1,
+        3
+      ],
+      "placa_vehiculo": "",
+      "estado": "ACTIVO",
+      "ubicacion_actual": "FUERA_PLANTA",
+      "ultima_puerta_id": 1,
+      "ultima_entrada": "2026-10-21 08:02"
+    },
+    {
+      "id": 7,
+      "codigo_credencial": "EMP-007",
+      "documento": "91827364",
+      "nombre_completo": "Miguel Ángel Duarte",
+      "cargo": "Supervisor de Despachos Nocturnos",
+      "departamento": "Logística y Almacén",
+      "telefono": "3183349012",
+      "email": "mduarte@empresa.com",
+      "turno_id": 2,
+      "zonas_autorizadas": [
+        1,
+        2,
+        3
+      ],
+      "placa_vehiculo": "QWE-712",
+      "estado": "ACTIVO",
+      "ubicacion_actual": "FUERA_PLANTA",
+      "ultima_puerta_id": 2,
+      "ultima_entrada": "2026-10-21 13:55"
+    },
+    {
+      "id": 8,
+      "codigo_credencial": "EMP-008",
+      "documento": "66778899",
+      "nombre_completo": "Esteban Salazar (Credencial Suspendida)",
+      "cargo": "Auxiliar Externo de Bodega",
+      "departamento": "Logística y Almacén",
+      "telefono": "3001192837",
+      "email": "esalazar@empresa.com",
+      "turno_id": 1,
+      "zonas_autorizadas": [
+        1
+      ],
+      "placa_vehiculo": "",
+      "estado": "SUSPENDIDO",
+      "ubicacion_actual": "FUERA_PLANTA",
+      "ultima_puerta_id": 1,
+      "ultima_entrada": "2026-10-21 08:00"
+    }
+  ],
+  "registros_acceso": [
+    {
+      "id": 6,
+      "codigo_movimiento": "ACC-1006",
+      "trabajador_id": 4,
+      "codigo_credencial": "EMP-004",
+      "documento": "52839104",
+      "trabajador_nombre": "Camila Torres Villalba",
+      "departamento": "Administración y Finanzas",
+      "zona_id": 1,
+      "zona_nombre": "Portería Principal Peatonal (Torniquete Norte)",
+      "fecha": "2026-10-22",
+      "hora_entrada": "15:36",
+      "hora_salida": "15:36",
+      "estado_asistencia": "TARDANZA",
+      "estado_ciclo": "FINALIZADO",
+      "minutos_trabajados": 1,
+      "horas_formateadas": "0h 01m",
+      "metodo_identificacion": "TERMINAL_KIOSCO_PIN",
+      "registrado_por_email": "kiosco@sentinelpro.com",
+      "registrado_por_nombre": "Terminal Kiosco Portería",
+      "observacion": "Marcación desde Terminal Kiosco Principal | Salida: Marcación desde Terminal Kiosco Principal"
+    },
+    {
+      "id": 1,
+      "codigo_movimiento": "ACC-1001",
+      "trabajador_id": 1,
+      "codigo_credencial": "EMP-001",
+      "documento": "72849102",
+      "trabajador_nombre": "Javier Morales Castro",
+      "departamento": "Operaciones y Planta",
+      "zona_id": 1,
+      "zona_nombre": "Portería Principal Peatonal (Torniquete Norte)",
+      "fecha": "2026-10-22",
+      "hora_entrada": "07:52",
+      "hora_salida": null,
+      "estado_asistencia": "PUNTUAL",
+      "estado_ciclo": "EN_PLANTA",
+      "minutos_trabajados": null,
+      "horas_formateadas": "En curso (En planta)",
+      "metodo_identificacion": "TARJETA_RFID",
+      "registrado_por_email": "vigilante@sentinelpro.com",
+      "registrado_por_nombre": "Sgto. Roberto Vargas",
+      "observacion": "Ingreso normal con EPP verificado en portería."
+    },
+    {
+      "id": 2,
+      "codigo_movimiento": "ACC-1002",
+      "trabajador_id": 2,
+      "codigo_credencial": "EMP-002",
+      "documento": "45918273",
+      "trabajador_nombre": "Daniela Ríos Salgado",
+      "departamento": "Tecnología (TI)",
+      "zona_id": 4,
+      "zona_nombre": "Bóveda de Servidores y DataCenter TI",
+      "fecha": "2026-10-22",
+      "hora_entrada": "07:58",
+      "hora_salida": null,
+      "estado_asistencia": "PUNTUAL",
+      "estado_ciclo": "EN_PLANTA",
+      "minutos_trabajados": null,
+      "horas_formateadas": "En curso (En planta)",
+      "metodo_identificacion": "BIOMETRICO_QR",
+      "registrado_por_email": "vigilante@sentinelpro.com",
+      "registrado_por_nombre": "Sgto. Roberto Vargas",
+      "observacion": "Acceso autorizado a DataCenter para mantenimiento preventivo."
+    },
+    {
+      "id": 3,
+      "codigo_movimiento": "ACC-1003",
+      "trabajador_id": 3,
+      "codigo_credencial": "EMP-003",
+      "documento": "80192834",
+      "trabajador_nombre": "Andrés Felipe Pineda",
+      "departamento": "Logística y Almacén",
+      "zona_id": 2,
+      "zona_nombre": "Garita de Acceso Vehicular y Muelle de Carga",
+      "fecha": "2026-10-22",
+      "hora_entrada": "08:19",
+      "hora_salida": null,
+      "estado_asistencia": "TARDANZA",
+      "estado_ciclo": "EN_PLANTA",
+      "minutos_trabajados": null,
+      "horas_formateadas": "En curso (En planta)",
+      "metodo_identificacion": "DOCUMENTO_DNI",
+      "registrado_por_email": "vigilante@sentinelpro.com",
+      "registrado_por_nombre": "Sgto. Roberto Vargas",
+      "observacion": "Ingreso con 19 min de retraso respecto al Turno Mañana (08:00)."
+    },
+    {
+      "id": 4,
+      "codigo_movimiento": "ACC-1004",
+      "trabajador_id": 4,
+      "codigo_credencial": "EMP-004",
+      "documento": "52839104",
+      "trabajador_nombre": "Camila Torres Villalba",
+      "departamento": "Administración y Finanzas",
+      "zona_id": 1,
+      "zona_nombre": "Portería Principal Peatonal (Torniquete Norte)",
+      "fecha": "2026-10-22",
+      "hora_entrada": "07:55",
+      "hora_salida": "16:40",
+      "estado_asistencia": "PUNTUAL",
+      "estado_ciclo": "FINALIZADO",
+      "minutos_trabajados": 525,
+      "horas_formateadas": "8h 45m",
+      "metodo_identificacion": "TARJETA_RFID",
+      "registrado_por_email": "vigilante@sentinelpro.com",
+      "registrado_por_nombre": "Sgto. Roberto Vargas",
+      "observacion": "Jornada completada con salida registrada en portería."
+    },
+    {
+      "id": 5,
+      "codigo_movimiento": "ACC-1000",
+      "trabajador_id": 5,
+      "codigo_credencial": "EMP-005",
+      "documento": "10928374",
+      "trabajador_nombre": "Héctor Julio Ramírez",
+      "departamento": "Operaciones y Planta",
+      "zona_id": 3,
+      "zona_nombre": "Planta de Producción y Almacén de Materiales",
+      "fecha": "2026-10-21",
+      "hora_entrada": "07:56",
+      "hora_salida": "17:08",
+      "estado_asistencia": "PUNTUAL",
+      "estado_ciclo": "FINALIZADO",
+      "minutos_trabajados": 552,
+      "horas_formateadas": "9h 12m",
+      "metodo_identificacion": "TARJETA_RFID",
+      "registrado_por_email": "vigilante@sentinelpro.com",
+      "registrado_por_nombre": "Sgto. Roberto Vargas",
+      "observacion": "Jornada completa sin novedades."
+    }
+  ],
+  "visitantes": [
+    {
+      "id": 3,
+      "gafete": "VIS-09",
+      "documento": "98765432",
+      "nombre_completo": "Carlos Eduardo Restrepo",
+      "empresa_origen": "Auditoría Externa KPMG",
+      "anfitrion_visitado": "Camila Torres (Finanzas)",
+      "zona_autorizada": "Portería Principal Peatonal (Torniquete Norte)",
+      "motivo": "Auditoría semestral de inventarios",
+      "fecha": "2026-10-22",
+      "hora_entrada": "15:36",
+      "hora_salida": null,
+      "estado": "EN_PLANTA",
+      "registrado_por": "Sgto. Roberto Vargas (Vigilante Portería Principal)"
+    },
+    {
+      "id": 1,
+      "gafete": "VIS-01",
+      "documento": "1020394857",
+      "nombre_completo": "Ing. Fernando Lozano",
+      "empresa_origen": "Siemens Automatización Industrial",
+      "anfitrion_visitado": "Javier Morales Castro (Jefe de Planta)",
+      "zona_autorizada": "Planta de Producción y Almacén de Materiales",
+      "motivo": "Calibración de tableros eléctricos en Nave B",
+      "fecha": "2026-10-22",
+      "hora_entrada": "09:15",
+      "hora_salida": "15:36",
+      "estado": "SALIDA_REGISTRADA",
+      "registrado_por": "Sgto. Roberto Vargas"
+    },
+    {
+      "id": 2,
+      "gafete": "VIS-02",
+      "documento": "79445112",
+      "nombre_completo": "Marta Lucía Benítez",
+      "empresa_origen": "DHL Express Corporativo",
+      "anfitrion_visitado": "Camila Torres Villalba (Administración)",
+      "zona_autorizada": "Portería Principal Peatonal (Torniquete Norte)",
+      "motivo": "Entrega de documentación legal certificada",
+      "fecha": "2026-10-22",
+      "hora_entrada": "10:05",
+      "hora_salida": "10:32",
+      "estado": "SALIDA_REGISTRADA",
+      "registrado_por": "Sgto. Roberto Vargas"
+    }
+  ],
+  "incidencias_acceso": [
+    {
+      "id": 4,
+      "fecha_hora": "2026-10-22 15:36",
+      "trabajador_nombre": "Camila Torres Villalba (EMP-004)",
+      "documento": "52839104",
+      "zona_nombre": "Bóveda de Servidores y DataCenter TI",
+      "tipo_alerta": "ZONA_NO_AUTORIZADA",
+      "severidad": "ALTA",
+      "detalle": "Intento de ENTRADA en [Bóveda de Servidores y DataCenter TI] rechazado: la credencial EMP-004 no tiene permiso para esta zona.",
+      "estado_resolucion": "PENDIENTE",
+      "registrado_por": "Terminal Kiosco Portería"
+    },
+    {
+      "id": 3,
+      "fecha_hora": "2026-10-22 15:36",
+      "trabajador_nombre": "Esteban Salazar (Credencial Suspendida) (EMP-008)",
+      "documento": "66778899",
+      "zona_nombre": "Portería Principal Peatonal (Torniquete Norte)",
+      "tipo_alerta": "CREDENCIAL_SUSPENDIDO",
+      "severidad": "ALTA",
+      "detalle": "Intento de ENTRADA bloqueado: el trabajador tiene estado [SUSPENDIDO].",
+      "estado_resolucion": "PENDIENTE",
+      "registrado_por": "Terminal Kiosco Portería"
+    },
+    {
+      "id": 1,
+      "fecha_hora": "2026-10-22 08:25",
+      "trabajador_nombre": "Esteban Salazar (EMP-008)",
+      "documento": "66778899",
+      "zona_nombre": "Portería Principal Peatonal (Torniquete Norte)",
+      "tipo_alerta": "CREDENCIAL_SUSPENDIDA",
+      "severidad": "ALTA",
+      "detalle": "Intento de ingreso rechazado en portería: el trabajador se encuentra con estado SUSPENDIDO por RR.HH.",
+      "estado_resolucion": "PENDIENTE",
+      "registrado_por": "Sgto. Roberto Vargas"
+    },
+    {
+      "id": 2,
+      "fecha_hora": "2026-10-22 09:40",
+      "trabajador_nombre": "Andrés Felipe Pineda (EMP-003)",
+      "documento": "80192834",
+      "zona_nombre": "Bóveda de Servidores y DataCenter TI",
+      "tipo_alerta": "ZONA_NO_AUTORIZADA",
+      "severidad": "MEDIA",
+      "detalle": "Intento de apertura en Puerta DataCenter TI denegado: la credencial EMP-003 solo tiene autorizadas las Zonas [1, 2, 3].",
+      "estado_resolucion": "RESUELTA",
+      "registrado_por": "Sistema Biométrico / Garita"
+    }
+  ]
+}

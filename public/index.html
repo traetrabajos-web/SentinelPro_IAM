@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SentinelPro Access & IAM — Sistema Empresarial de Control de Acceso y Asistencia</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+    <!-- BARRA SUPERIOR DE NAVEGACIÓN Y SELECTOR DE VISTA -->
+    <header class="top-nav">
+        <div class="brand-container">
+            <div class="brand-shield">🛡️</div>
+            <div>
+                <span class="brand-name">SentinelPro Access & IAM</span>
+                <span class="brand-badge">Enterprise Edition v2.5</span>
+            </div>
+        </div>
+
+        <div class="nav-controls">
+            <button id="btn-view-public" class="nav-btn active" onclick="switchMainView('public')">
+                🌐 Portal Corporativo & Kiosco
+            </button>
+            <button id="btn-view-admin" class="nav-btn" onclick="switchMainView('admin')">
+                🔐 Consola de Portería & Panel Admin
+            </button>
+            
+        </div>
+    </header>
+
+    <!-- ====================================================================
+         VISTA 1: PORTAL CORPORATIVO + KIOSCO DE ENTRADA/SALIDA DE TRABAJADORES
+         ==================================================================== -->
+    <main id="view-public" class="main-content">
+        <!-- Hero Informativo -->
+        <section class="hero-section">
+            <div class="hero-text">
+                <span class="tag-pill">SISTEMA INTEGRAL DE CONTROL DE ACCESO EMPRESARIAL</span>
+                <h1>Seguridad en Portería, Asistencia de Personal y Control de Acceso Digital</h1>
+                <p>
+                    Plataforma inteligente para el registro en tiempo real de <strong>entradas y salidas de trabajadores</strong>, 
+                    gestión de <strong>garita para vigilantes</strong>, control de <strong>visitantes y contratistas</strong>, 
+                    validación por zonas físicas autorizadas y <strong>control de acceso basado en roles y permisos individuales (RBAC + Overrides)</strong>.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToElement('kiosco-section')">
+                        ⚡ Terminal Kiosco de Marcación Rápida
+                    </button>
+                    <button class="btn btn-secondary" onclick="openCredentialModal()">
+                        🔍 Consultar Estado de Credencial
+                    </button>
+                    <button class="btn btn-accent" onclick="switchMainView('admin')">
+                        👮 Ingresar a Consola de Vigilante / Admin
+                    </button>
+                </div>
+            </div>
+
+            <!-- Widget en Vivo de Aforo y Planta -->
+            <div class="live-counter-card">
+                <h3>📊 Estado de Planta en Tiempo Real</h3>
+                <div class="counter-grid">
+                    <div class="counter-box primary">
+                        <span class="counter-val" id="pub-aforo-val">0</span>
+                        <span class="counter-lbl">Trabajadores Adentro</span>
+                    </div>
+                    <div class="counter-box success">
+                        <span class="counter-val" id="pub-entradas-val">0</span>
+                        <span class="counter-lbl">Entradas Hoy</span>
+                    </div>
+                    <div class="counter-box warning">
+                        <span class="counter-val" id="pub-salidas-val">0</span>
+                        <span class="counter-lbl">Salidas Hoy</span>
+                    </div>
+                    <div class="counter-box info">
+                        <span class="counter-val" id="pub-visitantes-val">0</span>
+                        <span class="counter-lbl">Visitantes Activos</span>
+                    </div>
+                </div>
+                <div class="company-badge-footer">
+                    🏢 <span id="pub-company-name">Cargando empresa...</span> | Capacidad: <span id="pub-aforo-max">150</span> personas
+                </div>
+            </div>
+        </section>
+
+        <!-- KIOSCO DE MARCACIÓN RÁPIDA (Check-In / Check-Out) -->
+        <section id="kiosco-section" class="kiosco-container">
+            <div class="card-kiosco">
+                <div class="kiosco-header">
+                    <h2>🕒 Terminal Kiosco de Marcación de Entrada / Salida</h2>
+                    <p>Uso para trabajadores en portería: digita tu Número de Documento (DNI/Cédula) o Código de Tarjeta RFID (ej. EMP-001).</p>
+                </div>
+
+                <div class="kiosco-form">
+                    <div class="form-row">
+                        <div class="form-group flex-2">
+                            <label>Identificador del Trabajador (DNI o Credencial EMP-XXX)</label>
+                            <input type="text" id="kiosco-id" class="input-lg" placeholder="Ej: 72849102 o EMP-001" autocomplete="off">
+                            <span class="help-text">Ejemplos para probar: <code>72849102</code> (Javier), <code>45918273</code> (Daniela), <code>66778899</code> (Suspendido)</span>
+                        </div>
+                        <div class="form-group flex-1">
+                            <label>Puerta / Punto de Acceso</label>
+                            <select id="kiosco-puerta" class="input-lg">
+                                <!-- Llenado dinámicamente -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons-grid">
+                        <button class="btn btn-success btn-huge" onclick="submitKioscoMovement('ENTRADA')">
+                            🟢 REGISTRAR ENTRADA (Check-In)
+                        </button>
+                        <button class="btn btn-danger btn-huge" onclick="submitKioscoMovement('SALIDA')">
+                            🔴 REGISTRAR SALIDA (Check-Out)
+                        </button>
+                    </div>
+
+                    <!-- Mensaje de Respuesta en Kiosco -->
+                    <div id="kiosco-feedback" class="feedback-box hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Informativa: Módulos y Roles de Seguridad -->
+        <section class="info-features">
+            <h2 class="section-title">Pilares de Seguridad y Control Operativo</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">👮</div>
+                    <h3>Rol Vigilante de Portería</h3>
+                    <p>Módulo especializado para el personal de garita con registro instantáneo de entrada y salida, detección de credenciales suspendidas, validación de EPP y registro de vehículos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏱️</div>
+                    <h3>Control de Asistencia y Turnos</h3>
+                    <p>Cálculo automático de puntualidad, detección de tardanzas según el turno asignado y cómputo de horas trabajadas exactas al fichar la salida.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚪</div>
+                    <h3>Zonificación y Puertas Físicas</h3>
+                    <p>Segmentación por zonas de seguridad (Peatonal, Muelle Vehicular, Almacén, DataCenter). Bloqueo automático si el trabajador no tiene autorización en la puerta.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Motor IAM con Permisos Granulares</h3>
+                    <p>No se limita a roles rígidos: permite asignar excepciones individuales <code>ALLOW</code> o <code>DENY</code> a cada usuario por módulo y controla sesiones simultáneas concurrentes.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🪪</div>
+                    <h3>Control de Visitantes y Contratistas</h3>
+                    <p>Registro de visitas externas con asignación de gafete temporal (VIS-XX), anfitrión responsable, motivo y control de salida en tiempo real.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📜</div>
+                    <h3>Bitácora Inmutable de Auditoría</h3>
+                    <p>Trazabilidad total de cada inicio de sesión, intentos de acceso 401/403, sesiones simultáneas bloqueadas 409 y cambios en la matriz de permisos.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ====================================================================
+         VISTA 2: PANEL DE ADMINISTRACIÓN Y OPERACIÓN COMPLETO
+         ==================================================================== -->
+    <div id="view-admin" class="hidden">
+        <!-- PANTALLA DE LOGIN POR ROL -->
+        <div id="admin-login-card" class="login-wrapper">
+            <div class="login-box">
+                <div class="login-header">
+                    <div class="login-icon">🔐</div>
+                    <h2>Ingreso al Sistema de Seguridad</h2>
+                    <p>Autenticación con derivación <code>scrypt</code>, tokens firmados <code>HMAC-SHA256</code> y control de sesiones simultáneas.</p>
+                </div>
+
+                <!-- Botones de Acceso Rápido por Perfil -->
+                <div class="quick-profiles-box">
+                    <span class="quick-title">⚡ Iniciar Sesión Rápida por Rol:</span>
+                    <div class="profiles-grid">
+                        <button class="profile-chip admin" onclick="quickLogin('admin@sentinelpro.com','admin123')">
+                            👨‍💼 Super Admin (18/18 Permisos)
+                        </button>
+                        <button class="profile-chip guard" onclick="quickLogin('vigilante@sentinelpro.com','vigi123')">
+                            👮 Vigilante Portería (Garita + Entrada/Salida)
+                        </button>
+                        <button class="profile-chip rrhh" onclick="quickLogin('rrhh@sentinelpro.com','rrhh123')">
+                            👩‍💼 Supervisor RR.HH. (Turnos y Asistencia)
+                        </button>
+                        <button class="profile-chip audit" onclick="quickLogin('auditor@sentinelpro.com','audit123')">
+                            🕵️ Auditor Seguridad (Solo Lectura e IAM)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="login-inputs">
+                    <div class="form-group">
+                        <label>Correo Electrónico Corporativo</label>
+                        <input type="email" id="login-email" class="input-std" value="admin@sentinelpro.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="login-pass" class="input-std" value="admin123">
+                    </div>
+
+                    <!-- Mensaje de conflicto por sesión simultánea (409) -->
+                    <div id="conflict-box" class="conflict-alert hidden">
+                        <strong id="conflict-text">Límite de sesiones alcanzado.</strong>
+                        <button class="btn btn-warning btn-sm" onclick="submitLogin(true)">
+                            🔄 Cerrar sesión anterior e ingresar aquí
+                        </button>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" onclick="submitLogin(false)">
+                        🔑 Entrar al Panel de Control
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- WORKSPACE PRINCIPAL DEL PANEL (Una vez autenticado) -->
+        <div id="admin-workspace" class="workspace-layout hidden">
+            <!-- Sidebar Lateral -->
+            <aside class="sidebar">
+                <div class="user-profile-badge">
+                    <div class="avatar-circle" id="sidebar-avatar">U</div>
+                    <div class="user-meta">
+                        <strong id="sidebar-user-name">Usuario</strong>
+                        <span id="sidebar-user-role" class="badge-role">ROL</span>
+                        <small id="sidebar-perm-count">0 permisos activos</small>
+                    </div>
+                </div>
+
+                <nav class="sidebar-menu">
+                    <button class="nav-tab-btn active" data-tab="tab-dashboard" data-perm="dashboard:ver" onclick="showTab('tab-dashboard')">
+                        📊 Dashboard & Aforo
+                    </button>
+                    <button class="nav-tab-btn" data-tab="tab-porteria" data-perm="porteria:ver" onclick="showTab('tab-porteria')">
+                        🚧 Consola de Portería
+                    </button>
+                    <button class="nav-tab-btn" data-tab="tab-asistencia" data-perm="asistencia:ver" onclick="showTab('tab-asistencia')">
+                        📋 Historial de Asistencia
+                    </button>
+                    <button class="nav-tab-btn" data-tab="tab-trabajadores" data-perm="trabajadores:ver" onclick="showTab('tab-trabajadores')">
+                        👷 Padrón de Trabajadores
+                    </button>
+                    <button class="nav-tab-btn" data-tab="tab-visitantes" data-perm="visitantes:ver" onclick="showTab('tab-visitantes')">
+                        🪪 Control de Visitantes
+                    </button>
+                    <button class="nav-tab-btn" data-tab="tab-zonas" data-perm="zonas:ver" onclick="showTab('tab-zonas')">
+                        🏢 Puertas y Turnos
+                    </button>
+                    <button class="nav-tab-btn" data-tab="tab-alertas" data-perm="incidencias:ver" onclick="showTab('tab-alertas')">
+                        🚨 Alertas de Acceso
+                    </button>
+                    <button class="nav-tab-btn" data-tab="tab-iam" data-perm="seguridad:ver" onclick="showTab('tab-iam')">
+                        🛡️ Control de Acceso (IAM)
+                    </button>
+                    <button class="nav-tab-btn" data-tab="tab-config" data-perm="configuracion:ver" onclick="showTab('tab-config')">
+                        ⚙️ Configuración Empresa
+                    </button>
+                </nav>
+
+                <div class="sidebar-footer">
+                    <button class="btn btn-outline-light btn-block btn-sm" onclick="openMyPermsModal()">
+                        🔑 Ver Mis Permisos
+                    </button>
+                    <button class="btn btn-danger btn-block btn-sm" onclick="logoutAdmin()">
+                        🚪 Cerrar Sesión
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Contenido Principal Dinámico -->
+            <section class="admin-main-panel">
+                <!-- Barra Superior de Estado y Pruebas de Seguridad -->
+                <div class="top-status-bar">
+                    <div class="status-info">
+                        🛡️ <strong>Sesión Activa:</strong> <span id="bar-user-email">--</span> |
+                        <strong>Rol:</strong> <span id="bar-user-role">--</span>
+                    </div>
+                    <div class="status-actions">
+                        <button class="btn btn-sm btn-outline-dark" onclick="simulate403BackendTest()">
+                            🧪 Probar Rechazo 403 en Servidor
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TAB 1: DASHBOARD -->
+                <div id="tab-dashboard" class="tab-content active">
+                    <div class="tab-header">
+                        <h2>📊 Dashboard General de Acceso y Aforo</h2>
+                        <p>Monitoreo en tiempo real de la presencia física en planta y métricas de puntualidad.</p>
+                    </div>
+
+                    <div class="kpi-cards-row">
+                        <div class="kpi-card">
+                            <span class="kpi-title">👥 Personas en Planta</span>
+                            <h3 class="kpi-num" id="kpi-en-planta">0</h3>
+                            <small id="kpi-aforo-pct">0% de capacidad</small>
+                        </div>
+                        <div class="kpi-card green">
+                            <span class="kpi-title">🟢 Entradas Registradas Hoy</span>
+                            <h3 class="kpi-num" id="kpi-entradas-hoy">0</h3>
+                            <small id="kpi-puntuales-hoy">0 puntuales</small>
+                        </div>
+                        <div class="kpi-card orange">
+                            <span class="kpi-title">🔴 Salidas Registradas Hoy</span>
+                            <h3 class="kpi-num" id="kpi-salidas-hoy">0</h3>
+                            <small>Jornadas finalizadas</small>
+                        </div>
+                        <div class="kpi-card red">
+                            <span class="kpi-title">⏱️ Tardanzas Detectadas</span>
+                            <h3 class="kpi-num" id="kpi-tardanzas-hoy">0</h3>
+                            <small>Fuera de tolerancia</small>
+                        </div>
+                        <div class="kpi-card purple">
+                            <span class="kpi-title">🪪 Visitantes en Planta</span>
+                            <h3 class="kpi-num" id="kpi-visitantes-hoy">0</h3>
+                            <small>Contratistas activos</small>
+                        </div>
+                    </div>
+
+                    <!-- Personal Actualmente en Planta -->
+                    <div class="panel-box">
+                        <div class="box-header">
+                            <h3>📍 Personal Actualmente Dentro de la Empresa (<span id="count-en-planta">0</span>)</h3>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="data-table" id="table-en-planta">
+                                <thead>
+                                    <tr>
+                                        <th>Credencial</th>
+                                        <th>Trabajador</th>
+                                        <th>Departamento</th>
+                                        <th>Hora Ingreso</th>
+                                        <th>Puerta</th>
+                                        <th>Estado</th>
+                                        <th>Acción Rápida</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Renderizado JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: CONSOLA DE PORTERÍA (Módulo del Vigilante) -->
+                <div id="tab-porteria" class="tab-content">
+                    <div class="tab-header">
+                        <h2>🚧 Consola de Portería y Garita (Control del Vigilante)</h2>
+                        <p>Registro operativo inmediato de entradas y salidas peatonales y vehiculares.</p>
+                    </div>
+
+                    <div class="porteria-grid">
+                        <div class="panel-box flex-1">
+                            <h3>⚡ Fichar Entrada / Salida en Puerta</h3>
+                            <div class="form-group">
+                                <label>Selecciona Puerta / Garita donde estás apostado:</label>
+                                <select id="guard-puerta-select" class="input-std"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Código de Tarjeta RFID, Documento o Nombre del Trabajador:</label>
+                                <div class="search-input-group">
+                                    <input type="text" id="guard-worker-search" class="input-std" placeholder="Ej: EMP-001 o 72849102">
+                                    <button class="btn btn-secondary" onclick="searchWorkerInGuard()">Buscar</button>
+                                </div>
+                            </div>
+
+                            <!-- Ficha rápida del trabajador encontrado -->
+                            <div id="guard-worker-preview" class="worker-preview-box hidden">
+                                <div class="preview-header">
+                                    <h4 id="prev-name">Nombre</h4>
+                                    <span id="prev-state" class="badge">ACTIVO</span>
+                                </div>
+                                <div class="preview-details">
+                                    <p><strong>Cargo:</strong> <span id="prev-cargo">--</span></p>
+                                    <p><strong>Depto:</strong> <span id="prev-depto">--</span></p>
+                                    <p><strong>Estado en Planta:</strong> <span id="prev-location">--</span></p>
+                                    <p><strong>Zonas Autorizadas:</strong> <span id="prev-zones">--</span></p>
+                                </div>
+                                <div class="preview-actions">
+                                    <button class="btn btn-success" id="btn-guard-in" onclick="executeGuardAction('ENTRADA')">
+                                        🟢 Marcar Entrada
+                                    </button>
+                                    <button class="btn btn-danger" id="btn-guard-out" onclick="executeGuardAction('SALIDA')">
+                                        🔴 Marcar Salida
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="guard-feedback" class="feedback-box hidden" style="margin-top:14px;"></div>
+                        </div>
+
+                        <!-- Lista Rápida de Accesos Recientes -->
+                        <div class="panel-box flex-1">
+                            <h3>⏱️ Últimos Movimientos en Portería</h3>
+                            <div class="table-responsive">
+                                <table class="data-table" id="table-guard-recent">
+                                    <thead>
+                                        <tr>
+                                            <th>Hora</th>
+                                            <th>Tipo</th>
+                                            <th>Trabajador</th>
+                                            <th>Puerta</th>
+                                            <th>Puntualidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: HISTORIAL DE ASISTENCIA -->
+                <div id="tab-asistencia" class="tab-content">
+                    <div class="tab-header">
+                        <h2>📋 Historial Completo de Asistencia y Entradas/Salidas</h2>
+                        <p>Auditoría de registros con cálculo de horas laboradas y estados de puntualidad.</p>
+                        <button class="btn btn-primary" onclick="exportAttendanceCsv()">
+                            📥 Exportar Reporte CSV
+                        </button>
+                    </div>
+
+                    <div class="panel-box">
+                        <div class="table-responsive">
+                            <table class="data-table" id="table-attendance-full">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Fecha</th>
+                                        <th>Trabajador</th>
+                                        <th>Depto</th>
+                                        <th>Puerta</th>
+                                        <th>Entrada</th>
+                                        <th>Salida</th>
+                                        <th>Tiempo Laborado</th>
+                                        <th>Puntualidad</th>
+                                        <th>Vigilante Responsable</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: TRABAJADORES (RR.HH.) -->
+                <div id="tab-trabajadores" class="tab-content">
+                    <div class="tab-header">
+                        <h2>👷 Padrón de Trabajadores y Credenciales</h2>
+                        <p>Gestión de personal de la empresa, turnos asignados y zonas físicas permitidas.</p>
+                        <button class="btn btn-primary" onclick="openNewWorkerModal()">
+                            ➕ Registrar Nuevo Trabajador
+                        </button>
+                    </div>
+
+                    <div class="panel-box">
+                        <div class="table-responsive">
+                            <table class="data-table" id="table-workers-crud">
+                                <thead>
+                                    <tr>
+                                        <th>Credencial</th>
+                                        <th>Documento</th>
+                                        <th>Nombre Completo</th>
+                                        <th>Cargo & Depto</th>
+                                        <th>Turno</th>
+                                        <th>Zonas Permitidas</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 5: VISITANTES -->
+                <div id="tab-visitantes" class="tab-content">
+                    <div class="tab-header">
+                        <h2>🪪 Control de Visitantes, Proveedores y Contratistas</h2>
+                        <p>Registro de visitas externas en garita con gafete y anfitrión interno.</p>
+                        <button class="btn btn-primary" onclick="openNewVisitorModal()">
+                            ➕ Registrar Ingreso de Visitante
+                        </button>
+                    </div>
+
+                    <div class="panel-box">
+                        <div class="table-responsive">
+                            <table class="data-table" id="table-visitors">
+                                <thead>
+                                    <tr>
+                                        <th>Gafete</th>
+                                        <th>Visitante</th>
+                                        <th>Empresa</th>
+                                        <th>Anfitrión</th>
+                                        <th>Entrada</th>
+                                        <th>Salida</th>
+                                        <th>Estado</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 6: PUERTAS Y TURNOS -->
+                <div id="tab-zonas" class="tab-content">
+                    <div class="tab-header">
+                        <h2>🏢 Puertas de Acceso Físico y Turnos Laborales</h2>
+                        <p>Configuración de los puntos de control en planta y tolerancia horaria.</p>
+                    </div>
+
+                    <div class="porteria-grid">
+                        <div class="panel-box flex-1">
+                            <h3>🚪 Puertas y Torniquetes Físicos</h3>
+                            <div class="table-responsive">
+                                <table class="data-table" id="table-zonas">
+                                    <thead>
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Nombre</th>
+                                            <th>Nivel Seguridad</th>
+                                            <th>Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel-box flex-1">
+                            <h3>🕒 Turnos Laborales y Tolerancia</h3>
+                            <div class="table-responsive">
+                                <table class="data-table" id="table-turnos">
+                                    <thead>
+                                        <tr>
+                                            <th>Turno</th>
+                                            <th>Horario Entrada-Salida</th>
+                                            <th>Tolerancia Tardanza</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 7: ALERTAS DE ACCESO -->
+                <div id="tab-alertas" class="tab-content">
+                    <div class="tab-header">
+                        <h2>🚨 Alertas de Accesos Físicos Denegados</h2>
+                        <p>Intentos de paso no autorizados (credencial suspendida, zona no permitida o fuera de turno).</p>
+                    </div>
+
+                    <div class="panel-box">
+                        <div class="table-responsive">
+                            <table class="data-table" id="table-alertas">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha/Hora</th>
+                                        <th>Trabajador</th>
+                                        <th>Puerta</th>
+                                        <th>Tipo de Alerta</th>
+                                        <th>Severidad</th>
+                                        <th>Detalle del Rechazo</th>
+                                        <th>Estado</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 8: CENTRO DE CONTROL IAM (USUARIOS, ROLES, MATRIZ ALLOW/DENY, SESIONES, AUDIT) -->
+                <div id="tab-iam" class="tab-content">
+                    <div class="tab-header">
+                        <h2>🛡️ Centro de Control de Acceso del Sistema (IAM)</h2>
+                        <p>Gestión de usuarios del sistema, asignación de roles y matriz de permisos individuales (ALLOW / DENY).</p>
+                        <button class="btn btn-primary" onclick="openNewIamUserModal()">
+                            ➕ Nuevo Usuario del Sistema
+                        </button>
+                    </div>
+
+                    <!-- MATRIZ DE PERMISOS INDIVIDUALES POR USUARIO -->
+                    <div class="panel-box">
+                        <div class="matrix-header">
+                            <div>
+                                <h3>🎛️ Matriz de Permisos Granulares por Usuario</h3>
+                                <p>Selecciona un usuario para otorgar permisos <code>ALLOW</code> o restricciones <code>DENY</code> por encima de su rol base.</p>
+                            </div>
+                            <div class="matrix-select-wrap">
+                                <label>Usuario a Configurar:</label>
+                                <select id="iam-user-picker" class="input-std" onchange="loadUserPermissionMatrix()"></select>
+                            </div>
+                        </div>
+
+                        <div class="matrix-user-info-banner" id="matrix-user-banner">
+                            <!-- Datos del usuario cargados vía JS -->
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="data-table" id="table-perm-matrix">
+                                <thead>
+                                    <tr>
+                                        <th>Código de Permiso</th>
+                                        <th>Módulo</th>
+                                        <th>Descripción Funcional</th>
+                                        <th>Heredado de Rol</th>
+                                        <th>Override Individual</th>
+                                        <th>Permiso Efectivo</th>
+                                        <th>Acción (Configuración en Servidor)</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- SESIONES ACTIVAS Y AUDIT LOGS -->
+                    <div class="porteria-grid" style="margin-top:20px;">
+                        <div class="panel-box flex-1">
+                            <h3>📱 Monitor de Sesiones Activas en Tiempo Real</h3>
+                            <div class="table-responsive">
+                                <table class="data-table" id="table-iam-sessions">
+                                    <thead>
+                                        <tr>
+                                            <th>Usuario</th>
+                                            <th>Rol</th>
+                                            <th>IP</th>
+                                            <th>Inicio</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="panel-box flex-1">
+                            <h3>📜 Bitácora de Auditoría de Seguridad (Audit Logs)</h3>
+                            <div class="table-responsive">
+                                <table class="data-table" id="table-iam-logs">
+                                    <thead>
+                                        <tr>
+                                            <th>Fecha/Hora</th>
+                                            <th>Evento</th>
+                                            <th>Usuario</th>
+                                            <th>Resultado</th>
+                                            <th>Detalle</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 9: CONFIGURACIÓN CORPORATIVA -->
+                <div id="tab-config" class="tab-content">
+                    <div class="tab-header">
+                        <h2>⚙️ Configuración Institucional y Políticas de Planta</h2>
+                        <p>Parámetros corporativos, aforo máximo y tolerancia de tardanzas.</p>
+                    </div>
+
+                    <div class="panel-box" style="max-width:720px;">
+                        <div class="form-group">
+                            <label>Nombre de la Empresa</label>
+                            <input type="text" id="cfg-nombre" class="input-std">
+                        </div>
+                        <div class="form-group">
+                            <label>NIT / RUC / Identificación Fiscal</label>
+                            <input type="text" id="cfg-nit" class="input-std">
+                        </div>
+                        <div class="form-group">
+                            <label>Dirección de la Planta / Sede Principal</label>
+                            <input type="text" id="cfg-dir" class="input-std">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group flex-1">
+                                <label>Aforo Máximo Permitido en Planta</label>
+                                <input type="number" id="cfg-aforo" class="input-std">
+                            </div>
+                            <div class="form-group flex-1">
+                                <label>Tolerancia de Tardanza (Minutos)</label>
+                                <input type="number" id="cfg-tolerancia" class="input-std">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="saveCompanyConfig()">
+                            💾 Guardar Cambios Corporativos
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- MODAL: CONSULTA DE CREDENCIAL (PUBLIC) -->
+    <div id="modal-credential" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>🔍 Consulta de Estado de Credencial de Acceso</h3>
+                <button class="close-btn" onclick="closeCredentialModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Ingresa tu Documento o Código de Tarjeta (EMP-XXX):</label>
+                    <div class="search-input-group">
+                        <input type="text" id="modal-cred-input" class="input-std" placeholder="Ej: 72849102 o EMP-001">
+                        <button class="btn btn-primary" onclick="queryCredentialPublic()">Consultar</button>
+                    </div>
+                </div>
+                <div id="modal-cred-result" class="cred-result-box hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: REGISTRAR TRABAJADOR -->
+    <div id="modal-new-worker" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>➕ Dar de Alta Trabajador</h3>
+                <button class="close-btn" onclick="closeNewWorkerModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="mw-name" class="input-std" placeholder="Ej: Marcos Aurelio Gómez">
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label>Número de Documento / Cédula</label>
+                        <input type="text" id="mw-doc" class="input-std" placeholder="Ej: 10482910">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label>Código Credencial (Opcional)</label>
+                        <input type="text" id="mw-code" class="input-std" placeholder="Auto o EMP-009">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label>Cargo</label>
+                        <input type="text" id="mw-cargo" class="input-std" placeholder="Ej: Operador de Envasado">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label>Departamento</label>
+                        <input type="text" id="mw-depto" class="input-std" placeholder="Ej: Operaciones y Planta">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label>Turno Asignado</label>
+                        <select id="mw-turno" class="input-std"></select>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label>Estado Inicial</label>
+                        <select id="mw-estado" class="input-std">
+                            <option value="ACTIVO">ACTIVO (Permite ingreso)</option>
+                            <option value="SUSPENDIDO">SUSPENDIDO (Bloqueo en portería)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Zonas / Puertas Físicas Autorizadas:</label>
+                    <div id="mw-zones-checkboxes" class="checkbox-grid"></div>
+                </div>
+                <button class="btn btn-primary btn-block" onclick="saveNewWorker()">
+                    💾 Guardar y Emitir Credencial
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: REGISTRAR VISITANTE -->
+    <div id="modal-new-visitor" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>🪪 Registrar Ingreso de Visitante / Contratista</h3>
+                <button class="close-btn" onclick="closeNewVisitorModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Nombre Completo del Visitante</label>
+                    <input type="text" id="mvis-name" class="input-std" placeholder="Ej: Ing. Pedro Picapiedra">
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label>Documento de Identidad</label>
+                        <input type="text" id="mvis-doc" class="input-std" placeholder="Ej: 80112233">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label>Empresa de Origen</label>
+                        <input type="text" id="mvis-empresa" class="input-std" placeholder="Ej: Contratistas Eléctricos S.A.">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label>Anfitrión / Persona a Quien Visita</label>
+                        <input type="text" id="mvis-host" class="input-std" placeholder="Ej: Javier Morales (Jefe de Planta)">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label>Gafete Asignado</label>
+                        <input type="text" id="mvis-gafete" class="input-std" placeholder="Ej: VIS-03">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Motivo de la Visita</label>
+                    <input type="text" id="mvis-motivo" class="input-std" placeholder="Ej: Mantenimiento de calderas en Nave 2">
+                </div>
+                <button class="btn btn-primary btn-block" onclick="saveNewVisitor()">
+                    🟢 Registrar Ingreso y Asignar Gafete
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: MIS PERMISOS EFECTIVOS -->
+    <div id="modal-my-perms" class="modal-overlay hidden">
+        <div class="modal-card modal-lg">
+            <div class="modal-header">
+                <h3>🔑 Mi Matriz de Autorización Efectiva</h3>
+                <button class="close-btn" onclick="closeMyPermsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="my-perms-meta">Usuario: --</p>
+                <div class="table-responsive">
+                    <table class="data-table" id="table-my-perms-breakdown">
+                        <thead>
+                            <tr>
+                                <th>Permiso</th>
+                                <th>Módulo</th>
+                                <th>Heredado de Rol</th>
+                                <th>Override Individual</th>
+                                <th>Resultado Efectivo</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>
