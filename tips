@@ -1,0 +1,4 @@
+Fase 1 (Días 1 a 30)   : Estabilización, PostgreSQL 16, Redis y CI/CD en GitHub Actions.
+Fase 2 (Días 31 a 60)  : MFA (2FA TOTP), Refresh Tokens en HttpOnly y migración a TypeScript.
+Fase 3 (Días 61 a 90)  : Hardware físico OSDP/Wiegand en torniquetes y Garita Offline-First.
+Fase 4 (Días 91 a 180) : SSO Empresarial (Azure AD), LPR Vehicular y clúster en Kubernetes (99.99% SLA).
