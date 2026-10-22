@@ -140,7 +140,8 @@ async function runQaTestSuite() {
         await test('CP-08', 'Autenticación del Vigilante de Garita con verificación scrypt y token HMAC', async () => {
             const res = await makeRequest('POST', '/api/auth/login', {
                 email: 'vigilante@sentinelpro.com',
-                password: 'vigi123'
+                password: 'vigi123',
+                force_replace: true
             });
             if (res.status !== 200) throw new Error(`Status ${res.status}: ${JSON.stringify(res.body)}`);
             if (!res.body.token) throw new Error('Token ausente');
@@ -184,7 +185,8 @@ async function runQaTestSuite() {
         await test('CP-12', 'Super Admin otorga permiso individual ALLOW en caliente sobre un permiso no incluido en el Rol', async () => {
             const adminLogin = await makeRequest('POST', '/api/auth/login', {
                 email: 'admin@sentinelpro.com',
-                password: 'admin123'
+                password: 'admin123',
+                force_replace: true
             });
             adminToken = adminLogin.body.token;
 
