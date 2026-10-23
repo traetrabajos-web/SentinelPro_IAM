@@ -247,9 +247,74 @@
       "activo": true,
       "permisos_individuales": {},
       "creado_en": "2026-10-22T20:32:18.782Z"
+    },
+    {
+      "id": 5,
+      "nombre_completo": "Intruso Test",
+      "email": "test@hack.com",
+      "password_hash": "scrypt$86ec79c9be2e0a7bde6f7169366c8240$59e7ca4b4b16a976a2dc30bd94917ec1bd840ef2f6855b2d9b92be9d5a818e802968074241f6d273c3bccf4c720bd3a1925bd055e2f6c6fbc45771279eb40c19",
+      "rol": "VIGILANTE_PORTERIA",
+      "cargo": "Operador de Seguridad",
+      "max_sesiones_simultaneas": 1,
+      "politica_concurrencia": "RECHAZAR_NUEVA",
+      "activo": true,
+      "permisos_individuales": {},
+      "creado_en": "2026-10-22T22:27:01.832Z"
     }
   ],
   "sesiones_activas": [
+    {
+      "session_id": "f43095bc-025c-45dc-a8e6-f050f6a05099",
+      "usuario_id": 2,
+      "usuario_nombre": "Sgto. Roberto Vargas (Vigilante Portería Principal)",
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "ip": "::1",
+      "dispositivo": "Navegador Web",
+      "creada_en": "2026-10-23T12:47:41.340Z",
+      "ultima_actividad": "2026-10-23T12:47:41.340Z",
+      "expira_en": 1792788461340,
+      "activa": true
+    },
+    {
+      "session_id": "b8b75614-dcbf-4d46-8b23-1de7221cbe72",
+      "usuario_id": 1,
+      "usuario_nombre": "Ing. Carlos Mendoza (Director de Seguridad y TI)",
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "ip": "::1",
+      "dispositivo": "Navegador Web",
+      "creada_en": "2026-10-23T12:47:41.229Z",
+      "ultima_actividad": "2026-10-23T12:47:41.236Z",
+      "expira_en": 1792788461229,
+      "activa": true
+    },
+    {
+      "session_id": "76e9bc15-6f2b-49cc-b033-246d9b3181e4",
+      "usuario_id": 2,
+      "usuario_nombre": "Sgto. Roberto Vargas (Vigilante Portería Principal)",
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "ip": "::1",
+      "dispositivo": "Navegador Web",
+      "creada_en": "2026-10-23T12:47:41.156Z",
+      "ultima_actividad": "2026-10-23T12:47:41.177Z",
+      "expira_en": 1792788461153,
+      "activa": false
+    },
+    {
+      "session_id": "cbdbbcfc-37fe-4840-a810-505fc05557be",
+      "usuario_id": 1,
+      "usuario_nombre": "Ing. Carlos Mendoza (Director de Seguridad y TI)",
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "ip": "::1",
+      "dispositivo": "SentinelPro Web Client (Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWeb)",
+      "creada_en": "2026-10-22T22:25:25.363Z",
+      "ultima_actividad": "2026-10-22T22:27:01.782Z",
+      "expira_en": 1792736725362,
+      "activa": false
+    },
     {
       "session_id": "6a2085dd-7e71-4087-8616-6d780fcb746b",
       "usuario_id": 2,
@@ -261,7 +326,7 @@
       "creada_en": "2026-10-22T22:23:59.211Z",
       "ultima_actividad": "2026-10-22T22:23:59.211Z",
       "expira_en": 1792736639211,
-      "activa": true
+      "activa": false
     },
     {
       "session_id": "21dbd1a5-c64d-467d-b386-94acb73822bf",
@@ -274,7 +339,7 @@
       "creada_en": "2026-10-22T22:23:59.083Z",
       "ultima_actividad": "2026-10-22T22:23:59.090Z",
       "expira_en": 1792736639083,
-      "activa": true
+      "activa": false
     },
     {
       "session_id": "ee1765d4-e0d3-40c7-9a7a-024bc2e82967",
@@ -313,7 +378,7 @@
       "creada_en": "2026-10-22T22:20:12.808Z",
       "ultima_actividad": "2026-10-22T22:20:12.814Z",
       "expira_en": 1792736412808,
-      "activa": true
+      "activa": false
     },
     {
       "session_id": "18ca1f25-1aa1-40db-bff7-09af72cf7a60",
@@ -421,6 +486,266 @@
     }
   ],
   "audit_logs": [
+    {
+      "id": 97,
+      "fecha_hora": "2026-10-23T12:47:41.347Z",
+      "usuario_id": null,
+      "usuario_email": "anónimo",
+      "rol": "SIN_SESION",
+      "evento": "ACCESO_NO_AUTENTICADO_401",
+      "modulo": "dashboard",
+      "permiso_evaluado": "dashboard:ver",
+      "resultado": "DENEGADO",
+      "ip": "::1",
+      "detalle": "GET /api/admin/dashboard -> La sesión fue cerrada o reemplazada por otra conexión."
+    },
+    {
+      "id": 96,
+      "fecha_hora": "2026-10-23T12:47:41.340Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "LOGIN_EXITOSO",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Inicio de sesión exitoso (9/18 permisos activos)."
+    },
+    {
+      "id": 95,
+      "fecha_hora": "2026-10-23T12:47:41.340Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "SESION_PREVIA_REEMPLAZADA",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Se cerraron 1 sesión(es) previa(s) por política de concurrencia."
+    },
+    {
+      "id": 94,
+      "fecha_hora": "2026-10-23T12:47:41.288Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "SESION_SIMULTANEA_BLOQUEADA",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "DENEGADO",
+      "ip": "::1",
+      "detalle": "Límite de sesiones simultáneas alcanzado (1/1)."
+    },
+    {
+      "id": 93,
+      "fecha_hora": "2026-10-23T12:47:41.236Z",
+      "usuario_id": 1,
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "evento": "CAMBIO_PERMISOS_USUARIO",
+      "modulo": "seguridad",
+      "permiso_evaluado": "seguridad:administrar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Permiso individual [asistencia:exportar] configurado en [ALLOW] para vigilante@sentinelpro.com."
+    },
+    {
+      "id": 92,
+      "fecha_hora": "2026-10-23T12:47:41.229Z",
+      "usuario_id": 1,
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "evento": "LOGIN_EXITOSO",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Inicio de sesión exitoso (18/18 permisos activos)."
+    },
+    {
+      "id": 91,
+      "fecha_hora": "2026-10-23T12:47:41.177Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "ACCESO_DENEGADO_403",
+      "modulo": "seguridad",
+      "permiso_evaluado": "seguridad:administrar",
+      "resultado": "DENEGADO",
+      "ip": "::1",
+      "detalle": "Operación bloqueada en Backend (POST /api/admin/seguridad/usuarios). El usuario carece del permiso [seguridad:administrar]."
+    },
+    {
+      "id": 90,
+      "fecha_hora": "2026-10-23T12:47:41.170Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "SALIDA_VISITANTE",
+      "modulo": "visitantes",
+      "permiso_evaluado": "visitantes:registrar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Salida de visitante Ing. Fernando Lozano (Gafete VIS-01 liberado a las 07:47)."
+    },
+    {
+      "id": 89,
+      "fecha_hora": "2026-10-23T12:47:41.164Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "INGRESO_VISITANTE",
+      "modulo": "visitantes",
+      "permiso_evaluado": "visitantes:registrar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Ingreso de visitante Carlos Eduardo Restrepo (Auditoría Externa KPMG) con gafete VIS-09."
+    },
+    {
+      "id": 88,
+      "fecha_hora": "2026-10-23T12:47:41.156Z",
+      "usuario_id": 2,
+      "usuario_email": "vigilante@sentinelpro.com",
+      "rol": "VIGILANTE_PORTERIA",
+      "evento": "LOGIN_EXITOSO",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Inicio de sesión exitoso (9/18 permisos activos)."
+    },
+    {
+      "id": 87,
+      "fecha_hora": "2026-10-23T12:47:41.054Z",
+      "usuario_id": null,
+      "usuario_email": "kiosco@sentinelpro.com",
+      "rol": "SIN_SESION",
+      "evento": "ACCESO_FISICO_ZONA_NO_AUTORIZADA",
+      "modulo": "porteria",
+      "permiso_evaluado": null,
+      "resultado": "DENEGADO",
+      "ip": "::1",
+      "detalle": "Camila Torres Villalba intentó acceder a zona restringida [Bóveda de Servidores y DataCenter TI] sin autorización."
+    },
+    {
+      "id": 86,
+      "fecha_hora": "2026-10-23T12:47:41.045Z",
+      "usuario_id": null,
+      "usuario_email": "kiosco@sentinelpro.com",
+      "rol": "SIN_SESION",
+      "evento": "ACCESO_FISICO_DENEGADO_ESTADO",
+      "modulo": "porteria",
+      "permiso_evaluado": null,
+      "resultado": "DENEGADO",
+      "ip": "::1",
+      "detalle": "Bloqueado ingreso de Esteban Salazar (Credencial Suspendida) (EMP-008) en Portería Principal Peatonal (Torniquete Norte): estado SUSPENDIDO."
+    },
+    {
+      "id": 85,
+      "fecha_hora": "2026-10-23T12:47:41.038Z",
+      "usuario_id": null,
+      "usuario_email": "kiosco@sentinelpro.com",
+      "rol": "SIN_SESION",
+      "evento": "SALIDA_TRABAJADOR_REGISTRADA",
+      "modulo": "porteria",
+      "permiso_evaluado": "porteria:registrar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "SALIDA de Camila Torres Villalba (EMP-004) a las 07:47 por Portería Principal Peatonal (Torniquete Norte). Tiempo laborado: 0h 01m."
+    },
+    {
+      "id": 84,
+      "fecha_hora": "2026-10-23T12:47:41.012Z",
+      "usuario_id": null,
+      "usuario_email": "kiosco@sentinelpro.com",
+      "rol": "SIN_SESION",
+      "evento": "ENTRADA_TRABAJADOR_REGISTRADA",
+      "modulo": "porteria",
+      "permiso_evaluado": "porteria:registrar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "ENTRADA de Camila Torres Villalba (EMP-004) a las 07:47 por Portería Principal Peatonal (Torniquete Norte) [PUNTUAL]."
+    },
+    {
+      "id": 83,
+      "fecha_hora": "2026-10-22T22:27:01.832Z",
+      "usuario_id": 1,
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "evento": "CREACION_USUARIO_IAM",
+      "modulo": "seguridad",
+      "permiso_evaluado": "seguridad:administrar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Creado usuario test@hack.com con rol [VIGILANTE_PORTERIA] y máx 1 sesión(es)."
+    },
+    {
+      "id": 82,
+      "fecha_hora": "2026-10-22T22:26:50.672Z",
+      "usuario_id": 1,
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "evento": "EDICION_TRABAJADOR",
+      "modulo": "trabajadores",
+      "permiso_evaluado": "trabajadores:editar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Actualizado trabajador Javier Morales Castro (EMP-001): Estado=ACTIVO, Zonas=[1,2,3]."
+    },
+    {
+      "id": 81,
+      "fecha_hora": "2026-10-22T22:26:47.872Z",
+      "usuario_id": 1,
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "evento": "EDICION_TRABAJADOR",
+      "modulo": "trabajadores",
+      "permiso_evaluado": "trabajadores:editar",
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Actualizado trabajador Javier Morales Castro (EMP-001): Estado=SUSPENDIDO, Zonas=[1,2,3]."
+    },
+    {
+      "id": 80,
+      "fecha_hora": "2026-10-22T22:25:25.363Z",
+      "usuario_id": 1,
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "evento": "LOGIN_EXITOSO",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Inicio de sesión exitoso (18/18 permisos activos)."
+    },
+    {
+      "id": 79,
+      "fecha_hora": "2026-10-22T22:25:25.362Z",
+      "usuario_id": 1,
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "evento": "SESION_PREVIA_REEMPLAZADA",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "EXITO",
+      "ip": "::1",
+      "detalle": "Se cerraron 2 sesión(es) previa(s) por política de concurrencia."
+    },
+    {
+      "id": 78,
+      "fecha_hora": "2026-10-22T22:25:21.384Z",
+      "usuario_id": 1,
+      "usuario_email": "admin@sentinelpro.com",
+      "rol": "SUPER_ADMIN",
+      "evento": "SESION_SIMULTANEA_BLOQUEADA",
+      "modulo": "autenticacion",
+      "permiso_evaluado": null,
+      "resultado": "DENEGADO",
+      "ip": "::1",
+      "detalle": "Límite de sesiones simultáneas alcanzado (2/2)."
+    },
     {
       "id": 77,
       "fecha_hora": "2026-10-22T22:23:59.216Z",
@@ -1590,7 +1915,7 @@
       "estado": "ACTIVO",
       "ubicacion_actual": "FUERA_PLANTA",
       "ultima_puerta_id": 1,
-      "ultima_entrada": "2026-10-22 17:23"
+      "ultima_entrada": "2026-10-23 07:47"
     },
     {
       "id": 5,
@@ -1675,6 +2000,28 @@
     }
   ],
   "registros_acceso": [
+    {
+      "id": 11,
+      "codigo_movimiento": "ACC-1011",
+      "trabajador_id": 4,
+      "codigo_credencial": "EMP-004",
+      "documento": "52839104",
+      "trabajador_nombre": "Camila Torres Villalba",
+      "departamento": "Administración y Finanzas",
+      "zona_id": 1,
+      "zona_nombre": "Portería Principal Peatonal (Torniquete Norte)",
+      "fecha": "2026-10-23",
+      "hora_entrada": "07:47",
+      "hora_salida": "07:47",
+      "estado_asistencia": "PUNTUAL",
+      "estado_ciclo": "FINALIZADO",
+      "minutos_trabajados": 1,
+      "horas_formateadas": "0h 01m",
+      "metodo_identificacion": "TERMINAL_KIOSCO_PIN",
+      "registrado_por_email": "kiosco@sentinelpro.com",
+      "registrado_por_nombre": "Terminal Kiosco Portería",
+      "observacion": "Marcación desde Terminal Kiosco Principal | Salida: Marcación desde Terminal Kiosco Principal"
+    },
     {
       "id": 10,
       "codigo_movimiento": "ACC-1010",
@@ -1898,6 +2245,21 @@
   ],
   "visitantes": [
     {
+      "id": 7,
+      "gafete": "VIS-09",
+      "documento": "98765432",
+      "nombre_completo": "Carlos Eduardo Restrepo",
+      "empresa_origen": "Auditoría Externa KPMG",
+      "anfitrion_visitado": "Camila Torres (Finanzas)",
+      "zona_autorizada": "Portería Principal Peatonal (Torniquete Norte)",
+      "motivo": "Auditoría semestral de inventarios",
+      "fecha": "2026-10-23",
+      "hora_entrada": "07:47",
+      "hora_salida": null,
+      "estado": "EN_PLANTA",
+      "registrado_por": "Sgto. Roberto Vargas (Vigilante Portería Principal)"
+    },
+    {
       "id": 6,
       "gafete": "VIS-09",
       "documento": "98765432",
@@ -1968,7 +2330,7 @@
       "motivo": "Calibración de tableros eléctricos en Nave B",
       "fecha": "2026-10-22",
       "hora_entrada": "09:15",
-      "hora_salida": "17:23",
+      "hora_salida": "07:47",
       "estado": "SALIDA_REGISTRADA",
       "registrado_por": "Sgto. Roberto Vargas"
     },
@@ -1989,6 +2351,30 @@
     }
   ],
   "incidencias_acceso": [
+    {
+      "id": 14,
+      "fecha_hora": "2026-10-23 07:47",
+      "trabajador_nombre": "Camila Torres Villalba (EMP-004)",
+      "documento": "52839104",
+      "zona_nombre": "Bóveda de Servidores y DataCenter TI",
+      "tipo_alerta": "ZONA_NO_AUTORIZADA",
+      "severidad": "ALTA",
+      "detalle": "Intento de ENTRADA en [Bóveda de Servidores y DataCenter TI] rechazado: la credencial EMP-004 no tiene permiso para esta zona.",
+      "estado_resolucion": "PENDIENTE",
+      "registrado_por": "Terminal Kiosco Portería"
+    },
+    {
+      "id": 13,
+      "fecha_hora": "2026-10-23 07:47",
+      "trabajador_nombre": "Esteban Salazar (Credencial Suspendida) (EMP-008)",
+      "documento": "66778899",
+      "zona_nombre": "Portería Principal Peatonal (Torniquete Norte)",
+      "tipo_alerta": "CREDENCIAL_SUSPENDIDO",
+      "severidad": "ALTA",
+      "detalle": "Intento de ENTRADA bloqueado: el trabajador tiene estado [SUSPENDIDO].",
+      "estado_resolucion": "PENDIENTE",
+      "registrado_por": "Terminal Kiosco Portería"
+    },
     {
       "id": 12,
       "fecha_hora": "2026-10-22 17:23",

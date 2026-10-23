@@ -33,9 +33,11 @@
 ## 📚 Documentación Técnica y Planes Estratégicos
 
 ### 📄 Documentos Word Oficiales (.docx)
-1. **[📘 Plan Maestro de Evolución Tecnológica y Recomendaciones de Ingeniería (`.docx`)](./Documentacion_Plan_Estrategico_Y_Recomendaciones.docx)**  
+1. **[📙 Plan Maestro: Control de Acceso y Asistencia — Recuperaciones Naranjo S.A.S. (Cartagena) (`.docx`)](./Plan_Sistema_Acceso_Recuperaciones_Naranjo_Cartagena.docx)**  
+   *Personalización operativa para la planta de Recuperaciones Naranjo en Cartagena: Kiosco táctil industrial con Cédula de Ciudadanía, Portal móvil para Jefes de Patio con cuadrilla en vivo, cálculo de jornada y recargos nocturnos/extras conforme a la legislación laboral colombiana y contingencia Offline-First.*
+2. **[📘 Plan Maestro de Evolución Tecnológica y Recomendaciones de Ingeniería (`.docx`)](./Documentacion_Plan_Estrategico_Y_Recomendaciones.docx)**  
    *Diagnóstico del sistema, mitigación de cuellos de botella, migración a PostgreSQL 16 y Redis, autenticación MFA (TOTP), tokens OAuth2 con cookies HttpOnly, integración de hardware OSDP/RFID en torniquetes, arquitectura de Garita Offline-First con SQLite, Dockerización y Roadmap a 30, 60, 90 y 180 días.*
-2. **[📗 Documentación Completa y Especificación SRS SentinelPro IAM (`.docx`)](./Documentacion_Completa_SentinelPro_IAM.docx)**  
+3. **[📗 Documentación Completa y Especificación SRS SentinelPro IAM (`.docx`)](./Documentacion_Completa_SentinelPro_IAM.docx)**  
    *Especificación IEEE 830, catálogo de 18 permisos granulares, arquitectura de capas y los 8 diagramas UML de alta resolución.*
 
 ### 📑 Guías en Markdown (`docs/`)
@@ -48,7 +50,8 @@
 | **05** | [`docs/05_Arquitectura_UI_UX_Y_Modulos.md`](./docs/05_Arquitectura_UI_UX_Y_Modulos.md) | Mapa de Navegación, Wireframes de Portería, Kiosco, Endpoints API REST y Diseño Visual. |
 | **06** | [`docs/06_Manual_Usuario_Y_Administrador.md`](./docs/06_Manual_Usuario_Y_Administrador.md) | Manual de Operación para el Vigilante de Garita y para el Administrador de Seguridad IAM. |
 | **07** | [`docs/07_Plan_Pruebas_Y_Validacion_QA.md`](./docs/07_Plan_Pruebas_Y_Validacion_QA.md) | Matriz de Trazabilidad y 15 Casos de Prueba Funcionales y de Seguridad Criptográfica. |
-| **08** | [`docs/08_Plan_Estrategico_Recomendaciones_Y_Roadmap.md`](./docs/08_Plan_Estrategico_Recomendaciones_Y_Roadmap.md) | **Plan Estratégico y Roadmap Tecnológico (Fases 30, 60, 90 y 180 días)** con matriz de riesgos. |
+| **08** | [`docs/08_Plan_Estrategico_Recomendaciones_Y_Roadmap.md`](./docs/08_Plan_Estrategico_Recomendaciones_Y_Roadmap.md) | Plan Estratégico y Roadmap Tecnológico (Fases 30, 60, 90 y 180 días) con matriz de riesgos. |
+| **09** | [`docs/09_Plan_Sistema_Acceso_Recuperaciones_Naranjo.md`](./docs/09_Plan_Sistema_Acceso_Recuperaciones_Naranjo.md) | **Plan Maestro Recuperaciones Naranjo S.A.S. (Cartagena):** Kiosco táctil con Cédula, Portal Jefes y Nómina Colombia. |
 | **🖥️** | [`docs/VISOR_DOCUMENTACION.html`](./docs/VISOR_DOCUMENTACION.html) | **Visor Interactivo en Navegador** con todos los diagramas y manuales integrados. |
 
 ---
