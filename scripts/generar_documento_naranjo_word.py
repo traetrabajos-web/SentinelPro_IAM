@@ -3,6 +3,9 @@
 Generador del Documento Word (.docx) Ejecutivo y Técnico Completo:
 Plan Maestro del Sistema Integral de Control de Acceso Físico, Asistencia 42h (L-V),
 Patio de Operaciones y Seguridad Industrial para Recuperaciones Naranjo Recycling S.A.S. (Cartagena).
+Incorpora la estructura real de cargos de la empresa:
+- Patio: Jefe de Patio, Operadores de Maquinaria (1 Montacargas, 2 Grúas Pulpo), Mecánico de Planta, Ayudantes de Patio y Oxigenistas.
+- Administración: Contadores, Auxiliar Contable, Auxiliares Administrativos y Auxiliares SENA.
 Inserta los 8 diagramas oficiales PNG en alta resolución y la tabla oficial de horarios.
 """
 import os
@@ -95,7 +98,7 @@ def configure_header_footer(doc):
         header = section.header
         hp = header.paragraphs[0]
         hp.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-        hrun = hp.add_run("Recuperaciones Naranjo Recycling S.A.S. — Sistema de Control de Acceso y Asistencia 42h (Cartagena)")
+        hrun = hp.add_run("Recuperaciones Naranjo Recycling S.A.S. — Control de Acceso, Asistencia 42h y Cargos de Planta (Cartagena)")
         hrun.font.size = Pt(8)
         hrun.font.color.rgb = TEXTO_MUTED
 
@@ -317,10 +320,11 @@ def build_naranjo_document():
     p_sub.paragraph_format.space_before = Pt(6)
     p_sub.paragraph_format.space_after = Pt(18)
     r_sub = p_sub.add_run(
-        "Sede Industrial Cartagena de Indias (Bolívar, Colombia) — Solución especializada para el registro ágil de ingreso "
+        "Sede Industrial Cartagena de Indias (Bolívar, Colombia) — Solución especializada para el registro de entrada "
         "y salida de operarios mediante Cédula de Ciudadanía en Pantalla Kiosco Táctil, Horario Oficial Lunes a Viernes de 42 Horas Semanales "
-        "(según Memorando Corporativo y Ley 2101 / CST), Gestión de Jornadas Extraordinarias de Patio en Sábados, Domingos y Festivos, "
-        "Monitoreo de Cuadrilla en Vivo para Jefes de Patio, Pre-Liquidación de Nómina para Gestión Humana y Modo Garita Offline-First."
+        "(según Memorando Corporativo y Ley 2101 / CST), Gestión de Cargos de Patio (Jefe de Patio, 2 Grúas Pulpo, 1 Montacargas, Mecánico de Planta, "
+        "Ayudantes de Patio y Oxigenistas), Administración (Contadores, Auxiliar Contable, Auxiliares Administrativos y Aprendices SENA), "
+        "Monitoreo de Cuadrilla en Vivo, Pre-Liquidación de Nómina y Modo Garita Offline-First."
     )
     r_sub.font.name = 'Segoe UI'
     r_sub.font.size = Pt(9.5)
@@ -331,23 +335,27 @@ def build_naranjo_document():
         ["Ubicación de Operaciones", "Cartagena de Indias, Bolívar, Colombia (Zona Industrial)"],
         ["Rubro Operativo", "Reciclaje de Metales, Chatarrización, Desintegración Vehicular y Disposición Final"],
         ["Horario Oficial Lunes a Viernes", "42 Horas Semanales: Lunes (8:00–16:30, alm 1.5h), Mar/Vie (7:30–17:00, alm 1h), Mié/Jue (7:30–17:30, alm 1h)"],
+        ["Cargos Operativos de Patio", "Jefe de Patio, Operador Grúa Pulpo #1, Operador Grúa Pulpo #2, Operador Montacargas, Mecánico de Planta, Ayudantes de Patio, Oxigenistas"],
+        ["Cargos Administrativos", "Contadores, Auxiliar Contable, Auxiliares Administrativos, Auxiliares SENA (Aprendices en etapa lectiva/productiva)"],
         ["Régimen Fin de Semana (Patio)", "Sábados, Domingos y Festivos: NO laboral para Administración. Laboral extraordinario para Patio con recargos de Ley (HED 25%, HEN 75%, Dominical 75%/100%)"],
         ["Mecanismo Principal de Fichaje", "Digitación de Cédula de Ciudadanía en Kiosco Táctil Industrial + Lector de Código de Barras / QR"],
-        ["Monitoreo para Jefes de Patio", "Tablero Móvil y Web 'Mi Cuadrilla en Vivo' (Presentes, Tardanzas, Ausentes y Alertas a 15 min)"],
-        ["Consola de Vigilante y Aforo", "Monitor espejo con foto del colaborador, registro de camiones de chatarra/báscula y aforo en vivo"],
+        ["Monitoreo para Jefes de Patio", "Tablero Móvil 'Mi Cuadrilla en Vivo' con semáforo y alertas de puestos críticos de maquinaria a los 15 min"],
         ["Continuidad de Servicio", "Arquitectura Garita Offline-First con base de datos local SQLite y respaldo de energía UPS"],
         ["Fecha de Formulación", datetime.date.today().strftime("%d de %B de %Y")]
     ])
 
     doc.add_page_break()
 
+    # =========================================================================
     # CAPÍTULO 1
+    # =========================================================================
     add_h1(doc, "1. Visión del Proyecto y Contexto Operativo en Cartagena")
     add_p(doc, 
         "Recuperaciones Naranjo Recycling S.A.S. es una empresa líder en la recuperación ambiental de metales ferrosos y no ferrosos, "
         "chatarrización pesada y desintegración vehicular en Cartagena de Indias. Las instalaciones de la planta combinan el ingreso "
         "continuo de vehículos de carga pesada (tractomulas, camiones recolectores) con el flujo de personal operativo de patio "
-        "(clasificadores, oxigenistas, choferes de grúa/retroexcavadora) y personal administrativo. La automatización del control de acceso "
+        "(operadores de grúas pulpo, montacargas, mecánicos de mantenimiento, oxigenistas y ayudantes de clasificación) y el equipo "
+        "administrativo (contadores, auxiliares contables, administrativos y aprendices SENA). La automatización del control de acceso "
         "garantiza exactitud en el pago de nómina, control de aforo para SST/ARL y supervisión en tiempo real de cuadrillas."
     )
 
@@ -355,14 +363,56 @@ def build_naranjo_document():
         "Permitir que todo operario y colaborador que ingrese a las instalaciones de Recuperaciones Naranjo en Cartagena "
         "registre su entrada y salida en menos de 1 segundo mediante su Cédula de Ciudadanía en una pantalla táctil industrial, "
         "controlando la puntualidad frente al horario oficial de 42 horas semanales, informando en tiempo real al jefe de patio "
-        "sobre la disponibilidad de su equipo y suministrando a Gestión Humana la pre-liquidación exacta de horas extras y recargos.",
+        "sobre la disponibilidad de sus operadores de maquinaria y suministrando a Gestión Humana la pre-liquidación exacta de horas extras y recargos.",
         border_color='EA580C'
     )
 
     add_diagram_image(doc, "01_Casos_De_Uso_Recuperaciones_Naranjo.png", "Diagrama 01: Casos de Uso del Sistema de Control de Acceso y Asistencia")
 
-    # CAPÍTULO 2: TABLA OFICIAL DE HORARIOS
-    add_h1(doc, "2. Horario Laboral Oficial de la Empresa (Memorando Septiembre 2026)")
+    # =========================================================================
+    # CAPÍTULO 2: ESTRUCTURA ORGANIZACIONAL Y CARGOS REALES
+    # =========================================================================
+    add_h1(doc, "2. Estructura Organizacional, Cargos y Perfiles Operativos")
+    add_p(doc, 
+        "El sistema parametriza de forma diferenciada las dos grandes áreas de la empresa, reconociendo las responsabilidades, "
+        "niveles de criticidad y dinámicas horarias de cada cargo:"
+    )
+
+    add_styled_table(doc, ["Área / Departamento", "Cargo Oficial", "Tipo de Personal", "Puesto Crítico", "Jornada y Horario Base", "Régimen Fin de Semana"], [
+        ["Patio / Supervisión", "Jefe de Patio", "Operativo / Mando", "SÍ (Crítico)", "Lunes a Viernes 42h", "Sáb/Dom/Festivo (Supervisión y Aprobación Extras)"],
+        ["Patio / Maquinaria Pesada", "Operador Grúa Pulpo #1", "Operativo Patio", "SÍ (Crítico)", "Lunes a Viernes 42h", "Sáb/Dom/Festivo si hay cargue urgente (HED/HEN/RDF)"],
+        ["Patio / Maquinaria Pesada", "Operador Grúa Pulpo #2", "Operativo Patio", "SÍ (Crítico)", "Lunes a Viernes 42h", "Sáb/Dom/Festivo si hay cargue urgente (HED/HEN/RDF)"],
+        ["Patio / Maquinaria Pesada", "Operador de Montacargas", "Operativo Patio", "SÍ (Crítico)", "Lunes a Viernes 42h", "Sáb/Dom/Festivo movimiento de chatarra/pallets"],
+        ["Patio / Mantenimiento", "Mecánico de Planta", "Operativo Técnico", "SÍ (Crítico)", "Lunes a Viernes 42h", "Sábados para mantenimiento preventivo de máquinas"],
+        ["Patio / Cuadrilla General", "Ayudantes de Patio", "Operativo Patio", "NO", "Lunes a Viernes 42h", "Sáb/Dom/Festivo según requerimiento de cuadrilla"],
+        ["Patio / Oxicorte", "Oxigenista / Clasificador", "Operativo Patio", "SÍ (Crítico)", "Lunes a Viernes 42h", "Sábados en jornadas de corte de vigas/estructuras"],
+        ["Portería y Pesaje", "Operador Báscula / Garita", "Operativo Control", "SÍ (Crítico)", "Lunes a Viernes 42h", "Turno especial si entran camiones en fin de semana"],
+        ["Administración / Contable", "Contadores / Contador General", "Administrativo", "NO", "Lunes a Viernes 42h", "NO LABORAL (Descanso obligatorio remunerado)"],
+        ["Administración / Contable", "Auxiliar Contable", "Administrativo", "NO", "Lunes a Viernes 42h", "NO LABORAL (Descanso obligatorio remunerado)"],
+        ["Administración / Gestión", "Auxiliares Administrativos", "Administrativo", "NO", "Lunes a Viernes 42h", "NO LABORAL (Descanso obligatorio remunerado)"],
+        ["Administración / SENA", "Auxiliares SENA (Aprendices)", "Aprendices Apoyo", "NO", "Lunes a Viernes 42h", "NO LABORAL (Estricto según Contrato de Aprendizaje)"]
+    ])
+
+    add_h2(doc, "Particularidades Operativas por Cargo")
+    add_bullet(doc, "1. Operadores de Maquinaria Pesada (2 Pulpos y 1 Montacargas): ", 
+        "Son el corazón del movimiento de chatarra y alimentación de prensas. Su presencia puntual es indispensable para que los ayudantes de patio y camiones puedan operar. Si uno de ellos falta, el sistema dispara alerta inmediata al Jefe de Patio.")
+
+    add_bullet(doc, "2. Mecánico de Planta / Mantenimiento: ", 
+        "Mantiene operativas las grúas pulpo, el montacargas y los sistemas hidráulicos. Frecuentemente labora los sábados aprovechando que la planta tiene menor afluencia para realizar mantenimientos mayores.")
+
+    add_bullet(doc, "3. Ayudantes de Patio: ", 
+        "Cuadrilla de clasificación manual, separación de metales, estiba y apoyo en patio. Fichan masivamente en garita y su tiempo se computa al minuto.")
+
+    add_bullet(doc, "4. Personal Administrativo (Contadores, Auxiliares Contables y Administrativos): ", 
+        "Laboran estrictamente en la jornada ordinaria de lunes a viernes (42 horas). No laboran sábados ni domingos, salvo cierres de balance autorizados.")
+
+    add_bullet(doc, "5. Auxiliares SENA (Aprendices en Etapa Lectiva o Productiva): ", 
+        "Bajo la legislación colombiana (Ley 789 de 2002), su vinculación es formativa mediante contrato de aprendizaje. El sistema garantiza que no se les asignen horas extras y genera el certificado de cumplimiento de asistencia quincenal para el SENA.")
+
+    # =========================================================================
+    # CAPÍTULO 3: TABLA OFICIAL DE HORARIOS
+    # =========================================================================
+    add_h1(doc, "3. Horario Laboral Oficial de la Empresa (Memorando Septiembre 2026)")
     add_p(doc, 
         "Conforme al Comunicado Oficial emitido por la Gerencia de Recuperaciones Naranjo Recycling S.A.S., el horario de trabajo "
         "de lunes a viernes distribuye exactamente 42 horas semanales ordinarias, en estricto cumplimiento del Código Sustantivo del Trabajo "
@@ -375,21 +425,17 @@ def build_naranjo_document():
         ["Miércoles", "7:30 AM", "12:00 PM", "1:00 PM (1.0 h)", "5:30 PM", "9.0 Horas"],
         ["Jueves", "7:30 AM", "12:00 PM", "1:00 PM (1.0 h)", "5:30 PM", "9.0 Horas"],
         ["Viernes", "7:30 AM", "12:00 PM", "1:00 PM (1.0 h)", "5:00 PM", "8.5 Horas"],
-        ["Sábado", "NO LABORAL (Admin)", "—", "—", "—", "Jornada Extra Patio (HED +25%)"],
-        ["Domingo / Festivo", "NO LABORAL (Admin)", "—", "—", "—", "Jornada Extra Patio (Recargo +75%/100%)"],
+        ["Sábado", "NO LABORAL (Admin/SENA)", "—", "—", "—", "Jornada Extra Patio (HED +25%)"],
+        ["Domingo / Festivo", "NO LABORAL (Admin/SENA)", "—", "—", "—", "Jornada Extra Patio (Recargo +75%/100%)"],
         ["TOTAL SEMANAL", "—", "—", "—", "—", "42.0 Horas Ordinarias"]
     ])
 
-    add_h2(doc, "Particularidad del Personal de Patio (Fines de Semana)")
-    add_bullet(doc, "• Régimen del Personal Administrativo: ", "Labora estrictamente de Lunes a Viernes (42 horas semanales). Sábados, domingos y festivos son días de descanso obligatorio.")
-    add_bullet(doc, "• Régimen del Personal Operativo de Patio: ", "Cuando las necesidades operativas de la planta lo requieren (llegada de buques chatarra, camiones pesados o cargues urgentes), el personal de patio trabaja los sábados, domingos e incluso días festivos.")
-    add_bullet(doc, "• Tratamiento de Horas en Sábado: ", "Al haberse cumplido las 42 horas ordinarias entre lunes y viernes, todo tiempo laborado en sábado por el personal de patio se liquida automáticamente como Horas Extras Diurnas (HED +25%) o Nocturnas (HEN +75%).")
-    add_bullet(doc, "• Tratamiento de Horas en Domingo y Festivo: ", "Se liquida con el Recargo Dominical/Festivo de Ley (75% a 100%) más horas extras dominicales (HEDDF +100% / HENDF +150%), previa autorización formal del Jefe de Patio.")
-
     add_diagram_image(doc, "02_Arquitectura_Capas_Y_Motor_42Horas.png", "Diagrama 02: Arquitectura en Capas y Motor de Liquidación Horaria (42h L-V)")
 
-    # CAPÍTULO 3: EL KIOSCO TÁCTIL
-    add_h1(doc, "3. El Kiosco de Garita: Experiencia del Trabajador con Cédula")
+    # =========================================================================
+    # CAPÍTULO 4: EL KIOSCO TÁCTIL
+    # =========================================================================
+    add_h1(doc, "4. El Kiosco de Garita: Experiencia del Trabajador con Cédula")
     add_p(doc, 
         "En la portería peatonal se ubicará una pantalla táctil industrial (All-in-One de 15 a 21 pulgadas) empotrada a la pared "
         "o en tótem metálico. La interfaz está diseñada para operarios con guantes o equipo de protección personal (EPP):"
@@ -404,25 +450,28 @@ def build_naranjo_document():
 
     add_diagram_image(doc, "03_Secuencia_Fichaje_Kiosco_Cedula.png", "Diagrama 03: Secuencia — Fichaje en Kiosco Táctil con Cédula de Ciudadanía")
 
-    # CAPÍTULO 4: PORTAL JEFE DE PATIO
-    add_h1(doc, "4. Portal del Jefe de Área / Supervisor de Patio en Tiempo Real")
+    # =========================================================================
+    # CAPÍTULO 5: PORTAL JEFE DE PATIO
+    # =========================================================================
+    add_h1(doc, "5. Portal del Jefe de Área / Supervisor de Patio en Tiempo Real")
     add_p(doc, 
-        "Los jefes de cuadrilla y supervisores de patio necesitan saber con certeza qué trabajadores están disponibles antes de arrancar "
-        "equipos pesados (grúas, prensas, equipos de oxicorte). El Jefe de Patio dispondrá de una web app móvil accesible desde su celular o tablet:"
+        "El Jefe de Patio cuenta con una web app móvil para supervisar la disponibilidad de sus cuadrillas y maquinaria pesada:"
     )
 
     add_styled_table(doc, ["Módulo del Jefe de Patio", "Detalle Técnico y Funcional", "Beneficio para Recuperaciones Naranjo"], [
         ["Tablero 'Mi Cuadrilla en Vivo'", "Muestra en tiempo real: Trabajadores asignados al área, Total presentes en planta, Total ausentes y Tardanzas acumuladas.", "Permite reasignar labores o convocar relevos inmediatamente al inicio del turno."],
         ["Semáforo de Asistencia por Operario", "Verde: Presente y puntual. Amarillo: Llegó con tardanza (indica minutos). Rojo: Ausente sin justificar.", "Diagnóstico visual en 5 segundos sin tener que pasar lista con papel y lápiz."],
-        ["Alerta Automática a los 15 Minutos", "A las 7:45 AM (Mar-Vie) u 8:15 AM (Lunes), el sistema alerta al celular si falta un puesto crítico (Oxigenista, Chofer de Grúa, Báscula).", "Evita paradas operativas en patio por falta de personal clave."],
+        ["Alertas de Maquinaria Pesada (15 min)", "A las 7:45 AM (Mar-Vie) u 8:15 AM (Lunes), alerta al celular si falta el Operador de Grúa Pulpo #1, Pulpo #2 o Montacargas.", "Evita paradas operativas en patio por falta de operadores de maquinaria clave."],
         ["Autorización de Extras de Fin de Semana", "El jefe puede autorizar desde su celular la jornada de sábado, domingo o festivo de los operarios que se requieren en patio.", "Control estricto de horas extras, evitando pagos no justificados en nómina."],
         ["Historial de Asistencia y Puntualidad", "Consulta por trabajador de los últimos 30 días con gráficos de puntualidad, días laborados y horas acumuladas.", "Herramienta objetiva para evaluaciones de desempeño y bonificaciones."]
     ])
 
-    add_diagram_image(doc, "04_Secuencia_Monitoreo_Cuadrilla_Jefe_Patio.png", "Diagrama 04: Secuencia — Monitoreo de Cuadrilla y Alertas de Puestos Críticos")
+    add_diagram_image(doc, "04_Secuencia_Monitoreo_Cuadrilla_Jefe_Patio.png", "Diagrama 04: Secuencia — Monitoreo de Cuadrilla y Alertas de Maquinaria Pesada")
 
-    # CAPÍTULO 5: MOTOR DE LIQUIDACIÓN Y NÓMINA
-    add_h1(doc, "5. Motor de Liquidación de Jornadas y Horas Extras (CST Colombia)")
+    # =========================================================================
+    # CAPÍTULO 6: MOTOR DE LIQUIDACIÓN Y NÓMINA
+    # =========================================================================
+    add_h1(doc, "6. Motor de Liquidación de Jornadas y Horas Extras (CST Colombia)")
     add_p(doc, 
         "El motor de cálculo clasifica automáticamente cada marcación según la legislación laboral colombiana y el memorando de la empresa:"
     )
@@ -437,8 +486,10 @@ def build_naranjo_document():
     add_diagram_image(doc, "05_Flujo_Liquidacion_Jornadas_Y_Horas_Extras.png", "Diagrama 05: Flujo de Actividades — Liquidación de Jornadas 42h y Recargos de Patio")
     add_diagram_image(doc, "06_Estados_Trabajador_Y_Ciclo_Turno.png", "Diagrama 06: Máquina de Estados — Ciclo de Turno del Colaborador en Planta")
 
-    # CAPÍTULO 6: MODELO DE DATOS Y DESPLIEGUE FÍSICO
-    add_h1(doc, "6. Modelo de Datos Relacional y Despliegue en Planta")
+    # =========================================================================
+    # CAPÍTULO 7: MODELO DE DATOS Y DESPLIEGUE FÍSICO
+    # =========================================================================
+    add_h1(doc, "7. Modelo de Datos Relacional y Despliegue en Planta")
     add_p(doc, 
         "La base de datos relacional soporta el padrón de cédulas, la configuración de horarios de 42 horas, las marcaciones de kiosco, "
         "las aprobaciones de horas extras en patio y la bitácora inmutable de auditoría:"
@@ -458,19 +509,21 @@ def build_naranjo_document():
 
     add_diagram_image(doc, "08_Despliegue_Hardware_Red_Planta_Cartagena.png", "Diagrama 08: Despliegue Físico de Hardware y Red — Planta Recuperaciones Naranjo")
 
-    # CAPÍTULO 7: CRONOGRAMA DE IMPLEMENTACIÓN
-    add_h1(doc, "7. Cronograma de Implementación Propuesto (4 Semanas)")
+    # =========================================================================
+    # CAPÍTULO 8: CRONOGRAMA DE IMPLEMENTACIÓN
+    # =========================================================================
+    add_h1(doc, "8. Cronograma de Implementación Propuesto (4 Semanas)")
     add_styled_table(doc, ["Semana / Fase", "Hitos de Desarrollo e Implementación", "Entregables Tangibles"], [
-        ["Semana 1: Configuración Horario 42h y Padrón", "• Parametrización del horario oficial Lunes a Viernes (L 8:00–16:30, M/V 7:30–17:00, M/J 7:30–17:30).\n• Carga del padrón de colaboradores con Cédulas de Ciudadanía.\n• Definición de cargos de Patio y Administración.", "Base de datos inicial parametrizada con los horarios y empleados reales de Naranjo."],
+        ["Semana 1: Horarios 42h y Padrón de Cargos", "• Parametrización del horario oficial Lunes a Viernes.\n• Carga de colaboradores: Jefe de Patio, 2 Pulpos, Montacargas, Mecánico, Ayudantes, Contadores, Auxiliares y SENA.\n• Configuración de roles y permisos.", "Base de datos parametrizada con el personal y cargos reales de Naranjo."],
         ["Semana 2: Kiosco Táctil con Cédula", "• Desarrollo de la interfaz táctil con teclado numérico gigante.\n• Integración de escáner de código de barras (PDF417).\n• Algoritmo de cálculo de puntualidad (10 min tolerancia) y Anti-Passback.", "Kiosco táctil operativo en garita para pruebas de marcación de operarios."],
-        ["Semana 3: Portal del Jefe de Patio y Nómina", "• Construcción del portal móvil 'Mi Cuadrilla en Vivo' para supervisores de patio.\n• Alertas de puestos críticos a 15 min.\n• Módulo de autorización de horas extras de sábado/domingo y exportador a Excel.", "Dashboard de supervisores activo y reportes de horas ordinarias/extras listos."],
+        ["Semana 3: Portal del Jefe de Patio y Nómina", "• Construcción del portal móvil 'Mi Cuadrilla en Vivo' para supervisores de patio.\n• Alertas de puestos críticos de maquinaria a los 15 min.\n• Módulo de autorización de horas extras de sábado/domingo y exportador a Excel.", "Dashboard de supervisores activo y reportes de horas ordinarias/extras listos."],
         ["Semana 4: Pruebas Piloto y Salida a Producción", "• Instalación del hardware en la garita peatonal de Cartagena.\n• Capacitación de 1 hora al personal de vigilancia y supervisores.\n• Marcha blanca y salida a producción oficial.", "Planta de Cartagena operando al 100% con control de acceso digitalizado."]
     ])
 
     # Guardar en las dos rutas
     doc.save(OUT_DOCX_ROOT)
     doc.save(OUT_DOCX_DOCS)
-    print(f"Documento Naranjo Word generado exitosamente con 8 diagramas en:\n1. {OUT_DOCX_ROOT}\n2. {OUT_DOCX_DOCS}")
+    print(f"Documento Naranjo Word generado exitosamente con cargos actualizados en:\n1. {OUT_DOCX_ROOT}\n2. {OUT_DOCX_DOCS}")
 
 if __name__ == '__main__':
     build_naranjo_document()

@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 Generador de Diagramas Oficiales en Alta Resolución (.PNG) para:
-Recuperaciones Naranjo S.A.S. — Sistema de Control de Acceso, Asistencia y Portería Industrial (Cartagena)
-Genera 8 diagramas técnicos profesionales con la paleta institucional (Naranja Industrial #EA580C y Azul Acero #0F172A).
+Recuperaciones Naranjo Recycling S.A.S. — Sistema de Control de Acceso, Asistencia 42h y Portería Industrial (Cartagena)
+Actualizado con los cargos reales de la empresa:
+- Patio: Jefe de Patio, Operadores de Maquinaria (1 Montacargas, 2 Pulpos), Mecánico, Ayudantes de Patio, Oxigenistas.
+- Administración: Contadores, Auxiliar Contable, Auxiliares Administrativos, Auxiliares SENA.
 """
 import os
 import math
@@ -62,7 +64,7 @@ def create_canvas(title, subtitle, width=2000, height=1250):
     f_foot = get_font(15, bold=False)
     draw.text(
         (40, height - 32),
-        "Recuperaciones Naranjo S.A.S. — Sistema de Control de Acceso, Asistencia 42h (L-V) y Patio (Cartagena de Indias)",
+        "Recuperaciones Naranjo Recycling S.A.S. — Estructura de Cargos: Patio (Pulpos, Montacargas, Mecánico, Ayudantes) y Admin (Contabilidad, SENA)",
         fill=(71, 85, 105),
         font=f_foot
     )
@@ -120,25 +122,27 @@ def draw_actor(draw, x, y, label):
     draw.line([x, y + r + 38, x - 20, y + r + 75], fill=AZUL_ACERO, width=3)
     draw.line([x, y + r + 38, x + 20, y + r + 75], fill=AZUL_ACERO, width=3)
 
-    f_act = get_font(15, bold=True)
+    f_act = get_font(14, bold=True)
     bbox = f_act.getbbox(label)
     w_text = bbox[2] - bbox[0]
     draw.text((x - w_text // 2, y + r + 82), label, fill=AZUL_ACERO, font=f_act)
 
 # =============================================================================
-# 1. DIAGRAMA DE CASOS DE USO GENERAL
+# 1. DIAGRAMA DE CASOS DE USO GENERAL (CON TODOS LOS CARGOS)
 # =============================================================================
 def generate_diagram_01():
     img, draw = create_canvas(
-        "Diagrama 01: Casos de Uso del Sistema de Control de Acceso y Asistencia",
-        "Interacción entre Operario de Patio, Conductor, Vigilante, Jefe de Patio y Administrador (Recuperaciones Naranjo)"
+        "Diagrama 01: Casos de Uso por Cargo — Personal de Patio y Personal Administrativo",
+        "Jefe de Patio, Operadores (Montacargas, Pulpos), Mecánico, Ayudantes, Contabilidad y Auxiliares SENA (Recuperaciones Naranjo)"
     )
 
-    draw_actor(draw, 140, 280, "👷 Operario de Patio")
-    draw_actor(draw, 140, 680, "🚛 Conductor / Proveedor")
+    draw_actor(draw, 140, 240, "🏗️ Operadores Maquinaria\n(Montacargas & Pulpos)")
+    draw_actor(draw, 140, 520, "🔧 Mecánico & Ayudantes\nde Patio / Oxigenistas")
+    draw_actor(draw, 140, 800, "💼 Contadores, Auxiliares\ny Aprendices SENA")
+
     draw_actor(draw, 1860, 260, "🛡️ Vigilante Garita")
-    draw_actor(draw, 1860, 600, "📱 Jefe de Patio")
-    draw_actor(draw, 1860, 940, "💼 Admin / RR.HH.")
+    draw_actor(draw, 1860, 580, "📱 Jefe de Patio")
+    draw_actor(draw, 1860, 920, "👔 Gerencia / RR.HH.")
 
     # Límite del sistema
     draw.rounded_rectangle([320, 140, 1680, 1170], radius=16, fill=(255, 255, 255), outline=SLATE_HEADER, width=3)
@@ -146,28 +150,27 @@ def generate_diagram_01():
     draw.text((360, 160), "SISTEMA INTEGRAL SENTINELPRO NARANJO (CARTAGENA)", fill=AZUL_ACERO, font=f_sys)
 
     cases = [
-        ([380, 230, 800, 310], "CU-01: Digitar Cédula en Kiosco (Entrada/Salida)", (140, 310)),
-        ([380, 340, 800, 420], "CU-02: Escanear Cédula / Carnet con Código de Barras", (140, 320)),
-        ([380, 450, 800, 530], "CU-03: Validar Tolerancia y Horario Oficial (Lunes a Viernes 42h)", None),
-        ([380, 560, 800, 640], "CU-04: Control Anti-Passback (Bloqueo de Doble Entrada)", None),
-        ([380, 670, 800, 750], "CU-05: Fichar Ingreso de Camión de Chatarra / Báscula", (140, 700)),
-        ([380, 780, 800, 860], "CU-06: Asignar Gafete Temporal a Visitante/Taller", (140, 710)),
+        ([380, 230, 810, 310], "CU-01: Fichar Entrada/Salida con Cédula en Kiosco", (140, 270)),
+        ([380, 340, 810, 420], "CU-02: Escanear Código de Barras de Cédula Física (PDF417)", (140, 550)),
+        ([380, 450, 810, 530], "CU-03: Validar Horario Oficial (Lunes a Viernes 42h)", (140, 830)),
+        ([380, 560, 810, 640], "CU-04: Control Anti-Passback (Bloqueo de Doble Fichaje)", None),
+        ([380, 670, 810, 750], "CU-05: Fichar Entrada a Taller (Mecánico de Planta)", (140, 560)),
+        ([380, 780, 810, 860], "CU-06: Control de Asistencia Específica Aprendices SENA", (140, 840)),
 
-        ([940, 230, 1500, 310], "CU-07: Monitorear Cuadrilla en Vivo (Presentes / Ausentes / Tardanzas)", (1860, 620)),
-        ([940, 340, 1500, 420], "CU-08: Autorizar Jornada en Sábados, Domingos o Festivos (Patio)", (1860, 630)),
-        ([940, 450, 1500, 530], "CU-09: Recibir Alerta de Ausencia en Puesto Crítico (Oxicorte/Báscula)", (1860, 640)),
-        ([940, 560, 1500, 640], "CU-10: Supervisar Monitor Espejo de Garita y Foto en Grande", (1860, 280)),
-        ([940, 670, 1500, 750], "CU-11: Controlar Aforo Global de Planta en Vivo (SST/ARL)", (1860, 290)),
-        ([940, 780, 1500, 860], "CU-12: Liquidar Horas Semanales (42h L-V + Extras + Recargo Nocturno)", (1860, 960)),
-        ([940, 890, 1500, 970], "CU-13: Exportar Pre-Nómina a Excel (Siigo / World Office)", (1860, 970)),
-        ([940, 1000, 1500, 1080], "CU-14: Administrar Padrón de Cédulas y Permisos Especiales", (1860, 980))
+        ([940, 230, 1500, 310], "CU-07: Monitorear Cuadrilla en Vivo (Pulpos, Montacargas, Ayudantes)", (1860, 600)),
+        ([940, 340, 1500, 420], "CU-08: Autorizar Jornada en Sábados, Domingos o Festivos (Patio)", (1860, 610)),
+        ([940, 450, 1500, 530], "CU-09: Alerta Puestos Críticos: ¿Llegó Pulpo #1, #2 y Montacargas?", (1860, 620)),
+        ([940, 560, 1500, 640], "CU-10: Supervisar Monitor Espejo y Aforo de Planta en Garita", (1860, 280)),
+        ([940, 670, 1500, 750], "CU-11: Registrar Entrada de Camiones Chatarra / Báscula", (1860, 290)),
+        ([940, 780, 1500, 860], "CU-12: Liquidar 42h Semanales + Extras de Patio Sáb/Dom/Fest", (1860, 940)),
+        ([940, 890, 1500, 970], "CU-13: Exportar Pre-Nómina a Excel (Siigo / World Office)", (1860, 950)),
+        ([940, 1000, 1500, 1080], "CU-14: Administrar Padrón de Cédulas y Roles (Patio vs Admin)", (1860, 960))
     ]
 
-    f_cu = get_font(14, bold=True)
+    f_cu = get_font(13, bold=True)
     for box, title, actor_conn in cases:
         x1, y1, x2, y2 = box
         draw.ellipse([x1, y1, x2, y2], fill=(254, 243, 199), outline=NARANJA_CORP, width=2)
-        # Centrar texto
         bbox = f_cu.getbbox(title)
         tw = bbox[2] - bbox[0]
         th = bbox[3] - bbox[1]
@@ -183,29 +186,29 @@ def generate_diagram_01():
     print(f"Generado: {path}")
 
 # =============================================================================
-# 2. DIAGRAMA DE ARQUITECTURA EN CAPAS Y MOTOR DE LIQUIDACIÓN 42H
+# 2. DIAGRAMA DE ARQUITECTURA EN CAPAS Y MOTOR 42H
 # =============================================================================
 def generate_diagram_02():
     img, draw = create_canvas(
         "Diagrama 02: Arquitectura en Capas y Motor de Liquidación Horaria (42h L-V)",
-        "Estructura Tecnológica de SentinelPro IAM adaptada para la Planta de Recuperaciones Naranjo (Cartagena)"
+        "Estructura Tecnológica y Diferenciación de Cargos: Patio (Pulpos, Montacargas) vs Admin (Contabilidad, SENA)"
     )
 
     layers = [
         ("1. CAPA DE INTERFACES INDUSTRIALES (FRONTEND / EDGE)", 140, [
-            ("Kiosco Táctil Garita", ["• Teclado numérico gigante para Cédula", "• Lector láser código de barras PDF417", "• Sonidos feedback Web Audio API", "• Interfaz responsive 15-21\" full-screen"], (60, 200, 480, 360)),
-            ("Monitor Espejo Vigilante", ["• Foto en grande del operario", "• Cotejo visual instantáneo", "• Control de visitantes y gafetes", "• Aforo de planta en vivo"], (540, 200, 960, 360)),
-            ("Portal Móvil Jefe de Patio", ["• Tablero 'Mi Cuadrilla en Vivo'", "• Semáforo verde/amarillo/rojo", "• Alertas push puestos críticos", "• Aprobación extras Sáb/Dom"], (1020, 200, 1440, 360)),
-            ("Panel Admin & Nómina", ["• Gestión de padrón de cédulas", "• Parametrización de turnos L-V", "• Exportador Siigo / World Office", "• Bitácora inmutable de auditoría"], (1500, 200, 1940, 360))
+            ("Kiosco Táctil Garita", ["• Teclado táctil gigante para Cédula", "• Lector láser código barras PDF417", "• Sonidos feedback Web Audio API", "• Interfaz responsive 15-21\" full-screen"], (60, 200, 480, 360)),
+            ("Monitor Espejo Vigilante", ["• Foto en grande del colaborador", "• Cotejo visual instantáneo", "• Control de visitantes y gafetes", "• Aforo de planta en tiempo real"], (540, 200, 960, 360)),
+            ("Portal Móvil Jefe de Patio", ["• Cuadrilla en Vivo (Pulpos, Ayudantes)", "• Semáforo de asistencia y puntualidad", "• Alertas automáticas puestos críticos", "• Aprobación extras Sáb/Dom/Fest"], (1020, 200, 1440, 360)),
+            ("Panel Admin & Nómina", ["• Contadores, Auxiliares, SENA", "• Parametrización turnos 42h L-V", "• Exportador Siigo / World Office", "• Bitácora inmutable de auditoría"], (1500, 200, 1940, 360))
         ]),
         ("2. CAPA DE LÓGICA DE NEGOCIO Y MOTOR LABORAL (BACKEND NODE.JS)", 420, [
-            ("Motor de Validación Acceso", ["• Comprueba Cédula ACTIVA/SUSPENDIDA", "• Control Anti-Passback estricto", "• Comparador horario oficial L-V", "• Tolerancia 10 min de gracia"], (60, 480, 520, 640)),
+            ("Motor de Validación Acceso", ["• Comprueba Cédula ACTIVA/SUSPENDIDA", "• Control Anti-Passback estricto", "• Compara horario del día (tolerancia 10m)", "• Bloqueo si ARL o examen vencido"], (60, 480, 520, 640)),
             ("Motor de Jornadas y Nómina (42h)", ["• Lunes: 8:00 a 16:30 (1.5h almuerzo = 7.0h)", "• Mar/Vie: 7:30 a 17:00 (1h almuerzo = 8.5h)", "• Mié/Jue: 7:30 a 17:30 (1h almuerzo = 9.0h)", "• Total L-V = 42h ordinarias semanales"], (580, 480, 1060, 640)),
             ("Motor de Patio (Sáb/Dom/Festivos)", ["• Detecta trabajo extraordinario en patio", "• Horas Extras Diurnas (HED +25%)", "• Horas Extras Nocturnas (HEN +75%)", "• Recargo Dominical/Festivo (+75%/100%)"], (1120, 480, 1560, 640)),
-            ("Servicio Cuadrilla en Tiempo Real", ["• Eventos SSE / WebSockets a celular", "• Notificación de ausencias a 15 min", "• Sincronización continua de aforo", "• Registro inmutable en audit_logs"], (1620, 480, 1940, 640))
+            ("Servicio Cuadrilla en Tiempo Real", ["• Monitoreo Operadores Pulpo y Montacargas", "• Alerta a 15 min si falta Mecánico u Oxigenista", "• Sincronización continua de aforo en vivo", "• Registro de eventos en audit_logs"], (1620, 480, 1940, 640))
         ]),
         ("3. CAPA DE PERSISTENCIA, RESILIENCIA Y SEGURIDAD", 700, [
-            ("Base de Datos Relacional Central", ["• PostgreSQL 16 / Tablas Naranjo", "• Partición de marcaciones por mes", "• Historial de auditoría inmutable", "• Transacciones ACID protegidas"], (60, 760, 660, 920)),
+            ("Base de Datos Relacional Central", ["• PostgreSQL 16 / Tablas Naranjo", "• Padrón discriminado Patio vs Admin", "• Partición de marcaciones por mes", "• Transacciones ACID protegidas"], (60, 760, 660, 920)),
             ("Garita Offline-First (SQLite)", ["• Padrón de cédulas en caché local", "• Marcación continua ante cortes de fibra", "• Cola transaccional de sincronización", "• Autonomía total con respaldo UPS"], (720, 760, 1320, 920)),
             ("Criptografía e Identidad IAM", ["• Contraseñas scrypt (salt 16 bytes)", "• Tokens HMAC-SHA256 con TTL", "• Matriz RBAC + Overrides individuales", "• Comparación timingSafeEqual"], (1380, 760, 1940, 920))
         ])
@@ -236,11 +239,11 @@ def generate_diagram_02():
 def generate_diagram_03():
     img, draw = create_canvas(
         "Diagrama 03: Secuencia — Fichaje en Kiosco Táctil con Cédula de Ciudadanía",
-        "Validación de Horario Oficial Naranjo (Lunes a Viernes), Tolerancia, Anti-Passback y Notificación a Jefe de Patio"
+        "Operario (Pulpo/Montacargas/Ayudante/Admin) digita su Cédula -> Validación de Tolerancia y Notificación a Jefe de Patio"
     )
 
     lifelines = [
-        ("👷 Operario", 160),
+        ("👷 Colaborador", 160),
         ("🖥️ Kiosco Táctil", 500),
         ("🛡️ Backend SentinelPro", 880),
         ("📊 Base de Datos", 1240),
@@ -259,21 +262,21 @@ def generate_diagram_03():
     events = [
         ((160, 240), (500, 240), "1. Digita Cédula de Ciudadanía en Pantalla", NARANJA_CORP),
         ((500, 290), (880, 290), "2. POST /api/public/kiosco/marcar {cedula, movimiento}", AZUL_MEDIO),
-        ((880, 340), (1240, 340), "3. SELECT trabajador, turno_dia, ultimo_movimiento", AZUL_ACERO),
-        ((1240, 390), (880, 390), "4. Retorna {activo: true, turno_hoy, ubicacion: FUERA}", AZUL_ACERO),
-        ((880, 450), (880, 500), "5. Valida Anti-Passback (¿Está fuera? OK)", SLATE_HEADER),
-        ((880, 550), (880, 600), "6. Compara hora vs horario oficial Naranjo (tolerancia 10m)", SLATE_HEADER),
-        ((880, 660), (1240, 660), "7. INSERT INTO registros_acceso {hora, puntualidad}", AZUL_ACERO),
+        ((880, 340), (1240, 340), "3. SELECT trabajador, cargo, horario_dia, ubicacion", AZUL_ACERO),
+        ((1240, 390), (880, 390), "4. Retorna {activo: true, cargo: 'Operador Grúa Pulpo', turno_hoy}", AZUL_ACERO),
+        ((880, 450), (880, 500), "5. Valida Anti-Passback (¿Está fuera de planta? OK)", SLATE_HEADER),
+        ((880, 550), (880, 600), "6. Compara vs horario oficial Naranjo (tolerancia 10 min de gracia)", SLATE_HEADER),
+        ((880, 660), (1240, 660), "7. INSERT INTO marcaciones_kiosco {hora, 'PUNTUAL'}", AZUL_ACERO),
         ((880, 720), (500, 720), "8. HTTP 200 OK: {nombre, cargo, 'PUNTUAL', foto}", VERDE_EXITO),
         ((500, 780), (160, 780), "9. Pantalla Verde + Sonido Beep Aprobación + Muestra Foto", VERDE_EXITO),
         ((880, 850), (1560, 850), "10. WS / SSE: Actualiza monitor garita con foto grande", NARANJA_CORP),
-        ((880, 920), (1840, 920), "11. WS / SSE: Cuadrilla patio (Carlos Pérez: PRESENTE)", VERDE_EXITO),
+        ((880, 920), (1840, 920), "11. WS / SSE: Cuadrilla patio (Operador Pulpo #1: PRESENTE)", VERDE_EXITO),
         ((160, 1020), (500, 1020), "12. Al salir: Digita Cédula -> Calcula horas laboradas turno", AZUL_MEDIO),
         ((500, 1080), (160, 1080), "13. Pantalla Azul: '¡Buen descanso! Jornada cumplida: 8h 30m'", AZUL_MEDIO)
     ]
 
     for start, end, label, col in events:
-        if start[0] == end[0]: # Auto-llamada
+        if start[0] == end[0]:
             x = start[0]
             y1 = start[1]
             y2 = end[1]
@@ -294,8 +297,8 @@ def generate_diagram_03():
 # =============================================================================
 def generate_diagram_04():
     img, draw = create_canvas(
-        "Diagrama 04: Secuencia — Monitoreo de Cuadrilla y Alertas de Puestos Críticos",
-        "Control Operativo en Vivo para el Jefe de Patio / Supervisor en Planta (Recuperaciones Naranjo)"
+        "Diagrama 04: Secuencia — Monitoreo de Cuadrilla y Alertas de Maquinaria Pesada",
+        "Verificación de presencia de Operadores (Pulpos, Montacargas) y Mecánico a los 15 minutos del inicio de turno"
     )
 
     lifelines = [
@@ -317,14 +320,14 @@ def generate_diagram_04():
     events = [
         ((220, 240), (640, 240), "1. Abre portal 'Mi Cuadrilla en Vivo' desde celular", NARANJA_CORP),
         ((640, 290), (1100, 290), "2. GET /api/jefe/cuadrilla/en-vivo (Área: Patio de Metales)", AZUL_MEDIO),
-        ((1100, 350), (640, 350), "3. Retorna {total: 25, presentes: 22, tardanzas: 3, ausentes: 0}", AZUL_ACERO),
-        ((640, 410), (220, 410), "4. Renderiza semáforo visual de asistencia de operarios", VERDE_EXITO),
+        ((1100, 350), (640, 350), "3. Retorna {total: 28, presentes: 25, tardanzas: 2, ausentes: 1}", AZUL_ACERO),
+        ((640, 410), (220, 410), "4. Renderiza semáforo de operarios (Pulpos, Montacargas, Ayudantes)", VERDE_EXITO),
         ((1500, 500), (1100, 500), "5. Disparo de verificación: Hora inicio + 15 min (7:45 AM / 8:15 AM)", SLATE_HEADER),
-        ((1100, 570), (1100, 620), "6. Revisa puestos críticos: ¿Llegó Operario de Grúa y Oxicorte?", ROJO_ALERTA),
-        ((1100, 680), (1820, 680), "7. Detecta falta de Oxigenista -> Dispara alerta inmediata", ROJO_ALERTA),
-        ((1820, 740), (220, 740), "8. Notificación en celular: '¡ALERTA! Falta Operario Oxicorte'", ROJO_ALERTA),
-        ((220, 820), (640, 820), "9. Jefe reasigna operario de relevo o llama al colaborador", NARANJA_CORP),
-        ((220, 920), (640, 920), "10. Autoriza jornada extraordinaria Sábado para terminar cargue", AZUL_MEDIO),
+        ((1100, 570), (1100, 620), "6. Verifica Puestos Críticos: ¿Llegó Grúa Pulpo #1, #2 y Montacargas?", ROJO_ALERTA),
+        ((1100, 680), (1820, 680), "7. Detecta falta de Operador Grúa Pulpo #1 -> Dispara alerta inmediata", ROJO_ALERTA),
+        ((1820, 740), (220, 740), "8. Notificación en celular: '¡ALERTA! Falta Operador Grúa Pulpo #1'", ROJO_ALERTA),
+        ((220, 820), (640, 820), "9. Jefe reasigna relevo calificado de patio o llama al operador", NARANJA_CORP),
+        ((220, 920), (640, 920), "10. Autoriza jornada extraordinaria Sábado para cargue de chatarra", AZUL_MEDIO),
         ((640, 980), (1100, 980), "11. POST /api/jefe/autorizar-extra {operario_id, fecha, motivo}", AZUL_MEDIO),
         ((1100, 1040), (220, 1040), "12. Confirmación: Hora extra aprobada y registrada para nómina", VERDE_EXITO)
     ]
@@ -352,17 +355,17 @@ def generate_diagram_04():
 def generate_diagram_05():
     img, draw = create_canvas(
         "Diagrama 05: Flujo de Actividades — Liquidación de Jornadas 42h y Recargos de Patio",
-        "Reglas de Negocio Oficiales: Lunes a Viernes 42h + Sábados, Domingos y Festivos (Recuperaciones Naranjo)"
+        "Reglas de Negocio Oficiales: Lunes a Viernes 42h + Sábados, Domingos y Festivos para Patio (Recuperaciones Naranjo)"
     )
 
     steps = [
         ("INICIO: Marcación de Entrada con Cédula", 1000, 160, AZUL_ACERO),
-        ("¿Día de la Semana?", 1000, 270, SLATE_HEADER),
+        ("¿Tipo de Personal y Día?", 1000, 270, SLATE_HEADER),
         ("LUNES (8:00 AM a 4:30 PM)\nAlmuerzo 12:00 a 1:30 PM (1.5h)\nTotal: 7.0 horas ordinarias", 500, 420, AZUL_MEDIO),
         ("MARTES A VIERNES\n7:30 AM a 5:00 / 5:30 PM (Alm 1h)\nTotal: 8.5h a 9.0h ordinarias", 1000, 420, AZUL_MEDIO),
-        ("SÁBADO / DOMINGO / FESTIVO\n(Personal Operativo de Patio)", 1540, 420, NARANJA_CORP),
+        ("SÁBADO / DOMINGO / FESTIVO\n(Personal Operativo de Patio:\nPulpos, Montacargas, Mecánico, Ayudantes)", 1540, 420, NARANJA_CORP),
         ("Verifica Tolerancia (10 min de gracia)\nSi llega después: Calcula Tardanza en Minutos", 750, 600, AMBAR_TARDANZA),
-        ("¿Cuenta con Autorización de Jefe de Patio?\n(Solo Patio labora fines de semana)", 1540, 600, SLATE_HEADER),
+        ("¿Cuenta con Autorización de Jefe de Patio?\n(Administración NO labora fines de semana)", 1540, 600, SLATE_HEADER),
         ("Marcación de SALIDA al Terminar Turno\nCálculo de Horas Netas Laboradas", 1000, 770, AZUL_ACERO),
         ("Acumulador Semanal: Suma Horas Lunes a Viernes\nObjetivo: 42 Horas Semanales (Ley 2101 / CST)", 750, 930, VERDE_EXITO),
         ("Liquidación Especial de Patio:\n• Sábado: Horas Extras Diurnas (+25%)\n• Dom/Fest: Recargo Dominical (+75%/100%)", 1540, 930, NARANJA_CORP),
@@ -373,7 +376,7 @@ def generate_diagram_05():
     for title, cx, cy, col in steps:
         lines = title.split('\n')
         h = 32 + len(lines) * 22
-        w = 380
+        w = 400
         x1 = cx - w // 2
         y1 = cy - h // 2
         x2 = cx + w // 2
@@ -418,7 +421,7 @@ def generate_diagram_05():
 def generate_diagram_06():
     img, draw = create_canvas(
         "Diagrama 06: Máquina de Estados — Ciclo de Turno del Colaborador en Planta",
-        "Transiciones desde Fuera de Planta, Entrada (Puntual/Tardanza), Almuerzo, Salida y Suspensión SST (Recuperaciones Naranjo)"
+        "Transiciones desde Fuera de Planta, Entrada (Puntual/Tardanza), Almuerzo, Salida y Jornada Extra de Patio"
     )
 
     states = [
@@ -472,12 +475,12 @@ def generate_diagram_06():
     print(f"Generado: {path}")
 
 # =============================================================================
-# 7. DIAGRAMA ENTIDAD-RELACIÓN (ERD) MODELO DE DATOS NARANJO
+# 7. DIAGRAMA ENTIDAD-RELACIÓN (ERD) CON CARGOS REALES NARANJO
 # =============================================================================
 def generate_diagram_07():
     img, draw = create_canvas(
         "Diagrama 07: Modelo Entidad-Relación (ERD) — Base de Datos Recuperaciones Naranjo",
-        "Estructura Relacional para Padrón, Horarios 42h (L-V), Marcaciones de Kiosco, Aprobaciones de Patio y Nómina"
+        "Estructura Relacional con Cargos: Pulpos, Montacargas, Mecánico, Ayudantes, Contabilidad y SENA"
     )
 
     tables = [
@@ -488,7 +491,7 @@ def generate_diagram_07():
             "    apellidos : VARCHAR(100) NOT NULL",
             "FK  cargo_id : INT NOT NULL",
             "FK  area_id : INT NOT NULL",
-            "    tipo_personal : ENUM('PATIO', 'ADMIN')",
+            "    tipo_personal : ENUM('PATIO', 'ADMIN', 'SENA')",
             "    estado_autorizacion : ENUM('ACTIVO','SUSP')",
             "    arl_vigente : BOOLEAN DEFAULT TRUE",
             "    foto_url : VARCHAR(255)",
@@ -538,17 +541,30 @@ def generate_diagram_07():
             "PK  id : INT AUTO_INCREMENT",
             "    codigo : VARCHAR(30) UNIQUE",
             "    nombre : VARCHAR(100)",
-            "    descripcion : TEXT",
+            "    • Patio de Chatarra y Desintegración",
+            "    • Taller de Mantenimiento y Oxicorte",
+            "    • Báscula y Portería Principal",
+            "    • Oficinas Administrativas",
             "    nivel_riesgo_arl : INT (1-5)",
             "    aforo_maximo : INT"
-        ], (60, 600, 460, 840)),
+        ], (60, 600, 460, 880)),
 
-        ("cargos_operativos", [
+        ("cargos_naranjo (Semillas)", [
             "PK  id : INT AUTO_INCREMENT",
             "    nombre : VARCHAR(100)",
-            "    categoria : ENUM('OPERATIVO_PATIO','SUPERVISION','ADMIN')",
-            "    es_puesto_critico : BOOLEAN DEFAULT FALSE"
-        ], (520, 600, 980, 820)),
+            "    • Jefe de Patio (Supervisión)",
+            "    • Operador Grúa Pulpo #1 (Crítico)",
+            "    • Operador Grúa Pulpo #2 (Crítico)",
+            "    • Operador Montacargas (Crítico)",
+            "    • Mecánico de Planta (Crítico)",
+            "    • Ayudante de Patio (Operativo)",
+            "    • Contador General (Admin)",
+            "    • Auxiliar Contable (Admin)",
+            "    • Auxiliar Administrativo (Admin)",
+            "    • Auxiliar SENA (Aprendizaje)",
+            "    categoria : ENUM('PATIO','ADMIN','SENA')",
+            "    es_puesto_critico : BOOLEAN"
+        ], (520, 600, 980, 960)),
 
         ("autorizaciones_extras_patio", [
             "PK  id : INT AUTO_INCREMENT",
@@ -595,7 +611,7 @@ def generate_diagram_07():
 def generate_diagram_08():
     img, draw = create_canvas(
         "Diagrama 08: Despliegue Físico de Hardware y Red — Planta Recuperaciones Naranjo",
-        "Distribución de Garita Peatonal, Garita Báscula, Patio de Chatarrización y Servidor Central (Cartagena)"
+        "Distribución: Garita Peatonal, Garita Báscula, Taller Mecánico, Patio de Pulpos y Oficinas Administrativas (Cartagena)"
     )
 
     zones = [
@@ -614,10 +630,10 @@ def generate_diagram_08():
             ("Nube Central y Base de Datos", ["• Servidor PostgreSQL 16 Primario", "• Copias de seguridad automáticas en la nube", "• API REST para integración con Siigo/SAP", "• Acceso HTTPS seguro con certificado SSL"], (1360, 430, 1920, 650))
         ]),
 
-        ("ZONA 4: PATIO DE RECICLAJE Y OFICINAS ADMINISTRATIVAS", (60, 740, 1940, 1160), [
-            ("Patio de Chatarra y Desintegración", ["• WiFi Industrial de largo alcance", "• Tablets Android rugerizadas para Jefes de Patio", "• Supervisión de cuadrillas en vivo a pie de máquina", "• Autorización de horas extras directamente en campo"], (80, 810, 660, 1120)),
-            ("Taller de Oxicorte y Mantenimiento", ["• Botonera de parada de emergencia enlazada", "• Verificación de certificación SST antes de acceso", "• Sensor de aforo en área de alto riesgo", "• Registro de ingreso de personal de contratistas"], (720, 810, 1300, 1120)),
-            ("Oficinas Administrativas y Gestión Humana", ["• PCs de administración y gerencia general", "• Generación y descarga de nómina quincenal en Excel", "• Matriz de control de ausentismo y tardanzas", "• Auditoría de seguridad y gestión de novedades"], (1360, 810, 1920, 1120))
+        ("ZONA 4: PATIO DE CHATARRIZACIÓN, TALLER Y ADMINISTRACIÓN", (60, 740, 1940, 1160), [
+            ("Patio de Maquinaria Pesada", ["• 2 Grúas Pulpo y 1 Montacargas", "• Cuadrilla de Ayudantes de Patio", "• WiFi Industrial 5GHz de largo alcance", "• Tablets rugerizadas para Jefe de Patio"], (80, 810, 660, 1120)),
+            ("Taller Mecánico y Oxicorte", ["• Puesto del Mecánico de Planta", "• Mantenimiento preventivo sábados", "• Verificación ARL antes de ingresar", "• Botón de parada de emergencia enlazado"], (720, 810, 1300, 1120)),
+            ("Oficinas Administrativas", ["• Contadores y Auxiliar Contable", "• Auxiliares Administrativos", "• Auxiliares SENA (Aprendices)", "• Descarga de nómina en Excel (L-V 42h)"], (1360, 810, 1920, 1120))
         ])
     ]
 
@@ -640,7 +656,7 @@ def generate_diagram_08():
     print(f"Generado: {path}")
 
 def generate_all():
-    print("Iniciando generación de los 8 diagramas oficiales para Recuperaciones Naranjo...")
+    print("Iniciando generación de los 8 diagramas oficiales para Recuperaciones Naranjo con cargos actualizados...")
     generate_diagram_01()
     generate_diagram_02()
     generate_diagram_03()
@@ -649,7 +665,7 @@ def generate_all():
     generate_diagram_06()
     generate_diagram_07()
     generate_diagram_08()
-    print("¡Todos los 8 diagramas han sido generados exitosamente!")
+    print("¡Todos los 8 diagramas han sido regenerados exitosamente!")
 
 if __name__ == '__main__':
     generate_all()

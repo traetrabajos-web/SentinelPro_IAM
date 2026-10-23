@@ -4,21 +4,24 @@
 > **Documento Oficial de Arquitectura y Especificación Técnica**  
 > **Sistema Base:** SentinelPro Access & IAM Enterprise Edition  
 > **Horario Oficial Aplicado:** 42 Horas Semanales (Lunes a Viernes) según Memorando Corporativo y Ley 2101 / CST  
-> **Ubicación:** Planta Industrial / Patio de Metales, Desintegración Vehicular y Portería Principal, Cartagena de Indias  
-> **Documento Word Oficial (.docx):** [`Plan_Sistema_Acceso_Recuperaciones_Naranjo_Cartagena.docx`](../Plan_Sistema_Acceso_Recuperaciones_Naranjo_Cartagena.docx) *(Incluye los 8 diagramas en alta resolución incrustados)*
+> **Cargos Parametrizados:**  
+> • **Patio:** Jefe de Patio, Operadores de Maquinaria (1 Montacargas, 2 Grúas Pulpo), Mecánico de Planta, Ayudantes de Patio y Oxigenistas.  
+> • **Administración:** Contadores, Auxiliar Contable, Auxiliares Administrativos y Aprendices SENA.  
+> **Documento Word Oficial (.docx):** [`Plan_Sistema_Acceso_Recuperaciones_Naranjo_Cartagena.docx`](../Plan_Sistema_Acceso_Recuperaciones_Naranjo_Cartagena.docx) *(Incluye los 8 diagramas en alta resolución incrustados y tabla de cargos)*
 
 ---
 
 ## 📑 Índice General
 1. [Visión General y Contexto Operativo en Cartagena](#1-visión-general-y-contexto-operativo-en-cartagena)
-2. [Tabla Oficial de Horarios Laborales (L-V 42 Horas) y Régimen de Patio](#2-tabla-oficial-de-horarios-laborales-l-v-42-horas-y-régimen-de-patio)
-3. [El Kiosco de Garita: Fichaje con Cédula para el Trabajador](#3-el-kiosco-de-garita-fichaje-con-cédula-para-el-trabajador)
-4. [Portal en Vivo para el Jefe de Área / Supervisor de Patio](#4-portal-en-vivo-para-el-jefe-de-área--supervisor-de-patio)
-5. [Motor de Liquidación de Nómina: Código Sustantivo del Trabajo (Colombia)](#5-motor-de-liquidación-de-nómina-código-sustantivo-del-trabajo-colombia)
-6. [Consola del Vigilante de Portería y Control de Visitantes](#6-consola-del-vigilante-de-portería-y-control-de-visitantes)
-7. [Resiliencia Industrial: Garita Offline-First ante Fallas de Red](#7-resiliencia-industrial-garita-offline-first-ante-fallas-de-red)
-8. [Galería de Diagramas Técnicos Oficiales (PNG y Mermaid)](#8-galería-de-diagramas-técnicos-oficiales-png-y-mermaid)
-9. [Cronograma de Implementación Propuesto (4 Semanas)](#9-cronograma-de-implementación-propuesto-4-semanas)
+2. [Estructura de Cargos: Patio de Operaciones vs Administración](#2-estructura-de-cargos-patio-de-operaciones-vs-administración)
+3. [Tabla Oficial de Horarios Laborales (L-V 42 Horas) y Régimen de Patio](#3-tabla-oficial-de-horarios-laborales-l-v-42-horas-y-régimen-de-patio)
+4. [El Kiosco de Garita: Fichaje con Cédula para el Trabajador](#4-el-kiosco-de-garita-fichaje-con-cédula-para-el-trabajador)
+5. [Portal en Vivo para el Jefe de Área / Supervisor de Patio](#5-portal-en-vivo-para-el-jefe-de-área--supervisor-de-patio)
+6. [Motor de Liquidación de Nómina: Código Sustantivo del Trabajo (Colombia)](#6-motor-de-liquidación-de-nómina-código-sustantivo-del-trabajo-colombia)
+7. [Consola del Vigilante de Portería y Control de Visitantes](#7-consola-del-vigilante-de-portería-y-control-de-visitantes)
+8. [Resiliencia Industrial: Garita Offline-First ante Fallas de Red](#8-resiliencia-industrial-garita-offline-first-ante-fallas-de-red)
+9. [Galería de Diagramas Técnicos Oficiales (PNG y Mermaid)](#9-galería-de-diagramas-técnicos-oficiales-png-y-mermaid)
+10. [Cronograma de Implementación Propuesto (4 Semanas)](#10-cronograma-de-implementación-propuesto-4-semanas)
 
 ---
 
@@ -33,7 +36,40 @@ En un entorno industrial con calor tropical, tránsito constante de camiones de 
 
 ---
 
-## 2. Tabla Oficial de Horarios Laborales (L-V 42 Horas) y Régimen de Patio
+## 2. Estructura de Cargos: Patio de Operaciones vs Administración
+
+El sistema parametriza los cargos de la empresa diferenciando responsabilidades, criticidad operativa y esquemas de horario:
+
+| Área / Departamento | Cargo Oficial | Tipo de Personal | Puesto Crítico | Jornada y Horario Base | Régimen Fin de Semana |
+| :--- | :--- | :---: | :---: | :---: | :---: |
+| **Patio / Supervisión** | **Jefe de Patio** | Operativo / Mando | **SÍ (Crítico)** | Lunes a Viernes 42h | Sáb/Dom/Festivo (Supervisión y Aprobación Extras) |
+| **Patio / Maquinaria Pesada** | **Operador Grúa Pulpo #1** | Operativo Patio | **SÍ (Crítico)** | Lunes a Viernes 42h | Sáb/Dom/Festivo si hay cargue urgente (HED/HEN/RDF) |
+| **Patio / Maquinaria Pesada** | **Operador Grúa Pulpo #2** | Operativo Patio | **SÍ (Crítico)** | Lunes a Viernes 42h | Sáb/Dom/Festivo si hay cargue urgente (HED/HEN/RDF) |
+| **Patio / Maquinaria Pesada** | **Operador de Montacargas** | Operativo Patio | **SÍ (Crítico)** | Lunes a Viernes 42h | Sáb/Dom/Festivo movimiento de chatarra/pallets |
+| **Patio / Mantenimiento** | **Mecánico de Planta** | Operativo Técnico | **SÍ (Crítico)** | Lunes a Viernes 42h | Sábados para mantenimiento preventivo de máquinas |
+| **Patio / Cuadrilla General** | **Ayudantes de Patio** | Operativo Patio | NO | Lunes a Viernes 42h | Sáb/Dom/Festivo según requerimiento de cuadrilla |
+| **Patio / Oxicorte** | **Oxigenista / Clasificador** | Operativo Patio | **SÍ (Crítico)** | Lunes a Viernes 42h | Sábados en jornadas de corte de vigas/estructuras |
+| **Portería y Pesaje** | **Operador Báscula / Garita** | Operativo Control | **SÍ (Crítico)** | Lunes a Viernes 42h | Turno especial si entran camiones en fin de semana |
+| **Administración / Contable** | **Contadores / Contador General**| Administrativo | NO | Lunes a Viernes 42h | **NO LABORAL** (Descanso obligatorio remunerado) |
+| **Administración / Contable** | **Auxiliar Contable** | Administrativo | NO | Lunes a Viernes 42h | **NO LABORAL** (Descanso obligatorio remunerado) |
+| **Administración / Gestión** | **Auxiliares Administrativos** | Administrativo | NO | Lunes a Viernes 42h | **NO LABORAL** (Descanso obligatorio remunerado) |
+| **Administración / SENA** | **Auxiliares SENA (Aprendices)**| Aprendices Apoyo | NO | Lunes a Viernes 42h | **NO LABORAL** (Estricto según Contrato de Aprendizaje) |
+
+### Dinámica Operativa de los Cargos
+1. **Operadores de Maquinaria Pesada (2 Pulpos y 1 Montacargas):**  
+   Puestos críticos indispensables para alimentar prensas y cargar volquetas o buques. Si uno falta al inicio del turno, el sistema emite alerta inmediata a los 15 minutos al celular del Jefe de Patio.
+2. **Mecánico de Planta:**  
+   Encargado del mantenimiento hidráulico y mecánico de pulpos y montacargas. Frecuentemente se le programan jornadas extraordinarias los sábados para mantenimiento preventivo sin detener la producción entre semana.
+3. **Ayudantes de Patio:**  
+   Cuadrilla de clasificación manual, amarre, estiba y apoyo general. Fichan masivamente en garita y su tiempo se computa al minuto.
+4. **Equipo Administrativo (Contadores, Auxiliar Contable y Auxiliares Administrativos):**  
+   Cumplen la jornada ordinaria de 42 horas de lunes a viernes en oficinas y no laboran fines de semana.
+5. **Auxiliares SENA:**  
+   Estudiantes en etapa lectiva o productiva bajo contrato de aprendizaje (Ley 789 de 2002). Tienen prohibición legal de realizar horas extras; el sistema valida su horario diurno formativo de lunes a viernes.
+
+---
+
+## 3. Tabla Oficial de Horarios Laborales (L-V 42 Horas) y Régimen de Patio
 
 Conforme al Memorando Oficial de la empresa, el horario laboral ordinario de **Lunes a Viernes** suma exactamente **42 Horas Semanales**, en concordancia con la Ley 2101 de 2021:
 
@@ -44,19 +80,13 @@ Conforme al Memorando Oficial de la empresa, el horario laboral ordinario de **L
 | **Miércoles** | 7:30 AM | 12:00 PM | 1:00 PM (1.0 h) | 5:30 PM | **9.0 Horas** |
 | **Jueves** | 7:30 AM | 12:00 PM | 1:00 PM (1.0 h) | 5:30 PM | **9.0 Horas** |
 | **Viernes** | 7:30 AM | 12:00 PM | 1:00 PM (1.0 h) | 5:00 PM | **8.5 Horas** |
-| **Sábado** | *No Laboral (Admin)* | — | — | — | **Jornada Extra Patio (HED +25%)** |
-| **Domingo / Festivo** | *No Laboral (Admin)* | — | — | — | **Jornada Extra Patio (Recargo +75%/100%)** |
+| **Sábado** | *No Laboral (Admin/SENA)* | — | — | — | **Jornada Extra Patio (HED +25%)** |
+| **Domingo / Festivo** | *No Laboral (Admin/SENA)* | — | — | — | **Jornada Extra Patio (Recargo +75%/100%)** |
 | **TOTAL ORDINARIO** | — | — | — | — | **42.0 Horas Semanales** |
-
-### Diferenciación Operativa: Personal de Patio vs Administración
-1. **Personal Administrativo:** Labora de lunes a viernes (42 horas semanales). Sábados, domingos y festivos son días de descanso obligatorio remunerado.
-2. **Personal Operativo de Patio:** Ocasionalmente trabaja sábados, domingos e incluso días festivos para atender operaciones portuarias, recepción de chatarra pesada o cortes urgentes:
-   - **Sábados:** Al haberse completado las 42 horas ordinarias entre lunes y viernes, todo el tiempo laborado el sábado se liquida como **Horas Extras Diurnas (HED +25%)** o Nocturnas (HEN +75%).
-   - **Domingos y Festivos:** Se liquidan con el **Recargo Dominical/Festivo de Ley (+75% a +100%)** más horas extras dominicales (HEDDF +100% / HENDF +150%), previa autorización formal del Jefe de Patio.
 
 ---
 
-## 3. El Kiosco de Garita: Fichaje con Cédula para el Trabajador
+## 4. El Kiosco de Garita: Fichaje con Cédula para el Trabajador
 
 - **Pantalla Numérica Gigante:** Teclado táctil en pantalla con teclas de 80x80 px para digitar cómodamente la Cédula de Ciudadanía con guantes.
 - **Escaneo Opcional con Código de Barras:** Lector láser que escanea el código PDF417 de la cédula colombiana física o carnet en 300 ms sin necesidad de digitar.
@@ -68,20 +98,20 @@ Conforme al Memorando Oficial de la empresa, el horario laboral ordinario de **L
 
 ---
 
-## 4. Portal en Vivo para el Jefe de Área / Supervisor de Patio
+## 5. Portal en Vivo para el Jefe de Área / Supervisor de Patio
 
 - **Tablero "Mi Cuadrilla en Vivo":** Muestra en tiempo real desde el celular o tablet: Trabajadores asignados al área, Total presentes en planta, Total ausentes y Tardanzas acumuladas.
 - **Semáforo Visual de Asistencia:**
   - 🟢 **Verde:** Presente y puntual.
   - 🟡 **Amarillo:** Llegó con tardanza (indica minutos).
   - 🔴 **Rojo:** Ausente sin justificar.
-- **Alerta Automática a los 15 Minutos:** A las 7:45 AM (Mar-Vie) u 8:15 AM (Lunes), el sistema alerta al celular si falta un puesto crítico (Oxigenista, Chofer de Grúa, Báscula).
+- **Alerta de Maquinaria Pesada a los 15 Minutos:** A las 7:45 AM (Mar-Vie) u 8:15 AM (Lunes), alerta al celular si falta el Operador de Grúa Pulpo #1, Pulpo #2 o Montacargas.
 - **Autorización de Extras de Fin de Semana:** El jefe puede autorizar desde su celular la jornada de sábado, domingo o festivo de los operarios que se requieren en patio.
 - **Historial de Asistencia y Puntualidad:** Consulta por trabajador de los últimos 30 días con gráficos de puntualidad, días laborados y horas acumuladas.
 
 ---
 
-## 5. Motor de Liquidación de Nómina: Código Sustantivo del Trabajo (Colombia)
+## 6. Motor de Liquidación de Nómina: Código Sustantivo del Trabajo (Colombia)
 
 - **Horas Ordinarias (HOD):** Acumulación de hasta 42 horas semanales distribuidas de lunes a viernes según la tabla oficial.
 - **Horas Extras Diurnas (HED +25%):** Horas laboradas que superen la jornada diaria oficial de lunes a viernes, o todo el tiempo laborado el sábado por personal de patio.
@@ -92,7 +122,7 @@ Conforme al Memorando Oficial de la empresa, el horario laboral ordinario de **L
 
 ---
 
-## 6. Consola del Vigilante de Portería y Control de Visitantes
+## 7. Consola del Vigilante de Portería y Control de Visitantes
 
 1. **Monitor Espejo:** Cuando un operario digita su cédula en el Kiosco, la pantalla del vigilante muestra la foto oficial en grande para cotejo visual.
 2. **Control de Camiones y Proveedores de Chatarra:** Registro de transportistas, proveedores y contratistas con Cédula, Nombres, Empresa de Procedencia, Placa del Camión y asignación de gafete temporal.
@@ -100,7 +130,7 @@ Conforme al Memorando Oficial de la empresa, el horario laboral ordinario de **L
 
 ---
 
-## 7. Resiliencia Industrial: Garita Offline-First ante Fallas de Red
+## 8. Resiliencia Industrial: Garita Offline-First ante Fallas de Red
 
 - **Base de Datos Local en el Kiosco (SQLite):** El terminal de garita almacena localmente una réplica cifrada de las cédulas autorizadas y turnos.
 - **Marcación Continua en Modo Offline:** Si se interrumpe la conexión con el servidor central, el Kiosco pasa automáticamente a 'Modo Local' sin detener el flujo de ingreso.
@@ -109,41 +139,49 @@ Conforme al Memorando Oficial de la empresa, el horario laboral ordinario de **L
 
 ---
 
-## 8. Galería de Diagramas Técnicos Oficiales (PNG y Mermaid)
+## 9. Galería de Diagramas Técnicos Oficiales (PNG y Mermaid)
 
-### 📊 Diagrama 01: Casos de Uso del Sistema de Acceso Naranjo
+### 📊 Diagrama 01: Casos de Uso por Cargo
 *(Archivo PNG: [`docs/diagramas_naranjo_png/01_Casos_De_Uso_Recuperaciones_Naranjo.png`](./diagramas_naranjo_png/01_Casos_De_Uso_Recuperaciones_Naranjo.png))*
 
 ```mermaid
 flowchart LR
-    Operario(["👷 Operario Patio"])
-    Conductor(["🚛 Conductor Camión"])
+    Maquinaria(["🏗️ Operadores Maquinaria\n(Montacargas & Pulpos)"])
+    Cuadrilla(["🔧 Mecánico & Ayudantes\nde Patio / Oxigenistas"])
+    AdminSena(["💼 Contadores, Auxiliares\ny Aprendices SENA"])
+
     Vigilante(["🛡️ Vigilante Garita"])
     JefePatio(["📱 Jefe de Patio"])
-    AdminRRHH(["💼 Admin / RR.HH."])
+    Gerencia(["👔 Gerencia / RR.HH."])
 
     subgraph SistemaNaranjo["🛡️ SentinelPro Naranjo (Cartagena)"]
-        CU01(["CU-01: Digitar Cédula en Kiosco (Entrada/Salida)"])
-        CU02(["CU-02: Escanear Cédula con Código de Barras"])
-        CU03(["CU-03: Validar Horario Oficial (L-V 42h) y Tolerancia"])
+        CU01(["CU-01: Fichar Entrada/Salida con Cédula en Kiosco"])
+        CU02(["CU-02: Escanear Código Barras Cédula Física"])
+        CU03(["CU-03: Validar Horario L-V 42h y Tolerancia"])
         CU04(["CU-04: Control Anti-Passback"])
-        CU05(["CU-05: Monitorear Cuadrilla en Vivo"])
-        CU06(["CU-06: Autorizar Jornada en Sáb/Dom/Festivo"])
-        CU07(["CU-07: Alerta de Puestos Críticos (15 min)"])
-        CU08(["CU-08: Monitor Espejo y Aforo en Vivo"])
-        CU09(["CU-09: Liquidar Horas y Exportar a Excel"])
+        CU05(["CU-05: Fichar Entrada a Taller (Mecánico)"])
+        CU06(["CU-06: Control Asistencia Aprendices SENA"])
+        CU07(["CU-07: Monitorear Cuadrilla en Vivo (Pulpos, Ayudantes)"])
+        CU08(["CU-08: Autorizar Jornada Sáb/Dom/Festivo (Patio)"])
+        CU09(["CU-09: Alerta Maquinaria: Falta Pulpo o Montacargas"])
+        CU10(["CU-10: Monitor Espejo y Aforo en Garita"])
+        CU11(["CU-11: Liquidar 42h Semanales + Extras"])
+        CU12(["CU-12: Exportar a Excel (Siigo / World Office)"])
     end
 
-    Operario --> CU01
-    Operario --> CU02
+    Maquinaria --> CU01
+    Cuadrilla --> CU01
+    Cuadrilla --> CU05
+    AdminSena --> CU01
+    AdminSena --> CU06
     CU01 -.-> CU03
     CU01 -.-> CU04
-    JefePatio --> CU05
-    JefePatio --> CU06
-    CU05 -.-> CU07
-    Vigilante --> CU08
-    Conductor --> CU08
-    AdminRRHH --> CU09
+    JefePatio --> CU07
+    JefePatio --> CU08
+    CU07 -.-> CU09
+    Vigilante --> CU10
+    Gerencia --> CU11
+    Gerencia --> CU12
 ```
 
 ---
@@ -151,270 +189,43 @@ flowchart LR
 ### 🏛️ Diagrama 02: Arquitectura en Capas y Motor 42h
 *(Archivo PNG: [`docs/diagramas_naranjo_png/02_Arquitectura_Capas_Y_Motor_42Horas.png`](./diagramas_naranjo_png/02_Arquitectura_Capas_Y_Motor_42Horas.png))*
 
-```mermaid
-flowchart TD
-    subgraph CapaFrontend["1. Capa de Interfaces Industriales"]
-        Kiosco["Kiosco Táctil Garita\n(Cédula + Teclado Gigante)"]
-        Monitor["Monitor Espejo Vigilante\n(Foto Grande + Aforo)"]
-        JefeWeb["Portal Móvil Jefe Patio\n(Cuadrilla en Vivo)"]
-        AdminWeb["Panel Admin / RR.HH.\n(Nómina + Auditoría)"]
-    end
-
-    subgraph CapaBackend["2. Capa de Lógica de Negocio (Node.js)"]
-        MotorAcceso["Motor de Acceso & Anti-Passback"]
-        MotorHoras["Motor de Jornadas Naranjo (L-V 42h)"]
-        MotorPatio["Motor Extras Patio (Sáb/Dom/Festivos)"]
-        ServicioSSE["Servicio SSE Cuadrilla en Tiempo Real"]
-    end
-
-    subgraph CapaPersistencia["3. Capa de Persistencia & Resiliencia"]
-        PG[("PostgreSQL 16 Central")]
-        SQLite[("Garita Offline-First (SQLite)")]
-        IAM["Seguridad IAM (scrypt + HMAC-SHA256)"]
-    end
-
-    Kiosco --> MotorAcceso
-    Monitor --> MotorAcceso
-    JefeWeb --> ServicioSSE
-    AdminWeb --> MotorHoras
-    MotorAcceso --> MotorHoras
-    MotorHoras --> MotorPatio
-    MotorAcceso --> SQLite
-    MotorAcceso --> PG
-    MotorHoras --> PG
-```
-
 ---
 
 ### ⏱️ Diagrama 03: Secuencia — Fichaje en Kiosco con Cédula
 *(Archivo PNG: [`docs/diagramas_naranjo_png/03_Secuencia_Fichaje_Kiosco_Cedula.png`](./diagramas_naranjo_png/03_Secuencia_Fichaje_Kiosco_Cedula.png))*
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Operario as 👷 Operario
-    participant Kiosco as 🖥️ Kiosco Táctil
-    participant Backend as 🛡️ Backend SentinelPro
-    participant DB as 📊 Base de Datos
-    participant Monitor as 🛡️ Monitor Vigilante
-    participant Jefe as 📱 Celular Jefe Patio
-
-    Operario->>Kiosco: Digita Cédula de Ciudadanía
-    Kiosco->>Backend: POST /api/public/kiosco/marcar {cedula}
-    Backend->>DB: Consultar estado trabajador y turno del día
-    DB-->>Backend: {activo: true, arl_ok: true, turno_hoy: '07:30-17:00'}
-    Backend->>Backend: Valida Anti-Passback (¿Está fuera?)
-    Backend->>Backend: Compara hora vs horario oficial Naranjo (Tolerancia 10m)
-    Backend->>DB: INSERT INTO marcaciones_kiosco {hora, 'PUNTUAL'}
-    Backend-->>Kiosco: HTTP 200 OK: {nombre, cargo, 'PUNTUAL', foto}
-    Kiosco-->>Operario: Pantalla Verde + Beep + Muestra Foto y Turno
-    par Notificación en Tiempo Real
-        Backend->>Monitor: WS/SSE: Actualiza monitor garita con foto grande
-        Backend->>Jefe: WS/SSE: Cuadrilla en vivo (Carlos Pérez: PRESENTE)
-    end
-```
-
 ---
 
-### 🚨 Diagrama 04: Monitoreo de Cuadrilla y Alertas de Puestos Críticos
+### 🚨 Diagrama 04: Secuencia — Monitoreo de Maquinaria Pesada para Jefe de Patio
 *(Archivo PNG: [`docs/diagramas_naranjo_png/04_Secuencia_Monitoreo_Cuadrilla_Jefe_Patio.png`](./diagramas_naranjo_png/04_Secuencia_Monitoreo_Cuadrilla_Jefe_Patio.png))*
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Jefe as 📱 Jefe de Patio
-    participant WebApp as 🌐 Web App Cuadrilla
-    participant Backend as ⚙️ Motor SentinelPro
-    participant Cron as ⏰ Verificador 15 min
-    participant Notif as 💬 Push / WhatsApp
-
-    Jefe->>WebApp: Abre "Mi Cuadrilla en Vivo" desde celular
-    WebApp->>Backend: GET /api/jefe/cuadrilla/en-vivo
-    Backend-->>WebApp: {total: 25, presentes: 22, tardanzas: 3, ausentes: 0}
-    WebApp-->>Jefe: Semáforo visual en pantalla (Verde/Amarillo/Rojo)
-    Cron->>Backend: Disparo a las 7:45 AM (Mar-Vie) u 8:15 AM (Lunes)
-    Backend->>Backend: Verifica puestos críticos (Grúa, Oxicorte, Báscula)
-    alt Falta Operario Crítico
-        Backend->>Notif: Disparar alerta inmediata
-        Notif-->>Jefe: "¡ALERTA! Falta Operario Oxicorte en Patio"
-        Jefe->>WebApp: Reasigna relevo o contacta al colaborador
-    end
-    opt Autorización Fin de Semana
-        Jefe->>WebApp: Autoriza jornada extraordinaria Sábado para Patio
-        WebApp->>Backend: POST /api/jefe/autorizar-extra {operario_id, fecha}
-        Backend-->>Jefe: "Hora extra autorizada y registrada para nómina"
-    end
-```
 
 ---
 
 ### 📈 Diagrama 05: Flujo de Liquidación 42h y Recargos de Patio
 *(Archivo PNG: [`docs/diagramas_naranjo_png/05_Flujo_Liquidacion_Jornadas_Y_Horas_Extras.png`](./diagramas_naranjo_png/05_Flujo_Liquidacion_Jornadas_Y_Horas_Extras.png))*
 
-```mermaid
-flowchart TD
-    Inicio["Marcación de Entrada con Cédula"] --> DiaSemana{"¿Qué día es hoy?"}
-    DiaSemana -->|"Lunes"| Lun["8:00 AM a 4:30 PM (Alm 1.5h)\n7.0 Horas Ordinarias"]
-    DiaSemana -->|"Martes a Viernes"| MarVie["7:30 AM a 5:00 / 5:30 PM (Alm 1h)\n8.5h a 9.0h Ordinarias"]
-    DiaSemana -->|"Sábado / Domingo / Festivo"| FinSem["Personal Operativo de Patio"]
-
-    Lun --> Tol["Verifica Tolerancia (10 min de gracia)"]
-    MarVie --> Tol
-    FinSem --> AutJefe{"¿Autorizado por Jefe de Patio?"}
-    AutJefe -->|"Sí"| Salida["Marcación de Salida al Terminar Turno"]
-    AutJefe -->|"No"| Bloqueo["Bloqueo: Ingreso no programado"]
-
-    Tol --> Salida
-    Salida --> CalcHoras{"Tipo de Jornada"}
-    CalcHoras -->|"Lunes a Viernes"| Acum42["Acumulador Semanal 42h Ordinarias"]
-    CalcHoras -->|"Sábado"| ExtraSab["Horas Extras Diurnas (HED +25%)"]
-    CalcHoras -->|"Domingo / Festivo"| RecDom["Recargo Dominical/Festivo (+75%/100%)"]
-
-    Acum42 --> Exportar["Consolidación y Exportación a Excel / Siigo"]
-    ExtraSab --> Exportar
-    RecDom --> Exportar
-```
-
 ---
 
 ### 🔄 Diagrama 06: Máquina de Estados del Trabajador
 *(Archivo PNG: [`docs/diagramas_naranjo_png/06_Estados_Trabajador_Y_Ciclo_Turno.png`](./diagramas_naranjo_png/06_Estados_Trabajador_Y_Ciclo_Turno.png))*
-
-```mermaid
-stateDiagram-v2
-    [*] --> FUERA_DE_PLANTA
-    FUERA_DE_PLANTA --> MARCANDO_EN_KIOSCO: Digita Cédula
-    MARCANDO_EN_KIOSCO --> EN_PLANTA_PUNTUAL: Hora <= Tolerancia (10 min)
-    MARCANDO_EN_KIOSCO --> EN_PLANTA_TARDANZA: Hora > Tolerancia
-    MARCANDO_EN_KIOSCO --> ACCESO_SUSPENDIDO: ARL vencida / Sanción SST
-
-    EN_PLANTA_PUNTUAL --> EN_ALMUERZO: Hora Almuerzo (12:00)
-    EN_PLANTA_TARDANZA --> EN_ALMUERZO: Hora Almuerzo (12:00)
-    EN_ALMUERZO --> JORNADA_CUMPLIDA: Retorno de Almuerzo y Cumple Turno
-
-    EN_PLANTA_PUNTUAL --> JORNADA_EXTRA_PATIO: Sábado/Domingo Autorizado
-    JORNADA_EXTRA_PATIO --> FUERA_DE_PLANTA: Marca Salida Fin de Semana
-    JORNADA_CUMPLIDA --> FUERA_DE_PLANTA: Marca Salida Kiosco
-    ACCESO_SUSPENDIDO --> FUERA_DE_PLANTA: Se retira de garita
-```
 
 ---
 
 ### 🗄️ Diagrama 07: Modelo Entidad-Relación (ERD) Naranjo
 *(Archivo PNG: [`docs/diagramas_naranjo_png/07_Modelo_Entidad_Relacion_ERD_Naranjo.png`](./diagramas_naranjo_png/07_Modelo_Entidad_Relacion_ERD_Naranjo.png))*
 
-```mermaid
-erDiagram
-    trabajadores ||--o{ marcaciones_kiosco : realiza
-    trabajadores ||--o{ jornadas_liquidadas : acumula
-    trabajadores ||--o{ autorizaciones_extras_patio : recibe
-    cargos_operativos ||--o{ trabajadores : clasifica
-    areas_planta_naranjo ||--o{ trabajadores : ubica
-    horarios_semana_naranjo ||--o{ jornadas_liquidadas : regula
-
-    trabajadores {
-        int id PK
-        string cedula UK
-        string nombres
-        string apellidos
-        int cargo_id FK
-        int area_id FK
-        string tipo_personal
-        string estado_autorizacion
-        boolean arl_vigente
-        string ubicacion_actual
-    }
-
-    horarios_semana_naranjo {
-        int id PK
-        string dia_semana
-        time hora_entrada
-        time hora_inicio_almuerzo
-        time hora_fin_almuerzo
-        time hora_salida
-        decimal horas_ordinarias
-        int tolerancia_minutos
-    }
-
-    marcaciones_kiosco {
-        bigint id PK
-        int trabajador_id FK
-        string tipo_movimiento
-        timestamp fecha_hora
-        int minutos_tardanza
-        boolean es_puntual
-        string origen
-        boolean modo_offline
-    }
-
-    jornadas_liquidadas {
-        bigint id PK
-        int trabajador_id FK
-        date fecha
-        timestamp hora_entrada_real
-        timestamp hora_salida_real
-        decimal horas_ordinarias
-        decimal horas_extras_diurnas_hed
-        decimal horas_extras_nocturnas_hen
-        decimal recargo_nocturno_rn
-        decimal horas_dominical_festivo
-    }
-
-    autorizaciones_extras_patio {
-        int id PK
-        int trabajador_id FK
-        int jefe_autorizador_id FK
-        date fecha_extra
-        string dia
-        decimal horas_aprobadas
-    }
-```
-
 ---
 
 ### 🌐 Diagrama 08: Despliegue Físico de Hardware y Red
 *(Archivo PNG: [`docs/diagramas_naranjo_png/08_Despliegue_Hardware_Red_Planta_Cartagena.png`](./diagramas_naranjo_png/08_Despliegue_Hardware_Red_Planta_Cartagena.png))*
 
-```mermaid
-flowchart TD
-    subgraph Garita_Peatonal["🚪 Zona 1: Portería Peatonal (Garita Principal)"]
-        Totem["Tótem Kiosco Táctil Industrial 19\"\n(Teclado Numérico Cédula)"]
-        Scanner["Lector Láser Código Barras PDF417"]
-        UPS["UPS Online 2 KVA (4h autonomía)"]
-        Camara["Cámara IP Seguridad Facial"]
-    end
-
-    subgraph Garita_Vehicular["🚛 Zona 2: Garita Vehicular / Báscula"]
-        PCVigilante["PC Vigilante Monitor 24\"\n(Monitor Espejo + Aforo)"]
-        Bascula["Interfaz Báscula Pesaje Chatarra"]
-        Barrera["Talanquera Camiones Pesados"]
-        LPR["Cámaras LPR Lectura Placas"]
-    end
-
-    subgraph Servidor_Edge["⚙️ Zona 3: Servidor Local y Nube"]
-        MiniSrv["Servidor Edge en Rack Garita\n(Node.js + SQLite Offline)"]
-        CloudDB[("PostgreSQL 16 Central / Cloud\n(Copia de Seguridad y API)")]
-    end
-
-    subgraph Patio_Oficinas["🏗️ Zona 4: Patio y Administración"]
-        Tablets["Tablets Jefes de Patio\n(WiFi Industrial 5GHz)"]
-        AdminPC["PCs Gestión Humana y Nómina\n(Exportador Excel / Siigo)"]
-    end
-
-    Totem <-->|"Ethernet Gigabit"| MiniSrv
-    PCVigilante <-->|"Ethernet Gigabit"| MiniSrv
-    MiniSrv <-->|"Fibra Óptica / LAN"| CloudDB
-    Tablets <-->|"WiFi Industrial"| MiniSrv
-    AdminPC <-->|"Red Corporativa"| CloudDB
-```
-
 ---
 
-## 9. Cronograma de Implementación Propuesto (4 Semanas)
+## 10. Cronograma de Implementación Propuesto (4 Semanas)
 
 | Semana / Fase | Hitos de Desarrollo e Implementación | Entregables Tangibles |
 | :---: | :--- | :--- |
-| **Semana 1** | **Configuración Horario 42h y Padrón Naranjo**<br>• Parametrización del horario oficial (Lunes 8:00–16:30, Mar/Vie 7:30–17:00, Mié/Jue 7:30–17:30).<br>• Carga de Cédulas de Ciudadanía y cargos de Patio y Administración. | Base de datos relacional parametrizada con el personal y horarios oficiales de Naranjo. |
+| **Semana 1** | **Configuración Horario 42h y Padrón Naranjo**<br>• Parametrización del horario oficial (Lunes 8:00–16:30, Mar/Vie 7:30–17:00, Mié/Jue 7:30–17:30).<br>• Carga de Cédulas y cargos: Jefe de Patio, 2 Pulpos, Montacargas, Mecánico, Ayudantes, Contadores, Auxiliares y SENA. | Base de datos relacional parametrizada con el personal y cargos reales de Naranjo. |
 | **Semana 2** | **Kiosco Táctil con Cédula de Ciudadanía**<br>• Teclado numérico gigante en pantalla para operarios con guantes.<br>• Escaneo láser de cédula colombiana física (PDF417).<br>• Cálculo de tolerancia (10 min) y control Anti-Passback. | Terminal Kiosco táctil operativo en garita peatonal para pruebas con operarios. |
-| **Semana 3** | **Portal de Jefes de Patio y Motor de Nómina**<br>• Tablero 'Mi Cuadrilla en Vivo' para supervisores de patio.<br>• Alertas de puestos críticos a 15 min.<br>• Autorización de extras de sábados/domingos y exportador a Excel. | Dashboard de supervisores activo y pre-liquidación de horas ordinarias/extras lista. |
+| **Semana 3** | **Portal de Jefes de Patio y Motor de Nómina**<br>• Tablero 'Mi Cuadrilla en Vivo' con semáforo para supervisores de patio.<br>• Alertas de maquinaria pesada (Pulpos/Montacargas) a los 15 min.<br>• Autorización de extras de sábados/domingos y exportador a Excel. | Dashboard de supervisores activo y pre-liquidación de horas ordinarias/extras lista. |
 | **Semana 4** | **Pruebas en Campo y Despliegue en Garita**<br>• Instalación en la portería industrial de Cartagena con respaldo UPS.<br>• Capacitación de 1 hora al personal de vigilancia y supervisores.<br>• Marcha blanca y salida a producción oficial. | Planta industrial de Cartagena operando al 100% con control de acceso digitalizado. |
